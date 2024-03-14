@@ -11,7 +11,7 @@ const Page = (props: Props) => {
   const [rerender, setRerender] = useState(false);
   const onSubmit = async () => {
     try {
-      const { data } = await axios.post("/api/roadmap", { query });
+      const { data } = await axios.post("/api/v1/gemini/roadmap/", { query });
 
       const tree = [
         {

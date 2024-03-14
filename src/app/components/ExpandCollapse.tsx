@@ -10,76 +10,6 @@ import ReactFlow, {
 import { HierarchyNode, hierarchy, tree } from "d3-hierarchy";
 import { scaleLinear } from "d3-scale";
 import { tempData } from "./data";
-
-var donta = [
-  {
-    name: "React",
-    children: [
-      {
-        name: "Getting Started",
-        children: [
-          { name: "Introduction to React" },
-          {
-            name: "Setting Up Development Environment",
-          },
-          {
-            name: "Creating Your First React Component",
-          },
-          {
-            name: "Understanding JSX and Virtual DOM",
-          },
-        ],
-      },
-      {
-        name: "Components and Props",
-        children: [
-          {
-            name: "Working with Components and Props",
-          },
-          {
-            name: "Understanding State and Lifecycle",
-          },
-          { name: "Handling Events in React" },
-          {
-            name: "Conditional Rendering and List Handling",
-          },
-        ],
-      },
-      {
-        name: "React with Redux",
-        children: [
-          {
-            name: "Understanding Redux and Flux architecture",
-          },
-          {
-            name: "Setting up Redux in React application",
-          },
-          {
-            name: "Managing Application State with Redux",
-          },
-          {
-            name: "Async Actions and Middleware in Redux",
-          },
-        ],
-      },
-      {
-        name: "Advanced React Concepts",
-        children: [
-          {
-            name: "Higher-Order Components and Render Props",
-          },
-          { name: "Using Hooks in React" },
-          {
-            name: "Optimizing Performance in React",
-          },
-          {
-            name: "Server-Side Rendering with React",
-          },
-        ],
-      },
-    ],
-  },
-];
 import useAnimatedNodes from "../hooks/useAnimatedNodes";
 
 const colorScale = scaleLinear()
@@ -207,17 +137,7 @@ function ExpandCollapse(props: Props) {
   return (
     <div style={{ width: "100%", height: 1000 }}>
       <ReactFlowProvider>
-        <ReactFlowPro
-          {...props}
-          h={h}
-          // data={[
-          //   {
-          //     name: "Node.js",
-          //     children: data,
-          //   },
-          // ]}
-          data={data}
-        />
+        <ReactFlowPro {...props} h={h} data={data} />
       </ReactFlowProvider>
     </div>
   );
