@@ -18,13 +18,15 @@ const Page = (props: Props) => {
           name: capitalize(query),
           children: Object.keys(data.text.chapters).map((sectionName) => ({
             name: sectionName,
-            children: data.text.chapters[sectionName].map((topic: string) => ({
-              name: topic,
-            })),
+            children: data.text.chapters[sectionName].map(
+              ({ moduleName }: { moduleName: string }) => ({
+                name: moduleName,
+              })
+            ),
           })),
         },
       ];
-      // setRerender()
+
       setData(tree);
     } catch (e) {
       console.log(e);
@@ -38,7 +40,11 @@ const Page = (props: Props) => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <button type="button" onClick={onSubmit}>
+      <button
+        type="button"
+        className="px-4 py-2 rounded-md shadow-md text-sm"
+        onClick={onSubmit}
+      >
         Submit
       </button>
       {data.length !== 0 ? (

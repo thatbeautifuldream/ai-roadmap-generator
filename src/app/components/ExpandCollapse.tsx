@@ -149,16 +149,12 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
   const { fitView } = useReactFlow();
 
   const handleNodeClick = (_: any, node: Node) => {
-    // console.log("curr node", node.id);
-    // console.log({ desc: h.data });
     const c: any = h.find((n) => {
-      console.log(n.id);
       return n.id === node.id;
     });
-    // console.log({ node });
+
     if (!c) return;
     if (!c._children) {
-      return;
     }
 
     const isExpanded = !!c.children;
