@@ -6,22 +6,13 @@ async function AppBar() {
   const session = await auth();
   return (
     <div className="p-2 flex gap-2 items-center">
-      <Link
-        className="text-orange-500 font-semibold text-sm"
-        href="/client-page"
-      >
+      <Link className="text-orange-500 font-semibold text-sm" href="/">
         Client Page
       </Link>
-      <Link
-        className="text-black font-semibold text-sm"
-        href="/middleware-page"
-      >
+      <Link className="text-black font-semibold text-sm" href="/">
         Middleware Page
       </Link>
-      <Link
-        className="text-green-500 font-semibold text-sm"
-        href="/server-page"
-      >
+      <Link className="text-green-500 font-semibold text-sm" href="/">
         Server Page
       </Link>
       <div className="ml-auto">
