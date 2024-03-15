@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.1",
     "@langchain/cohere": "^0.0.5",
     "@langchain/google-genai": "^0.0.10",
     "axios": "^1.6.7",

@@ -52,8 +52,8 @@ export const POST = async (req: Request, res: Response) => {
   }
 };
 
-function SanitiseJSON(json: any) {
-  // ugly hack to remove the first and last line of the JSON in the response
-  const text = json.split("```json")[1].split("```")[0];
-  return text;
+function SanitiseJSON(text: any) {
+  // ugly hack to remove the first and last part of response to get the JSON
+  const json = text.split("```json")[1].split("```")[0];
+  return json;
 }
