@@ -25,13 +25,13 @@ export const POST = async (req: Request, res: Response) => {
     ]);
     const chain = prompt.pipe(model);
     const response = await chain.invoke({
-      input: `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}} not in mardown format containing backticks.`,
+      input: `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}}.`,
     });
     console.log("response", response);
 
     let json = {};
     try {
-      json = JSON.parse(String(response?.content));
+      json = JSON.parse(String(SanitiseJSON(response?.content)));
       return NextResponse.json({ status: true, text: json }, { status: 200 });
     } catch (e) {
       console.log(e);
@@ -51,3 +51,9 @@ export const POST = async (req: Request, res: Response) => {
     );
   }
 };
+
+function SanitiseJSON(json: any) {
+  // ugly hack to remove the first and last line of the JSON in the response
+  const text = json.split("```json")[1].split("```")[0];
+  return text;
+}
