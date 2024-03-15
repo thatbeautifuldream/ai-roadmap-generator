@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@langchain/cohere": "^0.0.5",
     "@langchain/google-genai": "^0.0.10",
     "axios": "^1.6.7",
     "d3-hierarchy": "^3.1.2",
