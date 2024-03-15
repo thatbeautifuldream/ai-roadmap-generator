@@ -9,7 +9,11 @@ const Roadmap = (props: Props) => {
   const [query, setQuery] = useState("");
   const [data, setData] = useState<any[]>([]);
   const [rerender, setRerender] = useState(false);
-  const onSubmit = async (e) => {
+  const onSubmit = async (
+    e:
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+      | React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
     try {
       const { data } = await axios.post("/api/v1/cohere/roadmap/", { query });
