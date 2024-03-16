@@ -27,12 +27,25 @@ export const POST = async (req: Request, res: Response) => {
     const response = await chain.invoke({
       input: `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}}.`,
     });
-    console.log("response", response);
 
-    let json = {};
+    let json: any = {};
     try {
       json = JSON.parse(String(SanitiseJSON(response?.content)));
-      return NextResponse.json({ status: true, text: json }, { status: 200 });
+      const tree = [
+        {
+          name: capitalize(json.query),
+          children: Object.keys(json.chapters).map((sectionName) => ({
+            name: sectionName,
+            children: json.chapters[sectionName].map((moduleName: string) => ({
+              name: moduleName,
+            })),
+          })),
+        },
+      ];
+      return NextResponse.json(
+        { status: true, text: json, tree: tree },
+        { status: 200 }
+      );
     } catch (e) {
       console.log(e);
       return NextResponse.json(
@@ -56,4 +69,11 @@ function SanitiseJSON(text: any) {
   // ugly hack to remove the first and last part of response to get the JSON
   const json = text.split("```json")[1].split("```")[0];
   return json;
+}
+
+function capitalize(str: string) {
+  if (str && typeof str === "string") {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
+  return "";
 }

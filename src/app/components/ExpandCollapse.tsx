@@ -6,6 +6,7 @@ import ReactFlow, {
   MiniMap,
   Background,
   Node,
+  Controls,
 } from "react-flow-renderer";
 import { HierarchyNode, hierarchy, tree } from "d3-hierarchy";
 import { scaleLinear } from "d3-scale";
@@ -70,6 +71,7 @@ function getElements(h: HierarchyNode<unknown>) {
 //   d._children = d.children;
 //   d.children = null;
 // });
+
 function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
   const initialElements = getElements(h);
   const [nodes, setNodes] = useAnimatedNodes(initialElements.nodes, {
@@ -114,8 +116,7 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
       elementsSelectable={false}
       proOptions={proOptions}
     >
-      <Background />
-      <MiniMap nodeColor={nodeColor as any} />
+      <Controls />
     </ReactFlow>
   );
 }
@@ -135,7 +136,10 @@ function ExpandCollapse(props: Props) {
     d.children = null;
   });
   return (
-    <div style={{ width: "100%", height: 1000 }}>
+    <div
+      // responsive container
+      className="w-full h-[85vh]"
+    >
       <ReactFlowProvider>
         <ReactFlowPro {...props} h={h} data={data} />
       </ReactFlowProvider>

@@ -1,14 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import ExpandCollapse from "./ExpandCollapse";
 import axios from "axios";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 type Props = {};
 
 const Roadmap = (props: Props) => {
   const [query, setQuery] = useState("");
-  const [data, setData] = useState<any[]>([]);
-  const [rerender, setRerender] = useState(false);
+  const { data, mutate, isPending, isError, isSuccess } = useMutation({
+    mutationFn: (query) => axios.post("/api/v1/cohere/roadmap/", { query }),
+  });
+
   const onSubmit = async (
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -16,30 +19,70 @@ const Roadmap = (props: Props) => {
   ) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/v1/cohere/roadmap/", { query });
-      const tree = [
-        {
-          name: capitalize(query),
-          children: Object.keys(data.text.chapters).map((sectionName) => ({
-            name: sectionName,
-            children: data.text.chapters[sectionName].map((topic: string) => ({
-              name: topic,
-            })),
-          })),
-        },
-      ];
-      // setRerender()
-      setData(tree);
+      //@ts-expect-error - query is not a function but a string
+      mutate(query);
     } catch (e) {
       console.log(e);
     }
   };
 
+  const tempData = [
+    {
+      name: "Devops",
+      children: [
+        {
+          name: "The Fundamentals",
+          children: [
+            { name: "Understanding DevOps" },
+            { name: "DevOps Vs IT Operations" },
+            { name: " DevOps Core Concepts" },
+          ],
+        },
+        {
+          name: "Implementing DevOps",
+          children: [
+            { name: "DevOps Toolchains" },
+            { name: "Continuous Integration Tools" },
+            { name: "Continuous Deployment & Delivery" },
+            { name: "Deployment Strategies" },
+          ],
+        },
+        {
+          name: "Cultivating DevOps Culture",
+          children: [
+            { name: "DevOps Team Structure" },
+            { name: "Embracing Agile Methods" },
+            { name: "Sprints & Scrums" },
+            { name: "Testing & Quality Assurance" },
+          ],
+        },
+        {
+          name: "DevOps Strategy & Planning",
+          children: [
+            { name: "Strategizing DevOps Initiatives" },
+            { name: "OpsOps Assessment" },
+            { name: "Planning for Change & Capacity Management" },
+            { name: "Setting Service Level Objectives" },
+          ],
+        },
+        {
+          name: "DevOps Automation",
+          children: [
+            { name: "Automating Infrastructure Provisioning" },
+            { name: "Config Management & Orchestration" },
+            { name: "Automation Testing" },
+            { name: "Continuous Monitoring" },
+          ],
+        },
+      ],
+    },
+  ];
+
   return (
     <>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
-          <div className="mb-3 w-full rounded-xl bg-green-100 px-4 py-3 text-green-800">
+          {/* <div className="mb-3 w-full rounded-xl bg-green-100 px-4 py-3 text-green-800">
             <h2 className="flex items-center text-base font-semibold text-green-800 sm:text-lg">
               AI Generated Roadmap{" "}
               <span className="ml-1.5 rounded-md border border-green-500 bg-green-200 px-1.5 text-xs uppercase tracking-wide text-green-800">
@@ -47,11 +90,9 @@ const Roadmap = (props: Props) => {
               </span>
             </h2>
             <p className="mb-2 mt-1">
-              This is an AI generated roadmap and is not verified by us. We are
-              currently in beta and working hard to improve the quality of the
-              generated roadmaps.
+              This is an AI generated roadmap and is not verified by us.
             </p>
-          </div>
+          </div> */}
           <form className="my-3 flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-center">
             <input
               type="text"
@@ -64,32 +105,24 @@ const Roadmap = (props: Props) => {
               type="submit"
               className="flex min-w-[127px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
               onClick={onSubmit}
+              disabled={isPending}
             >
+              {isPending && (
+                <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white-900" />
+              )}
               Submit
             </button>
           </form>
-          {/* <input
-            className="mx-auto w-[400px] shadow-md px-4 py-2"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <button type="button" onClick={onSubmit}>
-            Submit
-          </button> */}
+          {/* {isSuccess && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
+          {/* {isSuccess && <pre>{JSON.stringify(data.data.tree)}</pre>} */}
         </div>
       </div>
-      {data.length !== 0 ? (
-        <ExpandCollapse key={data[0].name} data={data} />
-      ) : null}
+      {/* <ExpandCollapse key={tempData[0].name} data={tempData} /> */}
+      {isSuccess && (
+        <ExpandCollapse key={data.data.tree[0].name} data={data.data.tree} />
+      )}
     </>
   );
 };
 
 export default Roadmap;
-
-function capitalize(str: string) {
-  if (str && typeof str === "string") {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
-  return "";
-}
