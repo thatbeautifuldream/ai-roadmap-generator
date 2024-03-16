@@ -6,21 +6,13 @@ async function AppBar() {
   const session = await auth();
   return (
     <div className="p-2 flex gap-2 items-center">
-      <Link className="text-orange-500 font-semibold text-sm" href="/">
-        Client Page
-      </Link>
-      <Link className="text-black font-semibold text-sm" href="/">
-        Middleware Page
-      </Link>
-      <Link className="text-green-500 font-semibold text-sm" href="/">
-        Server Page
+      <Link className="text-black font-mono font-semibold ml-2" href="/">
+        Roadmap AI
       </Link>
       <div className="ml-auto">
         {session && session.user ? (
           <div className="flex gap-2 items-center">
-            <p className="text-white font-semibold text-sm">
-              {session.user.name}
-            </p>
+            <p className="font-semibold text-sm">{session.user.name}</p>
             <form
               action={async () => {
                 "use server";

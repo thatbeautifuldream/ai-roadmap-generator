@@ -3,6 +3,7 @@ import React, { use, useState } from "react";
 import ExpandCollapse from "./ExpandCollapse";
 import axios from "axios";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { LoaderCircle, Wand } from "lucide-react";
 
 type Props = {};
 
@@ -107,10 +108,19 @@ const Roadmap = (props: Props) => {
               onClick={onSubmit}
               disabled={isPending}
             >
-              {isPending && (
-                <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white-900" />
+              {isPending ? (
+                <>
+                  <div className="animate-spin">
+                    <LoaderCircle />
+                  </div>
+                  Generating
+                </>
+              ) : (
+                <>
+                  <Wand />
+                  Generate
+                </>
               )}
-              Submit
             </button>
           </form>
           {/* {isSuccess && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
