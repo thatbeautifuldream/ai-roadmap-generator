@@ -10,12 +10,16 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Wand } from "lucide-react";
 
 export function PresetSave() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Generate</Button>
+        <Button>
+          <Wand size={20} className="mr-2" />
+          Generate
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[475px]">
         <DialogHeader>
