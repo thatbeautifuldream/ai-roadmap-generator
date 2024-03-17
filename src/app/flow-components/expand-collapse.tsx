@@ -102,8 +102,9 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
     >
       <Background />
       <Controls />
-      <div className="hidden"
-      <MiniMap />
+      <div className="hidden sm:inline">
+        <MiniMap />
+      </div>
     </ReactFlow>
   );
 }
