@@ -10,9 +10,10 @@ import ReactFlow, {
 } from "react-flow-renderer";
 import { HierarchyNode, hierarchy, tree } from "d3-hierarchy";
 import { scaleLinear } from "d3-scale";
-import { tempData } from "./data";
 import useAnimatedNodes from "../../hooks/use-animated-nodes";
 import { Drawer } from "./drawer";
+import { useShallow } from "zustand/react/shallow";
+import { useUIStore } from "../stores/useUI";
 
 const colorScale = scaleLinear()
   .domain([0, 5])
@@ -60,7 +61,12 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
   });
   const [edges, setEdges] = useState(initialElements.edges);
   const { fitView } = useReactFlow();
-
+  const { toggleDrawer } = useUIStore(
+    useShallow((state) => ({
+      // drawerOpen: state.drawerOpen,
+      toggleDrawer: state.toggleDrawer,
+    }))
+  );
   const handleNodeClick = (_: any, node: Node) => {
     const c: any = h.find((n) => {
       return n.id === node.id;
@@ -72,7 +78,9 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
 
     const isExpanded = !!c.children;
     c.children = isExpanded ? null : c._children;
-
+    if (!c._children) {
+      toggleDrawer();
+    }
     const nextElements = getElements(h);
 
     setNodes(nextElements.nodes);
@@ -106,16 +114,19 @@ type _Node = { name: string; children?: _Node[] };
 
 function ExpandCollapse(props: Props) {
   const { data } = props;
+
   const h: HierarchyNode<unknown> = hierarchy<unknown>(data[0]);
   h.descendants().forEach((d: any, i: number) => {
     d.id = `${i}`;
     d._children = d.children;
     d.children = null;
   });
+
   return (
     <div className="w-full h-[85vh]">
       <ReactFlowProvider>
         <Drawer />
+
         <ReactFlowPro {...props} h={h} data={data} />
       </ReactFlowProvider>
     </div>

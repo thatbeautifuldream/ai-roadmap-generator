@@ -6,11 +6,18 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useShallow } from "zustand/react/shallow";
+import { useUIStore } from "../stores/useUI";
 
 export const Drawer = () => {
+  const { drawerOpen, toggleDrawer } = useUIStore(
+    useShallow((state) => ({
+      drawerOpen: state.drawerOpen,
+      toggleDrawer: state.toggleDrawer,
+    }))
+  );
   return (
-    <Sheet>
-      <SheetTrigger>Open</SheetTrigger>
+    <Sheet open={drawerOpen} onOpenChange={toggleDrawer}>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Are you absolutely sure?</SheetTitle>
