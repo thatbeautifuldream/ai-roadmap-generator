@@ -28,7 +28,7 @@ export const POST = async (req: Request, res: Response) => {
                 {
                     "role": "user",
                     // "content": `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}}`
-                    "content": `a roadmap in JSON format has been generated related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: [{moduleName: string, moduleDescription: string, link?: string}]}} and i'd like to request a small description on moduleName: ${child} from chapterName: ${parent} in JSON format: {description: string}`
+                    "content": `a roadmap in JSON format has been generated related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: [{moduleName: string, moduleDescription: string, link?: string}]}} and i'd like to request a small description and wikipedia link on moduleName: ${child} from chapterName: ${parent} in JSON format: {description: string, link: string}`
                 }
             ],
             response_format: { "type": "json_object" }

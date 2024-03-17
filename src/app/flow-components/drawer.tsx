@@ -8,8 +8,14 @@ import {
 } from "@/components/ui/sheet";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../stores/useUI";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const Drawer = () => {
   const { drawerOpen, toggleDrawer, drawerDetails } = useUIStore(
@@ -27,7 +33,11 @@ export const Drawer = () => {
       drawerDetails?.child,
     ],
     queryFn: async () => {
-      return await axios.post("/api/v1/openai/details", drawerDetails);
+      return await axios.post("/api/v1/openai/details", {
+        query: drawerDetails?.query,
+        child: drawerDetails?.child,
+        parent: drawerDetails?.parent,
+      });
     },
     enabled: Boolean(
       drawerDetails &&
@@ -41,9 +51,38 @@ export const Drawer = () => {
     <Sheet open={drawerOpen} onOpenChange={toggleDrawer}>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
+          <SheetTitle>{drawerDetails?.parent}</SheetTitle>
           <SheetDescription>
-            {isSuccess && <>{data.data.text.description}</>}
+            {isSuccess && (
+              <div>
+                <div className="flex flex-wrap mb-2">
+                  {data.data.text.link && (
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          {" "}
+                          <a
+                            href={data.data.text.link}
+                            target="_blank"
+                            referrerPolicy="no-referrer"
+                          >
+                            <img
+                              src={`https://en.wikipedia.org/static/images/icons/wikipedia.png`}
+                              alt="Wikipedia Logo"
+                              className="w-4"
+                            />
+                          </a>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Wikipedia</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
+                </div>
+                <p>{data.data.text.description}</p>
+              </div>
+            )}
           </SheetDescription>
         </SheetHeader>
       </SheetContent>

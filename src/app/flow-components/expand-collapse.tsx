@@ -83,7 +83,6 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
     currentNode.children = isExpanded ? null : currentNode._children;
     if (!currentNode._children) {
       toggleDrawer();
-
       setDrawerDetails({
         query: root.name,
         parent: currentNode.parent.data.name,
@@ -135,7 +134,6 @@ function ExpandCollapse(props: Props) {
     <div className="w-full h-[85vh]">
       <ReactFlowProvider>
         <Drawer />
-
         <ReactFlowPro {...props} h={h} data={data} />
       </ReactFlowProvider>
     </div>
