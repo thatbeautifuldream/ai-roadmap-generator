@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { LoaderCircle, Wand } from "lucide-react";
 import React, { useState } from "react";
 import ExpandCollapse from "./expand-collapse";
@@ -11,8 +11,13 @@ type Props = {};
 
 const Roadmap = (props: Props) => {
   const [query, setQuery] = useState("");
-  const { data, mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (query) => axios.post("/api/v1/openai/roadmap/", { query }),
+  const { data, mutate, isPending, isError, isSuccess } = useMutation<
+    any,
+    AxiosError,
+    { query: string }
+  >({
+    mutationFn: (variables) =>
+      axios.post("/api/v1/openai/roadmap/", { query: variables.query }),
   });
 
   const onSubmit = async (
@@ -22,8 +27,7 @@ const Roadmap = (props: Props) => {
   ) => {
     e.preventDefault();
     try {
-      //@ts-expect-error - query is not a function but a string
-      mutate(query);
+      mutate({ query });
     } catch (e) {
       console.log(e);
     }
