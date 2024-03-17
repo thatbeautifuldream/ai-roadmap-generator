@@ -12,7 +12,7 @@ type Props = {};
 const Roadmap = (props: Props) => {
   const [query, setQuery] = useState("");
   const { data, mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (query) => axios.post("/api/v1/cohere/roadmap/", { query }),
+    mutationFn: (query) => axios.post("/api/v1/openai/roadmap/", { query }),
   });
 
   const onSubmit = async (
@@ -135,10 +135,10 @@ const Roadmap = (props: Props) => {
           {/* {isSuccess && <pre>{JSON.stringify(data.data.tree)}</pre>} */}
         </div>
       </div>
-      {/* <ExpandCollapse key={tempData[0].name} data={tempData} /> */}
-      {isSuccess && (
+      <ExpandCollapse key={tempData[0].name} data={tempData} />
+      {/* {isSuccess && (
         <ExpandCollapse key={data.data.tree[0].name} data={data.data.tree} />
-      )}
+      )} */}
     </>
   );
 };

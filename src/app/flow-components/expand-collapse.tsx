@@ -12,6 +12,7 @@ import { HierarchyNode, hierarchy, tree } from "d3-hierarchy";
 import { scaleLinear } from "d3-scale";
 import { tempData } from "./data";
 import useAnimatedNodes from "../../hooks/use-animated-nodes";
+import { Drawer } from "./drawer";
 
 const colorScale = scaleLinear()
   .domain([0, 5])
@@ -51,26 +52,6 @@ function getElements(h: HierarchyNode<unknown>) {
 
   return { nodes, edges };
 }
-
-// const getH = () => {
-//   let h;
-//   return (data) => {
-//     if (!h) {
-//       h = hierarchy<unknown>(data[0]);
-//       console.log("first");
-//       return h;
-//     }
-//     console.log("ss");
-//     return h;
-//   };
-// };
-
-// const h: HierarchyNode<unknown> = hierarchy<unknown>(donta[0]);
-// h.descendants().forEach((d: any, i: number) => {
-//   d.id = `${i}`;
-//   d._children = d.children;
-//   d.children = null;
-// });
 
 function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
   const initialElements = getElements(h);
@@ -132,11 +113,9 @@ function ExpandCollapse(props: Props) {
     d.children = null;
   });
   return (
-    <div
-      // responsive container
-      className="w-full h-[85vh]"
-    >
+    <div className="w-full h-[85vh]">
       <ReactFlowProvider>
+        <Drawer />
         <ReactFlowPro {...props} h={h} data={data} />
       </ReactFlowProvider>
     </div>

@@ -1,5 +1,6 @@
 import { OpenAI } from "openai";
 import { NextResponse } from "next/server"
+import { capitalize } from "@/lib/utils";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -28,20 +29,52 @@ export const POST = async (req: Request, res: Response) => {
             ],
             response_format: { "type": "json_object" }
         })
-        const content = text?.choices?.[0]?.message?.content;
-        if (text) {
-            let json: any = text?.choices?.[0]?.message?.content || '';
-            try {
-                json = JSON.parse(json);
-            } catch (e) {
-                console.log(e)
-                json = {};
-            }
-            return NextResponse.json({ status: true, text: json }, { status: 200 })
+
+        let json: any = {};
+        try {
+            json = JSON.parse(text?.choices?.[0]?.message?.content || '');
+            const tree = [
+                {
+                    name: capitalize(json.query),
+                    children: Object.keys(json.chapters).map((sectionName) => ({
+                        name: sectionName,
+                        children: json.chapters[sectionName].map(({ moduleName, link, moduleDescription }: { moduleName: string, link: string, moduleDescription: string }) => ({
+                            name: moduleName,
+                            moduleDescription,
+                            link,
+                        })),
+                    })),
+                },
+            ];
+            return NextResponse.json(
+                { status: true, text: json, tree: tree },
+                { status: 200 }
+            );
+        } catch (e) {
+            console.log(e);
+            return NextResponse.json(
+                {
+                    status: false,
+                    message: "Error parsing roadmap data.",
+                },
+                { status: 500 }
+            );
         }
 
+        // const content = text?.choices?.[0]?.message?.content;
+        // if (text) {
+        //     let json: any = text?.choices?.[0]?.message?.content || '';
+        //     try {
+        //         json = JSON.parse(json);
+        //     } catch (e) {
+        //         console.log(e)
+        //         json = {};
+        //     }
+        //     return NextResponse.json({ status: true, text: json }, { status: 200 })
+        // }
 
-        return NextResponse.json({ status: true, data: content }, { status: 200 });
+
+        // return NextResponse.json({ status: true, data: content }, { status: 200 });
     } catch (e) {
         console.log(e)
         return NextResponse.json({ status: false, message: "Something went wrong." }, { status: 400 });

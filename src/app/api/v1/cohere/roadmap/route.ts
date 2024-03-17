@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { capitalize, SanitiseJSON } from "@/lib/utils";
 
 export const POST = async (req: Request, res: Response) => {
   try {
@@ -65,15 +66,3 @@ export const POST = async (req: Request, res: Response) => {
   }
 };
 
-function SanitiseJSON(text: any) {
-  // ugly hack to remove the first and last part of response to get the JSON
-  const json = text.split("```json")[1].split("```")[0];
-  return json;
-}
-
-function capitalize(str: string) {
-  if (str && typeof str === "string") {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
-  return "";
-}

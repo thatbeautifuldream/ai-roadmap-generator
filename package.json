@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.3.0",
     "@heroicons/react": "^2.1.1",
     "@hookform/resolvers": "^3.3.4",
     "@langchain/cohere": "^0.0.5",
+    "@langchain/core": "^0.1.48",
     "@langchain/google-genai": "^0.0.10",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -57,6 +59,7 @@
     "next-auth": "^5.0.0-beta.15",
     "next-themes": "^0.3.0",
     "openai": "^4.28.4",
+    "prompts": "link:@langchain/core/prompts",
     "react": "^18",
     "react-day-picker": "^8.10.0",
     "react-dom": "^18",
@@ -71,6 +74,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/d3-hierarchy": "^3.1.6",
+    "@types/d3-scale": "^4.0.8",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
