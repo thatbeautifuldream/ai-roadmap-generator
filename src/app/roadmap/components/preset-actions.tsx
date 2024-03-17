@@ -54,7 +54,7 @@ export function PresetActions() {
             onSelect={() => setShowDeleteDialog(true)}
             className="text-red-600"
           >
-            Delete preset
+            Logout
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -112,7 +112,7 @@ export function PresetActions() {
                 });
               }}
             >
-              Delete
+              Logout
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

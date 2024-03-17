@@ -90,7 +90,6 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
       });
     }
     const nextElements = getElements(h);
-
     setNodes(nextElements.nodes);
     setEdges(nextElements.edges);
   };
@@ -109,7 +108,11 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
       elementsSelectable={false}
       proOptions={proOptions}
     >
+      <Background />
       <Controls />
+      <div className="hidden sm:inline">
+        <MiniMap />
+      </div>
     </ReactFlow>
   );
 }
@@ -131,7 +134,7 @@ function ExpandCollapse(props: Props) {
   });
 
   return (
-    <div className="w-full h-[85vh]">
+    <div className="w-full h-[90vh]">
       <ReactFlowProvider>
         <Drawer />
         <ReactFlowPro {...props} h={h} data={data} />

@@ -89,38 +89,13 @@ const Roadmap = (props: Props) => {
     <>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
-          {/* <div className="mb-3 w-full rounded-xl bg-green-100 px-4 py-3 text-green-800">
-            <h2 className="flex items-center text-base font-semibold text-green-800 sm:text-lg">
-              AI Generated Roadmap{" "}
-              <span className="ml-1.5 rounded-md border border-green-500 bg-green-200 px-1.5 text-xs uppercase tracking-wide text-green-800">
-                Beta
-              </span>
-            </h2>
-            <p className="mb-2 mt-1">
-              This is an AI generated roadmap and is not verified by us.
-            </p>
-          </div> */}
           <form className="my-3 flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-center">
-            {/* <input
-              type="text"
-              placeholder="e.g. Try searching for Frontend or Backend"
-              className="flex-grow rounded-md border border-gray-400 px-3 py-2 transition-colors focus:border-black focus:outline-none"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            /> */}
             <Input
               type="text"
               placeholder="e.g. Try searching for Frontend or Backend"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-            {/* <button
-              type="submit"
-              className="flex min-w-[127px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
-              onClick={onSubmit}
-              disabled={isPending}
-            ></button> 
-            */}
             <Button type="submit" onClick={onSubmit} disabled={isPending}>
               {isPending ? (
                 <>
@@ -135,8 +110,6 @@ const Roadmap = (props: Props) => {
               )}
             </Button>
           </form>
-          {/* {isSuccess && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
-          {/* {isSuccess && <pre>{JSON.stringify(data.data.tree)}</pre>} */}
         </div>
       </div>
       <ExpandCollapse key={tempData[0].name} data={tempData} />
