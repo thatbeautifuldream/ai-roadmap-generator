@@ -11,7 +11,7 @@ import ReactFlow, {
 import { HierarchyNode, hierarchy, tree } from "d3-hierarchy";
 import { scaleLinear } from "d3-scale";
 import { tempData } from "./data";
-import useAnimatedNodes from "../hooks/useAnimatedNodes";
+import useAnimatedNodes from "../../hooks/use-animated-nodes";
 
 const colorScale = scaleLinear()
   .domain([0, 5])

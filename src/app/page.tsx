@@ -1,4 +1,4 @@
-import Roadmap from "@/app/components/roadmap";
+import Roadmap from "@/app/flow-components/roadmap";
 import React from "react";
 
 export default function Home() {

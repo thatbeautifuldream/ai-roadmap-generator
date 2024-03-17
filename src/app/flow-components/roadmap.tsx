@@ -1,9 +1,11 @@
 "use client";
-import React, { use, useState } from "react";
-import ExpandCollapse from "./ExpandCollapse";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useQuery, useMutation } from "@tanstack/react-query";
 import { LoaderCircle, Wand } from "lucide-react";
+import React, { useState } from "react";
+import ExpandCollapse from "./expand-collapse";
 
 type Props = {};
 
@@ -95,33 +97,39 @@ const Roadmap = (props: Props) => {
             </p>
           </div> */}
           <form className="my-3 flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-center">
-            <input
+            {/* <input
               type="text"
               placeholder="e.g. Try searching for Frontend or Backend"
               className="flex-grow rounded-md border border-gray-400 px-3 py-2 transition-colors focus:border-black focus:outline-none"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+            /> */}
+            <Input
+              type="text"
+              placeholder="e.g. Try searching for Frontend or Backend"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
-            <button
+            {/* <button
               type="submit"
               className="flex min-w-[127px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
               onClick={onSubmit}
               disabled={isPending}
-            >
+            ></button> 
+            */}
+            <Button type="submit" onClick={onSubmit} disabled={isPending}>
               {isPending ? (
                 <>
-                  <div className="animate-spin">
-                    <LoaderCircle />
-                  </div>
+                  <LoaderCircle size={20} className="animate-spin mr-2" />
                   Generating
                 </>
               ) : (
                 <>
-                  <Wand />
+                  <Wand size={20} className="mr-2" />
                   Generate
                 </>
               )}
-            </button>
+            </Button>
           </form>
           {/* {isSuccess && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
           {/* {isSuccess && <pre>{JSON.stringify(data.data.tree)}</pre>} */}
