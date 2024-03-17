@@ -1,4 +1,11 @@
 import { create } from "zustand";
+
+type drawerDetails = {
+  query: string;
+  parent: string;
+  child: string;
+};
+
 interface UIState {
   drawerOpen: boolean;
   // setDrawerOpen: (open: boolean) => void;

@@ -14,6 +14,7 @@ import useAnimatedNodes from "../../hooks/use-animated-nodes";
 import { Drawer } from "./drawer";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../stores/useUI";
+import { useRouter } from "next/navigation";
 
 const colorScale = scaleLinear()
   .domain([0, 5])
@@ -56,30 +57,37 @@ function getElements(h: HierarchyNode<unknown>) {
 
 function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
   const initialElements = getElements(h);
+  const router = useRouter();
   const [nodes, setNodes] = useAnimatedNodes(initialElements.nodes, {
     duration: animationDuration,
   });
   const [edges, setEdges] = useState(initialElements.edges);
   const { fitView } = useReactFlow();
-  const { toggleDrawer } = useUIStore(
+  const { toggleDrawer, setDrawerDetails } = useUIStore(
     useShallow((state) => ({
-      // drawerOpen: state.drawerOpen,
+      setDrawerDetails: state.setDrawerDetails,
       toggleDrawer: state.toggleDrawer,
     }))
   );
   const handleNodeClick = (_: any, node: Node) => {
-    const c: any = h.find((n) => {
-      return n.id === node.id;
+    const currentNode: any = h.find((_node) => {
+      return node.id === _node.id;
     });
+    const root: any = h.data;
 
-    if (!c) return;
-    if (!c._children) {
+    if (!currentNode) return;
+    if (!currentNode._children) {
     }
 
-    const isExpanded = !!c.children;
-    c.children = isExpanded ? null : c._children;
-    if (!c._children) {
+    const isExpanded = !!currentNode.children;
+    currentNode.children = isExpanded ? null : currentNode._children;
+    if (!currentNode._children) {
       toggleDrawer();
+      setDrawerDetails({
+        query: root.name,
+        parent: currentNode.parent.data.name,
+        child: currentNode.data.name,
+      });
     }
     const nextElements = getElements(h);
     setNodes(nextElements.nodes);
