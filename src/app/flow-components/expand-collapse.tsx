@@ -6,81 +6,12 @@ import ReactFlow, {
   MiniMap,
   Background,
   Node,
+  Controls,
 } from "react-flow-renderer";
 import { HierarchyNode, hierarchy, tree } from "d3-hierarchy";
 import { scaleLinear } from "d3-scale";
 import { tempData } from "./data";
-
-var donta = [
-  {
-    name: "React",
-    children: [
-      {
-        name: "Getting Started",
-        children: [
-          { name: "Introduction to React" },
-          {
-            name: "Setting Up Development Environment",
-          },
-          {
-            name: "Creating Your First React Component",
-          },
-          {
-            name: "Understanding JSX and Virtual DOM",
-          },
-        ],
-      },
-      {
-        name: "Components and Props",
-        children: [
-          {
-            name: "Working with Components and Props",
-          },
-          {
-            name: "Understanding State and Lifecycle",
-          },
-          { name: "Handling Events in React" },
-          {
-            name: "Conditional Rendering and List Handling",
-          },
-        ],
-      },
-      {
-        name: "React with Redux",
-        children: [
-          {
-            name: "Understanding Redux and Flux architecture",
-          },
-          {
-            name: "Setting up Redux in React application",
-          },
-          {
-            name: "Managing Application State with Redux",
-          },
-          {
-            name: "Async Actions and Middleware in Redux",
-          },
-        ],
-      },
-      {
-        name: "Advanced React Concepts",
-        children: [
-          {
-            name: "Higher-Order Components and Render Props",
-          },
-          { name: "Using Hooks in React" },
-          {
-            name: "Optimizing Performance in React",
-          },
-          {
-            name: "Server-Side Rendering with React",
-          },
-        ],
-      },
-    ],
-  },
-];
-import useAnimatedNodes from "../hooks/useAnimatedNodes";
+import useAnimatedNodes from "../../hooks/use-animated-nodes";
 
 const colorScale = scaleLinear()
   .domain([0, 5])
@@ -140,6 +71,7 @@ function getElements(h: HierarchyNode<unknown>) {
 //   d._children = d.children;
 //   d.children = null;
 // });
+
 function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
   const initialElements = getElements(h);
   const [nodes, setNodes] = useAnimatedNodes(initialElements.nodes, {
@@ -180,8 +112,7 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
       elementsSelectable={false}
       proOptions={proOptions}
     >
-      <Background />
-      <MiniMap nodeColor={nodeColor as any} />
+      <Controls />
     </ReactFlow>
   );
 }
@@ -201,19 +132,12 @@ function ExpandCollapse(props: Props) {
     d.children = null;
   });
   return (
-    <div style={{ width: "100%", height: 1000 }}>
+    <div
+      // responsive container
+      className="w-full h-[85vh]"
+    >
       <ReactFlowProvider>
-        <ReactFlowPro
-          {...props}
-          h={h}
-          // data={[
-          //   {
-          //     name: "Node.js",
-          //     children: data,
-          //   },
-          // ]}
-          data={data}
-        />
+        <ReactFlowPro {...props} h={h} data={data} />
       </ReactFlowProvider>
     </div>
   );
