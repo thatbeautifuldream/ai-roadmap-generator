@@ -33,8 +33,8 @@ const ModelSelect = () => {
 
   return (
     <Select value={model} onValueChange={onValueChange}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select Model" />
+      <SelectTrigger className="w-[120px]">
+        <SelectValue placeholder="Model" />
       </SelectTrigger>
       <SelectContent>
         {availableModels.map((model) => (

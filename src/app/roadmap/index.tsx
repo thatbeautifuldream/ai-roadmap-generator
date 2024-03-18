@@ -63,7 +63,9 @@ export default function Roadmap() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-            <ModelSelect />
+            <div className="hidden sm:flex">
+              <ModelSelect />
+            </div>
             <Button onClick={onSubmit} disabled={isPending} type="submit">
               {isPending ? (
                 <>
