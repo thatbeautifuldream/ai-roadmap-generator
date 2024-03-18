@@ -11,14 +11,17 @@ import Link from "next/link";
 import { useState } from "react";
 import { PresetActions } from "./components/preset-actions";
 import { PresetShare } from "./components/preset-share";
-import { tempData } from "@/app/shared/temp-data";
-import { ModelSelector } from "./components/model-selector";
 import ModelSelect from "../flow-components/model-select";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../stores/useUI";
+import LZString from "lz-string";
+import { flushSync } from "react-dom";
+import { Node } from "../shared/types/common";
+import { useSearchParams } from "next/navigation";
 
 export default function Roadmap() {
   const [query, setQuery] = useState("");
+  const [mainQuery, setMainQuery] = useState("");
   const { model } = useUIStore(
     useShallow((state) => ({
       model: state.model,
@@ -31,6 +34,7 @@ export default function Roadmap() {
   >({
     mutationFn: (variables) =>
       axios.post(`/api/v1/${model}/roadmap/`, { query: variables.query }),
+    mutationKey: ["Roadmap", mainQuery],
   });
 
   const onSubmit = async (
@@ -40,10 +44,26 @@ export default function Roadmap() {
   ) => {
     e.preventDefault();
     try {
+      flushSync(() => {
+        setMainQuery(query);
+      });
       mutate({ query });
     } catch (e) {
       console.log(e);
     }
+  };
+  const params = useSearchParams();
+
+  const decodeFromURL = (): Node[] => {
+    let array = [];
+    const code = params.get("code");
+    if (code) {
+      const uncompressed = LZString.decompressFromEncodedURIComponent(code);
+      try {
+        array = JSON.parse(uncompressed);
+      } catch (e) {}
+    }
+    return array;
   };
 
   return (
@@ -80,7 +100,14 @@ export default function Roadmap() {
               )}
             </Button>
             <div className="hidden space-x-2 md:flex">
-              <PresetShare />
+              {(decodeFromURL()?.[0]?.name || data?.data?.tree[0]?.name) && (
+                <PresetShare
+                  query={mainQuery}
+                  key={
+                    data?.data?.tree?.[0]?.name || decodeFromURL()?.[0]?.name
+                  }
+                />
+              )}
             </div>
             <PresetActions />
           </div>
@@ -88,9 +115,14 @@ export default function Roadmap() {
         <Separator />
       </div>
       {/* <ExpandCollapse key={tempData[0].name} data={tempData} /> */}
-      {isSuccess && (
-        <ExpandCollapse key={data.data.tree[0].name} data={data.data.tree} />
+      {/* {isSuccess && ( */}
+      {(decodeFromURL()?.[0]?.name || data?.data?.tree?.[0]?.name) && (
+        <ExpandCollapse
+          key={data?.data?.tree[0]?.name || decodeFromURL()?.[0]?.name}
+          data={data?.data?.tree || decodeFromURL()}
+        />
       )}
+      {/* )} */}
     </>
   );
 }

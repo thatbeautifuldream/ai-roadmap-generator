@@ -10,8 +10,21 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import LZString from "lz-string";
+import { useQueryClient } from "@tanstack/react-query";
 
-export function PresetShare() {
+export function PresetShare({ query }: { query: string }) {
+  const queryClient = useQueryClient();
+  const getURL = () => {
+    const mutationCache = queryClient.getMutationCache();
+
+    const data = mutationCache.find({ mutationKey: ["Roadmap", query] }) as any;
+    if (data?.data?.tree) {
+      const string = JSON.stringify(data?.data?.tree || "{}");
+      const compressed = LZString.compressToEncodedURIComponent(string);
+      return compressed;
+    } else return "";
+  };
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -31,7 +44,7 @@ export function PresetShare() {
             </Label>
             <Input
               id="link"
-              // defaultValue={window.location.href}
+              defaultValue={"http://localhost:3000?code=" + getURL()}
               readOnly
               className="h-9"
             />

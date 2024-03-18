@@ -5,7 +5,7 @@ import ReactFlow, {
   useReactFlow,
   MiniMap,
   Background,
-  Node,
+  Node as RFNode,
   Controls,
 } from "react-flow-renderer";
 import { HierarchyNode, hierarchy, tree } from "d3-hierarchy";
@@ -14,18 +14,13 @@ import useAnimatedNodes from "../../hooks/use-animated-nodes";
 import { Drawer } from "./drawer";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../stores/useUI";
-import { useRouter } from "next/navigation";
+import { Node } from "../shared/types/common";
 
-const colorScale = scaleLinear()
-  .domain([0, 5])
-  .range(["#ff0072" as any, "#0041d0"]);
 const proOptions = { account: "paid-pro", hideAttribution: true };
-
-const nodeColor = (node: Node) => colorScale(node.data.depth);
 
 type ProProps = {
   animationDuration?: number;
-  data: _Node[];
+  data: Node[];
   h: HierarchyNode<unknown>;
 };
 const layout = tree().nodeSize([70, 200]);
@@ -69,7 +64,7 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
       toggleDrawer: state.toggleDrawer,
     }))
   );
-  const handleNodeClick = (_: any, node: Node) => {
+  const handleNodeClick = (_: any, node: RFNode) => {
     const currentNode: any = h.find((_node) => {
       return node.id === _node.id;
     });
@@ -118,10 +113,8 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
 }
 
 type Props = {
-  data: _Node[];
+  data: Node[];
 };
-
-type _Node = { name: string; children?: _Node[] };
 
 function ExpandCollapse(props: Props) {
   const { data } = props;
