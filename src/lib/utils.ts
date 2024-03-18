@@ -1,5 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import LZString from "lz-string";
+import { Node } from "@/app/shared/types/common";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -32,3 +34,25 @@ export function formatDuration(seconds: number) {
     return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
   }
 }
+
+export const decodeFromURL = (params: URLSearchParams): Node[] => {
+  let array = [];
+  const code = params.get("code");
+  if (code) {
+    const uncompressed = LZString.decompressFromEncodedURIComponent(code);
+    try {
+      array = JSON.parse(uncompressed);
+    } catch (e) { }
+  }
+  return array;
+};
+
+export function downloadImage(dataUrl: string) {
+  const a = document.createElement("a");
+
+  a.setAttribute("download", "reactflow.png");
+  a.setAttribute("href", dataUrl);
+  a.click();
+}
+export const DIAGRAM_IMAGE_WIDTH = 4096;
+export const DIAGRAM_IMAGE_HEIGHT = 3048;

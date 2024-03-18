@@ -14,9 +14,7 @@ import { PresetShare } from "./components/preset-share";
 import ModelSelect from "../flow-components/model-select";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../stores/useUI";
-import LZString from "lz-string";
 import { flushSync } from "react-dom";
-import { Node } from "../shared/types/common";
 import { useSearchParams } from "next/navigation";
 
 import { toPng } from "html-to-image";
@@ -26,17 +24,12 @@ import {
   getTransformForBounds,
   useReactFlow,
 } from "reactflow";
-
-function downloadImage(dataUrl: string) {
-  const a = document.createElement("a");
-
-  a.setAttribute("download", "reactflow.png");
-  a.setAttribute("href", dataUrl);
-  a.click();
-}
-
-const imageWidth = 4096;
-const imageHeight = 3048;
+import {
+  DIAGRAM_IMAGE_WIDTH,
+  decodeFromURL,
+  DIAGRAM_IMAGE_HEIGHT,
+  downloadImage,
+} from "@/lib/utils";
 
 export default function Roadmap() {
   const [query, setQuery] = useState("");
@@ -73,17 +66,6 @@ export default function Roadmap() {
   };
   const params = useSearchParams();
 
-  const decodeFromURL = (): Node[] => {
-    let array = [];
-    const code = params.get("code");
-    if (code) {
-      const uncompressed = LZString.decompressFromEncodedURIComponent(code);
-      try {
-        array = JSON.parse(uncompressed);
-      } catch (e) {}
-    }
-    return array;
-  };
   const { getNodes } = useReactFlow();
 
   const onClick = () => {
@@ -93,23 +75,26 @@ export default function Roadmap() {
     const nodesBounds = getRectOfNodes(getNodes());
     const [x, y, scale] = getTransformForBounds(
       nodesBounds,
-      imageWidth,
-      imageHeight,
+      DIAGRAM_IMAGE_WIDTH,
+      DIAGRAM_IMAGE_HEIGHT,
       2,
       2
     );
 
-    toPng(document.querySelector(".react-flow__viewport"), {
+    toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
       backgroundColor: "#ffffff",
-      width: imageWidth,
-      height: imageHeight,
+      width: DIAGRAM_IMAGE_WIDTH,
+      height: DIAGRAM_IMAGE_HEIGHT,
       style: {
-        width: imageWidth,
-        height: imageHeight,
+        width: String(DIAGRAM_IMAGE_WIDTH) + "px",
+        height: String(DIAGRAM_IMAGE_HEIGHT) + "px",
         transform: `translate(${x}px, ${y}px) scale(3)`,
       },
     }).then(downloadImage);
   };
+
+  const renderFlow =
+    decodeFromURL(params)?.[0]?.name || data?.data?.tree?.[0]?.name;
 
   return (
     <>
@@ -145,14 +130,7 @@ export default function Roadmap() {
               )}
             </Button>
             <div className="hidden space-x-2 md:flex">
-              {(decodeFromURL()?.[0]?.name || data?.data?.tree[0]?.name) && (
-                <PresetShare
-                  query={mainQuery}
-                  key={
-                    data?.data?.tree?.[0]?.name || decodeFromURL()?.[0]?.name
-                  }
-                />
-              )}
+              {renderFlow && <PresetShare query={mainQuery} key={renderFlow} />}
               <Panel position="top-right">
                 <button className="download-btn" onClick={onClick}>
                   Download Image
@@ -166,10 +144,10 @@ export default function Roadmap() {
       </div>
       {/* <ExpandCollapse key={tempData[0].name} data={tempData} /> */}
       {/* {isSuccess && ( */}
-      {(decodeFromURL()?.[0]?.name || data?.data?.tree?.[0]?.name) && (
+      {renderFlow && (
         <ExpandCollapse
-          key={data?.data?.tree[0]?.name || decodeFromURL()?.[0]?.name}
-          data={data?.data?.tree || decodeFromURL()}
+          key={renderFlow}
+          data={data?.data?.tree || decodeFromURL(params)}
         />
       )}
       {/* )} */}
