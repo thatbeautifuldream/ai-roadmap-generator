@@ -15,16 +15,17 @@ import { useQueryClient } from "@tanstack/react-query";
 
 export function PresetShare({ query }: { query: string }) {
   const queryClient = useQueryClient();
+
   const getURL = () => {
     const mutationCache = queryClient.getMutationCache();
-
     const data = mutationCache.find({ mutationKey: ["Roadmap", query] }) as any;
-    if (data?.data?.tree) {
-      const string = JSON.stringify(data?.data?.tree || "{}");
+    if (data?.state.data.data.tree) {
+      const string = JSON.stringify(data?.state?.data?.data?.tree || "{}");
       const compressed = LZString.compressToEncodedURIComponent(string);
       return compressed;
     } else return "";
   };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
