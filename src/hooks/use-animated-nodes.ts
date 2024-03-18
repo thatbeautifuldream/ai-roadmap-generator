@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useReactFlow } from "react-flow-renderer";
+import { useReactFlow } from "reactflow";
+//@ts-expect-error
 import { timer } from "d3-timer";
 
 const defaultOptions = { duration: 500 };
@@ -19,7 +20,7 @@ function useAnimatedNodes(defaultNodes: any, options = defaultOptions) {
       };
     });
 
-    const t = timer((elapsed) => {
+    const t = timer((elapsed: number) => {
       const s = elapsed / options.duration;
 
       const currNodes = transitions.map(({ node, from, to }: any) => {

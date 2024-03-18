@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { HierarchyNode, hierarchy, tree } from "d3-hierarchy";
+import { useEffect, useState } from "react";
 import ReactFlow, {
+  Background,
+  Controls,
   Position,
+  Node as RFNode,
   ReactFlowProvider,
   useReactFlow,
-  MiniMap,
-  Background,
-  Node as RFNode,
-  Controls,
-} from "react-flow-renderer";
-import { HierarchyNode, hierarchy, tree } from "d3-hierarchy";
-import { scaleLinear } from "d3-scale";
-import useAnimatedNodes from "../../hooks/use-animated-nodes";
-import { Drawer } from "./drawer";
+} from "reactflow";
 import { useShallow } from "zustand/react/shallow";
-import { useUIStore } from "../stores/useUI";
+import useAnimatedNodes from "../../hooks/use-animated-nodes";
 import { Node } from "../shared/types/common";
+import { useUIStore } from "../stores/useUI";
+import { Drawer } from "./drawer";
+
+import "reactflow/dist/base.css";
 
 const proOptions = { account: "paid-pro", hideAttribution: true };
 

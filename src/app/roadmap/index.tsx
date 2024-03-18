@@ -18,7 +18,6 @@ import LZString from "lz-string";
 import { flushSync } from "react-dom";
 import { Node } from "../shared/types/common";
 import { useSearchParams } from "next/navigation";
-
 export default function Roadmap() {
   const [query, setQuery] = useState("");
   const [mainQuery, setMainQuery] = useState("");
