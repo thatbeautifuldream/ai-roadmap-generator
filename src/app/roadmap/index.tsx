@@ -53,6 +53,7 @@ export default function Roadmap() {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
+      | React.KeyboardEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
     try {
@@ -112,6 +113,11 @@ export default function Roadmap() {
               placeholder="e.g. Try searching for Frontend or Backend"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  onSubmit(e);
+                }
+              }}
             />
             <div className="hidden sm:flex">
               <ModelSelect />
