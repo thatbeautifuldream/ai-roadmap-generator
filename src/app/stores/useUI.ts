@@ -27,6 +27,6 @@ export const useUIStore = create<UIState>((set) => ({
   toggleDrawer: () => set((state) => ({ drawerOpen: !state.drawerOpen })),
   drawerDetails: null,
   setDrawerDetails: (data) => set(() => ({ drawerDetails: data })),
-  model: '',
+  model: 'cohere',
   setModel: (model) => set(() => ({ model })),
 }))
