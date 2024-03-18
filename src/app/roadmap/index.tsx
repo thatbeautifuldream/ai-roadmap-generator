@@ -18,6 +18,26 @@ import LZString from "lz-string";
 import { flushSync } from "react-dom";
 import { Node } from "../shared/types/common";
 import { useSearchParams } from "next/navigation";
+
+import { toPng } from "html-to-image";
+import {
+  Panel,
+  getRectOfNodes,
+  getTransformForBounds,
+  useReactFlow,
+} from "reactflow";
+
+function downloadImage(dataUrl: string) {
+  const a = document.createElement("a");
+
+  a.setAttribute("download", "reactflow.png");
+  a.setAttribute("href", dataUrl);
+  a.click();
+}
+
+const imageWidth = 4096;
+const imageHeight = 3048;
+
 export default function Roadmap() {
   const [query, setQuery] = useState("");
   const [mainQuery, setMainQuery] = useState("");
@@ -64,6 +84,32 @@ export default function Roadmap() {
     }
     return array;
   };
+  const { getNodes } = useReactFlow();
+
+  const onClick = () => {
+    // we calculate a transform for the nodes so that all nodes are visible
+    // we then overwrite the transform of the `.react-flow__viewport` element
+    // with the style option of the html-to-image library
+    const nodesBounds = getRectOfNodes(getNodes());
+    const [x, y, scale] = getTransformForBounds(
+      nodesBounds,
+      imageWidth,
+      imageHeight,
+      2,
+      2
+    );
+
+    toPng(document.querySelector(".react-flow__viewport"), {
+      backgroundColor: "#ffffff",
+      width: imageWidth,
+      height: imageHeight,
+      style: {
+        width: imageWidth,
+        height: imageHeight,
+        transform: `translate(${x}px, ${y}px) scale(3)`,
+      },
+    }).then(downloadImage);
+  };
 
   return (
     <>
@@ -107,6 +153,11 @@ export default function Roadmap() {
                   }
                 />
               )}
+              <Panel position="top-right">
+                <button className="download-btn" onClick={onClick}>
+                  Download Image
+                </button>
+              </Panel>
             </div>
             <PresetActions />
           </div>
