@@ -101,13 +101,11 @@ function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
       edges={edges}
       onNodeClick={handleNodeClick}
       elementsSelectable={false}
+      snapToGrid
       proOptions={proOptions}
     >
       <Background />
       <Controls />
-      {/* <div className="hidden sm:inline">
-        <MiniMap />
-      </div> */}
     </ReactFlow>
   );
 }
