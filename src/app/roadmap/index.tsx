@@ -21,7 +21,7 @@ export default function Roadmap() {
     { query: string }
   >({
     mutationFn: (variables) =>
-      axios.post("/api/v1/cohere/roadmap/", { query: variables.query }),
+      axios.post("/api/v1/openai/roadmap/", { query: variables.query }),
   });
 
   const onSubmit = async (

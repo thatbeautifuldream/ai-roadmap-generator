@@ -31,7 +31,7 @@ export function PresetShare() {
             </Label>
             <Input
               id="link"
-              defaultValue={window.location.href}
+              // defaultValue={window.location.href}
               readOnly
               className="h-9"
             />
