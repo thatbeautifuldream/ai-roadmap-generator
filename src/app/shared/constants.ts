@@ -5,3 +5,5 @@ export const availableModels = [
 ];
 
 export const modelKeys = availableModels.map((model) => model.key);
+
+export const proOptions = { account: "paid-pro", hideAttribution: true };
