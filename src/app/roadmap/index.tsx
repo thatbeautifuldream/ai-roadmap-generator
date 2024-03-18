@@ -94,7 +94,7 @@ export default function Roadmap() {
   };
 
   const renderFlow =
-    decodeFromURL(params)?.[0]?.name || data?.data?.tree?.[0]?.name;
+    data?.data?.tree?.[0]?.name || decodeFromURL(params)?.[0]?.name;
 
   return (
     <>
