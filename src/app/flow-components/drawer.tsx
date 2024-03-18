@@ -13,11 +13,12 @@ import { IOrilley } from "@/lib/types";
 import { formatDuration } from "@/lib/utils";
 
 export const Drawer = () => {
-  const { drawerOpen, toggleDrawer, drawerDetails } = useUIStore(
+  const { drawerOpen, toggleDrawer, drawerDetails, model } = useUIStore(
     useShallow((state) => ({
       drawerOpen: state.drawerOpen,
       toggleDrawer: state.toggleDrawer,
       drawerDetails: state.drawerDetails,
+      model: state.model,
     }))
   );
 
@@ -28,7 +29,7 @@ export const Drawer = () => {
       drawerDetails?.child,
     ],
     queryFn: async () => {
-      return await axios.post("/api/v1/openai/details", {
+      return await axios.post(`/api/v1/${model}/details`, {
         query: drawerDetails?.query,
         child: drawerDetails?.child,
         parent: drawerDetails?.parent,

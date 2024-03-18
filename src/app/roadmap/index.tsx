@@ -14,16 +14,23 @@ import { PresetShare } from "./components/preset-share";
 import { tempData } from "@/app/shared/temp-data";
 import { ModelSelector } from "./components/model-selector";
 import ModelSelect from "../flow-components/model-select";
+import { useShallow } from "zustand/react/shallow";
+import { useUIStore } from "../stores/useUI";
 
 export default function Roadmap() {
   const [query, setQuery] = useState("");
+  const { model } = useUIStore(
+    useShallow((state) => ({
+      model: state.model,
+    }))
+  );
   const { data, mutate, isPending, isError, isSuccess } = useMutation<
     any,
     AxiosError,
     { query: string }
   >({
     mutationFn: (variables) =>
-      axios.post("/api/v1/openai/roadmap/", { query: variables.query }),
+      axios.post(`/api/v1/${model}/roadmap/`, { query: variables.query }),
   });
 
   const onSubmit = async (

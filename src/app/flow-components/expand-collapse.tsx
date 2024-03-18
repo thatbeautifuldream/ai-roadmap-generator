@@ -57,7 +57,7 @@ function getElements(h: HierarchyNode<unknown>) {
 
 function ReactFlowPro({ animationDuration = 200, data, h }: ProProps) {
   const initialElements = getElements(h);
-  const router = useRouter();
+
   const [nodes, setNodes] = useAnimatedNodes(initialElements.nodes, {
     duration: animationDuration,
   });
