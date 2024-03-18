@@ -1,15 +1,17 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 import LZString from "lz-string";
 import { Node } from "@/app/shared/types/common";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-
 export function SanitiseJSON(text: any) {
+  console.log("=>", text.split("```json")[1].split("```")[0]);
+
   // ugly hack to remove the first and last part of response to get the JSON
+
   const json = text.split("```json")[1].split("```")[0];
   return json;
 }
@@ -27,11 +29,11 @@ export function formatDuration(seconds: number) {
 
   if (hours >= 1) {
     // If duration is 1 hour or more, return in hours
-    return `${hours} hour${hours > 1 ? 's' : ''}`;
+    return `${hours} hour${hours > 1 ? "s" : ""}`;
   } else {
     // If duration is less than 1 hour, convert to minutes
     const minutes = Math.floor(seconds / 60);
-    return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+    return `${minutes} minute${minutes !== 1 ? "s" : ""}`;
   }
 }
 
@@ -42,7 +44,7 @@ export const decodeFromURL = (params: URLSearchParams): Node[] => {
     const uncompressed = LZString.decompressFromEncodedURIComponent(code);
     try {
       array = JSON.parse(uncompressed);
-    } catch (e) { }
+    } catch (e) {}
   }
   return array;
 };

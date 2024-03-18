@@ -137,11 +137,11 @@ export default function Roadmap() {
             </Button>
             <div className="hidden space-x-2 md:flex">
               {renderFlow && <PresetShare query={mainQuery} key={renderFlow} />}
-              <Panel position="top-right">
+              {/* <Panel position="top-right">
                 <button className="download-btn" onClick={onClick}>
                   Download Image
                 </button>
-              </Panel>
+              </Panel> */}
             </div>
             <PresetActions />
           </div>

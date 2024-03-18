@@ -50,7 +50,7 @@ export function PresetShare({ query }: { query: string }) {
               className="h-9"
             />
           </div>
-          <Button type="submit" size="sm" className="px-3">
+          <Button type="button" size="sm" className="px-3">
             <span className="sr-only">Copy</span>
             <CopyIcon className="h-4 w-4" />
           </Button>
