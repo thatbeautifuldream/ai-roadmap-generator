@@ -12,6 +12,8 @@ import { useState } from "react";
 import { PresetActions } from "./components/preset-actions";
 import { PresetShare } from "./components/preset-share";
 import { tempData } from "@/app/shared/temp-data";
+import { ModelSelector } from "./components/model-selector";
+import ModelSelect from "../flow-components/model-select";
 
 export default function Roadmap() {
   const [query, setQuery] = useState("");
@@ -54,6 +56,7 @@ export default function Roadmap() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
+            <ModelSelect />
             <Button onClick={onSubmit} disabled={isPending} type="submit">
               {isPending ? (
                 <>
