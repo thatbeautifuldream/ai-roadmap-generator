@@ -113,6 +113,9 @@ dependencies:
   '@tanstack/react-query':
     specifier: ^5.28.4
     version: 5.28.4(react@18.2.0)
+  '@tanstack/react-query-devtools':
+    specifier: 5.0.0-alpha.91
+    version: 5.0.0-alpha.91(@tanstack/react-query@5.28.4)(react-dom@18.2.0)(react@18.2.0)
   axios:
     specifier: ^1.6.7
     version: 1.6.8
@@ -146,6 +149,9 @@ dependencies:
   lucide-react:
     specifier: ^0.358.0
     version: 0.358.0(react@18.2.0)
+  lz-string:
+    specifier: ^1.5.0
+    version: 1.5.0
   next:
     specifier: 14.1.3
     version: 14.1.3(react-dom@18.2.0)(react@18.2.0)
@@ -1964,6 +1970,23 @@ packages:
 
   /@tanstack/query-core@5.28.4:
     resolution: {integrity: sha512-uQZqOFqLWUvXNIQZ63XdKzg22NtHzgCBUfDmjDHi3BoF+nUYeBNvMi/xFPtFrMhqRzG2Ir4mYaGsWZzmiEjXpA==}
+    dev: false
+
+  /@tanstack/query-devtools@5.0.0-alpha.89:
+    resolution: {integrity: sha512-/D7D2xq+vW1qkz/AJyD44ACsHLNtDC5/tRqozhIlpu/OOEM1RkjMiHv2IAJmWgJJ1cWm80qA5UXT4dropkUyMw==}
+    dev: false
+
+  /@tanstack/react-query-devtools@5.0.0-alpha.91(@tanstack/react-query@5.28.4)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-nFsLJowDDuvVRX8j6iEyBZaOcD2hwHDQhbn1GnkHpZqg3EuroVIi7lKZNpzcDyKLa7a8pZTdmMbZ6Ki51JnP7w==}
+    peerDependencies:
+      '@tanstack/react-query': 5.0.0-alpha.91
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      '@tanstack/query-devtools': 5.0.0-alpha.89
+      '@tanstack/react-query': 5.28.4(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@tanstack/react-query@5.28.4(react@18.2.0):
@@ -4163,6 +4186,11 @@ packages:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /lz-string@1.5.0:
+    resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
+    hasBin: true
     dev: false
 
   /md5@2.3.0:
