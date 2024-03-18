@@ -63,7 +63,7 @@ export default function Roadmap() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-            <ModelSelect />
+            {/* <ModelSelect /> */}
             <Button onClick={onSubmit} disabled={isPending} type="submit">
               {isPending ? (
                 <>
