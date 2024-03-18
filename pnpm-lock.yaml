@@ -179,6 +179,9 @@ dependencies:
   react-hook-form:
     specifier: ^7.51.1
     version: 7.51.1(react@18.2.0)
+  react-query-devtools:
+    specifier: link:@types/@tanstack/react-query-devtools
+    version: link:@types/@tanstack/react-query-devtools
   react-resizable-panels:
     specifier: ^2.0.13
     version: 2.0.13(react-dom@18.2.0)(react@18.2.0)
