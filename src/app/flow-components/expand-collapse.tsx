@@ -13,8 +13,8 @@ import useAnimatedNodes from "../../hooks/use-animated-nodes";
 import { Node } from "../shared/types/common";
 import { useUIStore } from "../stores/useUI";
 import { Drawer } from "./drawer";
-
 import "reactflow/dist/base.css";
+import "reactflow/dist/style.css";
 
 const proOptions = { account: "paid-pro", hideAttribution: true };
 
