@@ -45,12 +45,25 @@ export function PresetShare({ query }: { query: string }) {
             </Label>
             <Input
               id="link"
-              defaultValue={"http://localhost:3000?code=" + getURL()}
+              defaultValue={
+                typeof window !== "undefined" && window.location.origin
+                  ? window.location.origin + "?code=" + getURL()
+                  : "" + "?code=" + getURL()
+              }
               readOnly
               className="h-9"
             />
           </div>
-          <Button type="button" size="sm" className="px-3">
+          <Button
+            onClick={() => {
+              navigator.clipboard.writeText(
+                (document.getElementById("link") as HTMLInputElement)?.value
+              );
+            }}
+            type="button"
+            size="sm"
+            className="px-3"
+          >
             <span className="sr-only">Copy</span>
             <CopyIcon className="h-4 w-4" />
           </Button>

@@ -16,6 +16,12 @@ This project generates learning roadmaps for given search queries. For example, 
 - To build the project, run `pnpm build`.
 - To start the production server, run `pnpm start`.
 
+## Features
+
+- Multimodel Support .
+- Share roadmap via public URL.
+- Recommended Orilley Books.
+
 ## Local Database setup
 
 - We use `PostgreSQL` for the database. You can use the provided `docker-compose.yml` file to start a `PostgreSQL` server. Run `docker-compose up` to start the server.

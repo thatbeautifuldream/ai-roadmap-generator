@@ -25,7 +25,7 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
     duration: animationDuration,
   });
   const [edges, setEdges] = useState(initialElements.edges);
-  const { fitView } = useReactFlow();
+  const { fitView, zoomIn, zoomOut } = useReactFlow();
   const { toggleDrawer, setDrawerDetails } = useUIStore(
     useShallow((state) => ({
       setDrawerDetails: state.setDrawerDetails,
@@ -73,7 +73,12 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
       proOptions={proOptions}
     >
       <Background />
-      <Controls />
+      <Controls
+        // Add custom UI for controls where we have our buttons invoke zoomIn,zoomOut
+        // this one causes glitches
+        onZoomIn={() => zoomIn({ duration: 800 })}
+        onZoomOut={() => zoomOut({ duration: 800 })}
+      />
     </ReactFlow>
   );
 }
