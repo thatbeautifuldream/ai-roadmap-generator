@@ -1,8 +1,6 @@
 # Roadmap AI
 
-<!-- ![roadmapai](https://github.com/vishwajeetraj11/ai-roadmap-generator/assets/28717686/a6a25a10-bf5f-43b7-8ac3-9e6276dd14f6) -->
-
-![roadmapai](https://github.com/vishwajeetraj11/ai-roadmap-generator/assets/28717686/effca7be-ad3c-46a2-88d3-371147b39eda)
+![roadmapai](https://github.com/vishwajeetraj11/ai-roadmap-generator/assets/28717686/0fa80335-6635-4905-8a1b-cdcea8926d94)
 
 ## Introduction
 
