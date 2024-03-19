@@ -89,7 +89,7 @@ export default function Roadmap() {
       style: {
         width: String(DIAGRAM_IMAGE_WIDTH),
         height: String(DIAGRAM_IMAGE_HEIGHT),
-        transform: `translate(${x}px, ${y}px) scale(1)`,
+        transform: `translate(${x - 300}px, ${y}px) scale(1)`,
         // transform: `translate(0, 0) scale(1)`,
       },
     }).then(downloadImage);
