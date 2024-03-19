@@ -140,7 +140,6 @@ export default function Roadmap() {
               {renderFlow && <PresetShare query={mainQuery} key={renderFlow} />}
               <Button className="download-btn text-sm" onClick={onClick}>
                 <DownloadIcon size={20} />
-                <span className="ml-2 hidden sm:inline">Download</span>
               </Button>
             </div>
             <PresetActions />
@@ -149,14 +148,13 @@ export default function Roadmap() {
         <Separator />
       </div>
       {/* <ExpandCollapse key={tempData[0].name} data={tempData} /> */}
-      {/* {isSuccess && ( */}
+
       {renderFlow && (
         <ExpandCollapse
           key={renderFlow}
           data={data?.data?.tree || decodeFromURL(params)}
         />
       )}
-      {/* )} */}
     </>
   );
 }
