@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { LoaderCircle, Wand } from "lucide-react";
+import { LoaderCircle, Wand, DownloadIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { PresetActions } from "./components/preset-actions";
@@ -78,7 +78,7 @@ export default function Roadmap() {
       nodesBounds,
       DIAGRAM_IMAGE_WIDTH,
       DIAGRAM_IMAGE_HEIGHT,
-      2,
+      0.5,
       2
     );
 
@@ -87,9 +87,10 @@ export default function Roadmap() {
       width: DIAGRAM_IMAGE_WIDTH,
       height: DIAGRAM_IMAGE_HEIGHT,
       style: {
-        width: String(DIAGRAM_IMAGE_WIDTH) + "px",
-        height: String(DIAGRAM_IMAGE_HEIGHT) + "px",
-        transform: `translate(${x}px, ${y}px) scale(3)`,
+        width: String(DIAGRAM_IMAGE_WIDTH),
+        height: String(DIAGRAM_IMAGE_HEIGHT),
+        transform: `translate(${x}px, ${y}px) scale(1)`,
+        // transform: `translate(0, 0) scale(1)`,
       },
     }).then(downloadImage);
   };
@@ -137,11 +138,10 @@ export default function Roadmap() {
             </Button>
             <div className="hidden space-x-2 md:flex">
               {renderFlow && <PresetShare query={mainQuery} key={renderFlow} />}
-              {/* <Panel position="top-right">
-                <button className="download-btn" onClick={onClick}>
-                  Download Image
-                </button>
-              </Panel> */}
+              <Button className="download-btn text-sm" onClick={onClick}>
+                <DownloadIcon size={20} />
+                <span className="ml-2 hidden sm:inline">Download</span>
+              </Button>
             </div>
             <PresetActions />
           </div>

@@ -44,7 +44,7 @@ export const decodeFromURL = (params: URLSearchParams): Node[] => {
     const uncompressed = LZString.decompressFromEncodedURIComponent(code);
     try {
       array = JSON.parse(uncompressed);
-    } catch (e) {}
+    } catch (e) { }
   }
   return array;
 };
@@ -56,5 +56,7 @@ export function downloadImage(dataUrl: string) {
   a.setAttribute("href", dataUrl);
   a.click();
 }
-export const DIAGRAM_IMAGE_WIDTH = 4096;
-export const DIAGRAM_IMAGE_HEIGHT = 3048;
+// export const DIAGRAM_IMAGE_WIDTH = 4096;
+// export const DIAGRAM_IMAGE_HEIGHT = 3048;
+export const DIAGRAM_IMAGE_WIDTH = 1224;
+export const DIAGRAM_IMAGE_HEIGHT = 786 + 786;
