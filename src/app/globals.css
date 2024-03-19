@@ -75,13 +75,9 @@
   }
 }
 
-.react-flow__node.selected {
-  background-color: #ff0072;
-  color: white;
-}
-
 .react-flow__node {
   display: flex;
+  cursor: pointer;
   justify-content: center;
   align-items: center;
   font-weight: 700;
@@ -90,8 +86,14 @@
   box-shadow: 6px 6px 0 1px rgba(0, 0, 0, 0.7);
 }
 
+.react-flow__node.selected,
 .react-flow__node:hover,
 .react-flow__node:focus {
   box-shadow: 6px 6px 0 1px rgba(0, 0, 0, 0.7);
   background-color: #eee;
 }
+
+/* .react-flow__node.selected {
+  background-color: #ff0072;
+  color: white;
+} */
