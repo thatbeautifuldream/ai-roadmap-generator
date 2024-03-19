@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-
 import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { capitalize, SanitiseJSON } from "@/lib/utils";
+import { SanitiseJSON } from "@/lib/utils";
 
 export const POST = async (req: Request, res: Response) => {
   try {
