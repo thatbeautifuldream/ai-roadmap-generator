@@ -45,7 +45,11 @@ export function PresetShare({ query }: { query: string }) {
             </Label>
             <Input
               id="link"
-              defaultValue={"http://localhost:3000?code=" + getURL()}
+              defaultValue={
+                typeof window !== "undefined" && window.location.origin
+                  ? window.location.origin + "?code=" + getURL()
+                  : "" + "?code=" + getURL()
+              }
               readOnly
               className="h-9"
             />
