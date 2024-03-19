@@ -6,31 +6,26 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { LoaderCircle, Wand, DownloadIcon } from "lucide-react";
+import { LoaderCircle, Wand } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { flushSync } from "react-dom";
+import { useShallow } from "zustand/react/shallow";
+import ModelSelect from "../flow-components/model-select";
+import { useUIStore } from "../stores/useUI";
 import { PresetActions } from "./components/preset-actions";
 import { PresetShare } from "./components/preset-share";
-import ModelSelect from "../flow-components/model-select";
-import { useShallow } from "zustand/react/shallow";
-import { useUIStore } from "../stores/useUI";
-import { flushSync } from "react-dom";
-import { useSearchParams } from "next/navigation";
 
-import { toPng } from "html-to-image";
 import {
-  Panel,
-  getRectOfNodes,
-  getTransformForBounds,
-  useReactFlow,
-} from "reactflow";
-import {
+  DIAGRAM_IMAGE_HEIGHT,
   DIAGRAM_IMAGE_WIDTH,
   decodeFromURL,
-  DIAGRAM_IMAGE_HEIGHT,
   downloadImage,
 } from "@/lib/utils";
-import { toast } from "sonner";
+import { toPng } from "html-to-image";
+import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
+import { tempData } from "@/app/shared/temp-data";
 
 export default function Roadmap() {
   const [query, setQuery] = useState("");
@@ -153,14 +148,14 @@ export default function Roadmap() {
         </div>
         <Separator />
       </div>
-      {/* <ExpandCollapse key={tempData[0].name} data={tempData} /> */}
+      <ExpandCollapse key={tempData[0].name} data={tempData} />
 
-      {renderFlow && (
+      {/* {renderFlow && (
         <ExpandCollapse
           key={renderFlow}
           data={data?.data?.tree || decodeFromURL(params)}
         />
-      )}
+      )} */}
     </>
   );
 }

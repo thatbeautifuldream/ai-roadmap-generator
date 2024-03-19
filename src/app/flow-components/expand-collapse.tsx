@@ -21,7 +21,7 @@ function ExpandCollapse(props: Props) {
   });
 
   return (
-    <div className="w-full h-[90vh]">
+    <div className="w-full h-[93vh]">
       <ReactFlowProvider>
         <Drawer />
         <ReactFlowPro {...props} h={h} />
