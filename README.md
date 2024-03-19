@@ -4,7 +4,6 @@
 
 ![roadmapai](https://github.com/vishwajeetraj11/ai-roadmap-generator/assets/28717686/effca7be-ad3c-46a2-88d3-371147b39eda)
 
-
 ## Introduction
 
 This project generates learning roadmaps for given search queries. For example, if a user searches for "machine learning", the project will generate a learning roadmap for machine learning. The roadmap will include the most important topics, resources, and learning paths for machine learning.
@@ -21,3 +20,23 @@ This project generates learning roadmaps for given search queries. For example, 
 
 - We use `PostgreSQL` for the database. You can use the provided `docker-compose.yml` file to start a `PostgreSQL` server. Run `docker-compose up` to start the server.
 - The compose file automatically sets up the database and an adminer instance to manage the database.
+
+## Setting up Environment Variables
+
+- Create a `.env` file in the root directory of the project.
+- Add the following environment variables to the `.env` file:
+
+```env
+// for local development
+DATABASE_URL=postgres://<username>:<password>@localhost:5432/<database_name>
+
+// for authentication
+AUTH_SECRET=
+AUTH_GOOGLE_ID=
+AUTH_GOOGLE_SECRET=
+
+// for APIs you can choose to add any one or all of them but then you need to call the respective API from the dropdown selection
+OPENAI_API_KEY=
+GOOGLE_API_KEY=
+COHERE_API_KEY=
+```
