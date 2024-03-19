@@ -30,6 +30,7 @@ import {
   DIAGRAM_IMAGE_HEIGHT,
   downloadImage,
 } from "@/lib/utils";
+import { toast } from "sonner";
 
 export default function Roadmap() {
   const [query, setQuery] = useState("");
@@ -90,7 +91,6 @@ export default function Roadmap() {
         width: String(DIAGRAM_IMAGE_WIDTH),
         height: String(DIAGRAM_IMAGE_HEIGHT),
         transform: `translate(${x - 300}px, ${y}px) scale(1)`,
-        // transform: `translate(0, 0) scale(1)`,
       },
     }).then(downloadImage);
   };
@@ -138,9 +138,15 @@ export default function Roadmap() {
             </Button>
             <div className="hidden space-x-2 md:flex">
               {renderFlow && <PresetShare query={mainQuery} key={renderFlow} />}
-              <Button className="download-btn text-sm" onClick={onClick}>
-                <DownloadIcon size={20} />
-              </Button>
+              {isSuccess && renderFlow && (
+                <Button
+                  variant="secondary"
+                  className="download-btn text-sm"
+                  onClick={onClick}
+                >
+                  Download
+                </Button>
+              )}
             </div>
             <PresetActions />
           </div>

@@ -44,15 +44,15 @@ export const decodeFromURL = (params: URLSearchParams): Node[] => {
     const uncompressed = LZString.decompressFromEncodedURIComponent(code);
     try {
       array = JSON.parse(uncompressed);
-    } catch (e) { }
+    } catch (e) {}
   }
   return array;
 };
 
 export function downloadImage(dataUrl: string) {
   const a = document.createElement("a");
-
-  a.setAttribute("download", "reactflow.png");
+  // [TODO] : set query string as a name for the file
+  a.setAttribute("download", "roadmap.png");
   a.setAttribute("href", dataUrl);
   a.click();
 }

@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/popover";
 import LZString from "lz-string";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { Share } from "lucide-react";
 
 export function PresetShare({ query }: { query: string }) {
   const queryClient = useQueryClient();
@@ -59,6 +61,7 @@ export function PresetShare({ query }: { query: string }) {
               navigator.clipboard.writeText(
                 (document.getElementById("link") as HTMLInputElement)?.value
               );
+              toast.success("Link copied to clipboard");
             }}
             type="button"
             size="sm"
