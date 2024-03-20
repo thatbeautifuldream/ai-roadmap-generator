@@ -14,6 +14,7 @@
     "db:pull": "pnpx prisma db pull"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^1.5.0",
     "@google/generative-ai": "^0.3.0",
     "@heroicons/react": "^2.1.1",
     "@hookform/resolvers": "^3.3.4",
