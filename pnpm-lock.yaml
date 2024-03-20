@@ -143,9 +143,6 @@ dependencies:
   embla-carousel-react:
     specifier: ^8.0.0
     version: 8.0.0(react@18.2.0)
-  google:
-    specifier: link:@types/@next/third-parties/google
-    version: link:@types/@next/third-parties/google
   html-to-image:
     specifier: ^1.11.11
     version: 1.11.11
@@ -170,9 +167,6 @@ dependencies:
   openai:
     specifier: ^4.28.4
     version: 4.29.1
-  prompts:
-    specifier: link:@langchain/core/prompts
-    version: link:@langchain/core/prompts
   react:
     specifier: ^18
     version: 18.2.0
@@ -185,9 +179,6 @@ dependencies:
   react-hook-form:
     specifier: ^7.51.1
     version: 7.51.1(react@18.2.0)
-  react-query-devtools:
-    specifier: link:@types/@tanstack/react-query-devtools
-    version: link:@types/@tanstack/react-query-devtools
   react-resizable-panels:
     specifier: ^2.0.13
     version: 2.0.13(react-dom@18.2.0)(react@18.2.0)
