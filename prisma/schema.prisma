@@ -45,6 +45,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  roadmaps      Roadmap[]
 }
 
 model VerificationToken {
@@ -53,4 +54,12 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Roadmap {
+  id      String @id @default(cuid())
+  title   String
+  content String
+  userId  String
+  author  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

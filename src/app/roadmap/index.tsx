@@ -26,6 +26,7 @@ import {
 import { toPng } from "html-to-image";
 import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
 import { tempData } from "@/app/shared/temp-data";
+import { saveRoadmap } from "@/actions/saveRoadmap";
 
 export default function Roadmap() {
   const [query, setQuery] = useState("");
@@ -35,7 +36,7 @@ export default function Roadmap() {
   const { model } = useUIStore(
     useShallow((state) => ({
       model: state.model,
-    }))
+    })),
   );
   const { data, mutate, isPending, isError, isSuccess } = useMutation<
     any,
@@ -53,7 +54,7 @@ export default function Roadmap() {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>,
   ) => {
     e.preventDefault();
     try {
@@ -79,7 +80,7 @@ export default function Roadmap() {
       DIAGRAM_IMAGE_WIDTH,
       DIAGRAM_IMAGE_HEIGHT,
       0.5,
-      2
+      2,
     );
 
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
@@ -156,13 +157,16 @@ export default function Roadmap() {
             <div className="hidden space-x-2 md:flex">
               {renderFlow && <PresetShare query={mainQuery} key={renderFlow} />}
               {isSuccess && renderFlow && (
-                <Button
-                  variant="secondary"
-                  className="download-btn text-sm"
-                  onClick={onClick}
-                >
-                  Download
-                </Button>
+                <>
+                  <Button
+                    variant="secondary"
+                    className="download-btn text-sm"
+                    onClick={onClick}
+                  >
+                    Download
+                  </Button>
+                  <Button onClick={handleSave}>Save</Button>
+                </>
               )}
             </div>
             <PresetActions />
