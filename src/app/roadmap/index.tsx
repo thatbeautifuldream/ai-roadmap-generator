@@ -9,7 +9,7 @@ import axios, { AxiosError } from "axios";
 import { LoaderCircle, Wand } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { useShallow } from "zustand/react/shallow";
 import ModelSelect from "../flow-components/model-select";
@@ -30,6 +30,8 @@ import { tempData } from "@/app/shared/temp-data";
 export default function Roadmap() {
   const [query, setQuery] = useState("");
   const [mainQuery, setMainQuery] = useState("");
+  const [modelApiKey, setModelApiKey] = useState("");
+
   const { model } = useUIStore(
     useShallow((state) => ({
       model: state.model,
@@ -41,7 +43,9 @@ export default function Roadmap() {
     { query: string }
   >({
     mutationFn: (variables) =>
-      axios.post(`/api/v1/${model}/roadmap/`, { query: variables.query }),
+      axios.post(`/api/v1/${model}/roadmap?apiKey=${modelApiKey}`, {
+        query: variables.query,
+      }),
     mutationKey: ["Roadmap", mainQuery],
   });
 
@@ -92,6 +96,18 @@ export default function Roadmap() {
 
   const renderFlow =
     data?.data?.tree?.[0]?.name || decodeFromURL(params)?.[0]?.name;
+
+  useEffect(() => {
+    const modelApiKey = localStorage.getItem(`${model}-api-key`);
+    if (modelApiKey) {
+      setModelApiKey(modelApiKey);
+    }
+  });
+
+  const handleSave = async () => {
+    const response = await saveRoadmap(mainQuery, data?.data?.tree);
+    console.log(response?.status);
+  };
 
   return (
     <>

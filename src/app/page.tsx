@@ -1,14 +1,13 @@
-"use client";
-import Roadmap from "@/app/roadmap";
-import React, { Suspense } from "react";
-import { ReactFlowProvider } from "reactflow";
+import { db } from "@/lib/db";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <Suspense fallback={<></>}>
-      <ReactFlowProvider>
-        <Roadmap />
-      </ReactFlowProvider>
-    </Suspense>
+    <>
+      <h1>Landing Page</h1>
+      <Link href="/dashboard" className="underline">
+        Dashboard
+      </Link>
+    </>
   );
 }

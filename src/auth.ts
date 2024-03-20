@@ -1,30 +1,29 @@
 import type { NextAuthConfig } from "next-auth";
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
+import Github from "next-auth/providers/github";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { db } from "@/lib/db";
 
-const credentialsConfig = CredentialsProvider({
-  name: "Credentials",
-  credentials: {
-    username: { label: "Username" },
-    password: { label: "Password", type: "password" },
+export const config = {
+  pages: {
+    signIn: "/auth/login",
   },
-  async authorize(credentials) {
-    if (credentials.username === "admin" && credentials.password === "root") {
-      return {
-        name: "Admin",
-      };
-    } else return null;
+  adapter: PrismaAdapter(db),
+  providers: [
+    Github({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    }),
+  ],
+  session: {
+    strategy: "jwt",
   },
-});
-
-const config = {
-  providers: [Google, credentialsConfig],
   callbacks: {
-    authorized({ request, auth }) {
-      const { pathname } = request.nextUrl;
-      if (pathname === "/roadmaps") return !!auth;
-      return true;
+    async session({ session, token }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
+      return session;
     },
   },
 } satisfies NextAuthConfig;
