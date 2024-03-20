@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:studio": "pnpx prisma studio",
+    "db:generate": "pnpx prisma generate",
+    "db:migrate": "pnpx prisma migrate dev",
+    "db:push": "pnpx prisma db push",
+    "db:pull": "pnpx prisma db pull"
   },
   "dependencies": {
     "@google/generative-ai": "^0.3.0",
