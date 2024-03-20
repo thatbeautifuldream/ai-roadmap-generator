@@ -1,0 +1,1 @@
+export const KNOWLEGDE_GRAPH_URL = `https://kgsearch.googleapis.com/v1/entities:search?query=taylor+swift&key=API_KEY&limit=1&indent=True`
