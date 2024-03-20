@@ -17,6 +17,7 @@ import { useUIStore } from "../stores/useUI";
 import { PresetActions } from "./components/preset-actions";
 import { PresetShare } from "./components/preset-share";
 
+import { saveRoadmap } from "@/actions/saveRoadmap";
 import {
   DIAGRAM_IMAGE_HEIGHT,
   DIAGRAM_IMAGE_WIDTH,
@@ -25,8 +26,7 @@ import {
 } from "@/lib/utils";
 import { toPng } from "html-to-image";
 import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
-import { tempData } from "@/app/shared/temp-data";
-import { saveRoadmap } from "@/actions/saveRoadmap";
+import { toast } from "sonner";
 
 export default function Roadmap() {
   const [query, setQuery] = useState("");
@@ -36,7 +36,7 @@ export default function Roadmap() {
   const { model } = useUIStore(
     useShallow((state) => ({
       model: state.model,
-    })),
+    }))
   );
   const { data, mutate, isPending, isError, isSuccess } = useMutation<
     any,
@@ -54,7 +54,7 @@ export default function Roadmap() {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>,
+      | React.KeyboardEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
     try {
@@ -80,7 +80,7 @@ export default function Roadmap() {
       DIAGRAM_IMAGE_WIDTH,
       DIAGRAM_IMAGE_HEIGHT,
       0.5,
-      2,
+      2
     );
 
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
@@ -108,6 +108,9 @@ export default function Roadmap() {
   const handleSave = async () => {
     const response = await saveRoadmap(mainQuery, data?.data?.tree);
     console.log(response?.status);
+    if (response?.status === "success") {
+      toast.success("Roadmap saved successfully");
+    }
   };
 
   return (

@@ -10,12 +10,12 @@ export default function Login({
 }) {
   const callbackUrl = searchParams.callbackUrl;
 
-  const handleLogin = (provider: "google" | "github") => {
+  const handleLogin = (provider: "google") => {
     signIn(provider, {
       callbackUrl: callbackUrl || "/",
     });
   };
   return (
-    <Button onClick={() => handleLogin("google")}>Login using Github</Button>
+    <Button onClick={() => handleLogin("google")}>Login using Google</Button>
   );
 }
