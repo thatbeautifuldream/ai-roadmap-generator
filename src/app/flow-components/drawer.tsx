@@ -123,7 +123,7 @@ export const Drawer = () => {
                   {booksData?.data?.data?.results?.map(
                     (book: IOrilley["data"][number], id: number) => (
                       <a
-                        className="flex items-center bg-white rounded-md overflow-hidden cursor-pointer"
+                        className="flex items-start bg-white rounded-md overflow-hidden cursor-pointer"
                         href={"https://learning.oreilly.com" + book.web_url}
                         target="_blank"
                         key={book.id}
@@ -133,16 +133,19 @@ export const Drawer = () => {
                           src={book.cover_url}
                           alt={book.title}
                         />
-                        <div className="p-4">
+                        <div className="px-4">
                           <p className="text-base font-regular mb-1">
                             {book.title}
                           </p>
                           <p className="text-gray-700 text-sm">
                             By {book.authors[0]}
                           </p>
-                          <p className="text-gray-600 text-xs">
-                            Complete in {formatDuration(book.duration_seconds)}
-                          </p>
+                          {book.duration_seconds > 0 && (
+                            <p className="text-gray-600 text-xs">
+                              Complete in{" "}
+                              {formatDuration(book.duration_seconds)}
+                            </p>
+                          )}
                         </div>
                       </a>
                     )
