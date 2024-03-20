@@ -104,21 +104,26 @@ export const Drawer = () => {
                   {booksData?.data?.data?.results?.map(
                     (book: IOrilley["data"][number], id: number) => (
                       <a
-                        className="shadow-md px-2 py-2"
+                        className="flex items-center bg-white rounded-md overflow-hidden cursor-pointer"
                         href={book.url}
                         target="_blank"
                         key={book.id}
                       >
-                        <p className="mb-2">{book.title}</p>
-                        <div className="flex gap-2">
-                          <img className="w-20" src={book.cover_url} />
-                          <div>
-                            <p>By {book.authors[0]}</p>
-                            <p>
-                              Complete in{" "}
-                              {formatDuration(book.duration_seconds)}
-                            </p>
-                          </div>
+                        <img
+                          className="w-20 h-auto"
+                          src={book.cover_url}
+                          alt={book.title}
+                        />
+                        <div className="p-4">
+                          <p className="text-base font-semibold mb-1">
+                            {book.title}
+                          </p>
+                          <p className="text-gray-700 text-sm">
+                            By {book.authors[0]}
+                          </p>
+                          <p className="text-gray-600 text-xs">
+                            Complete in {formatDuration(book.duration_seconds)}
+                          </p>
                         </div>
                       </a>
                     )
