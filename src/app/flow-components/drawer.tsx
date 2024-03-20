@@ -1,4 +1,4 @@
-import { Sheet, SheetContent, SheetDescription } from "@/components/ui/sheet";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../stores/useUI";
 import { useQuery } from "@tanstack/react-query";
