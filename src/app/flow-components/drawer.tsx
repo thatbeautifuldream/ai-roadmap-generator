@@ -111,7 +111,7 @@ export const Drawer = () => {
                       >
                         <img
                           className="w-20 h-auto"
-                          src={book.cover_url}
+                          src={book.web_url}
                           alt={book.title}
                         />
                         <div className="p-4">
