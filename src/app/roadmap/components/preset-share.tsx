@@ -13,7 +13,6 @@ import {
 import LZString from "lz-string";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Share } from "lucide-react";
 
 export function PresetShare({ query }: { query: string }) {
   const queryClient = useQueryClient();
