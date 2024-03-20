@@ -63,7 +63,7 @@ export const Drawer = () => {
 
   return (
     <Sheet open={drawerOpen} onOpenChange={toggleDrawer}>
-      <SheetContent>
+      <SheetContent className="overflow-auto">
         <div className="mb-4">
           <p className="text-xs text-slate-400">{drawerDetails?.parent}</p>
           <p className="font-light">{drawerDetails?.child}</p>
@@ -115,7 +115,7 @@ export const Drawer = () => {
                           alt={book.title}
                         />
                         <div className="p-4">
-                          <p className="text-base font-semibold mb-1">
+                          <p className="text-base font-regular mb-1">
                             {book.title}
                           </p>
                           <p className="text-gray-700 text-sm">
