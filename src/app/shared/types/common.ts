@@ -1,1 +1,5 @@
-export type Node = { name: string; children?: Node[] };
+export type ContentNode = {
+  name: string;
+  id: string;
+  children?: ContentNode[];
+};

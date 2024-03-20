@@ -52,6 +52,7 @@
     "cmdk": "^1.0.0",
     "d3-hierarchy": "^3.1.2",
     "d3-scale": "^4.0.2",
+    "dagre": "^0.8.5",
     "date-fns": "^3.5.0",
     "embla-carousel-react": "^8.0.0",
     "html-to-image": "^1.11.11",
@@ -80,6 +81,7 @@
   "devDependencies": {
     "@types/d3-hierarchy": "^3.1.6",
     "@types/d3-scale": "^4.0.8",
+    "@types/dagre": "^0.7.52",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

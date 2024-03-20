@@ -75,7 +75,7 @@
   }
 }
 
-.react-flow__node {
+/* .react-flow__node {
   display: flex;
   cursor: pointer;
   justify-content: center;
@@ -91,7 +91,7 @@
 .react-flow__node:focus {
   box-shadow: 6px 6px 0 1px rgba(0, 0, 0, 0.7);
   background-color: #eee;
-}
+} */
 
 /* .react-flow__node.selected {
   background-color: #ff0072;

@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import LZString from "lz-string";
-import { Node } from "@/app/shared/types/common";
+import { ContentNode } from "@/app/shared/types/common";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -37,7 +37,7 @@ export function formatDuration(seconds: number) {
   }
 }
 
-export const decodeFromURL = (params: URLSearchParams): Node[] => {
+export const decodeFromURL = (params: URLSearchParams): ContentNode[] => {
   let array = [];
   const code = params.get("code");
   if (code) {
