@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/tooltip";
 import { IOrilley } from "@/lib/types";
 import { formatDuration } from "@/lib/utils";
+import { searchYoutube } from "@/lib/youtube";
+import Image from "next/image";
 
 export const Drawer = () => {
   const { drawerOpen, toggleDrawer, drawerDetails, model } = useUIStore(
@@ -61,6 +63,22 @@ export const Drawer = () => {
     enabled: Boolean(drawerDetails?.child),
   });
 
+  // consume the youtube api to get the videos for the search query
+  const { data: youtubeData, isSuccess: youtubeSuccess } = useQuery({
+    queryKey: [
+      "Youtube",
+      drawerDetails?.query,
+      drawerDetails?.parent,
+      drawerDetails?.child,
+    ],
+    queryFn: async () => {
+      return searchYoutube(drawerDetails?.query || "");
+    },
+    staleTime: Infinity,
+    retry: false,
+    enabled: Boolean(drawerDetails?.child),
+  });
+
   return (
     <Sheet open={drawerOpen} onOpenChange={toggleDrawer}>
       <SheetContent className="overflow-auto">
@@ -81,8 +99,8 @@ export const Drawer = () => {
                           target="_blank"
                           referrerPolicy="no-referrer"
                         >
-                          <img
-                            src={`https://en.wikipedia.org/static/images/icons/wikipedia.png`}
+                          <Image
+                            src="./images/wikipedia.png"
                             alt="Wikipedia Logo"
                             className="w-4"
                           />
@@ -105,13 +123,13 @@ export const Drawer = () => {
                     (book: IOrilley["data"][number], id: number) => (
                       <a
                         className="flex items-center bg-white rounded-md overflow-hidden cursor-pointer"
-                        href={book.url}
+                        href={book.web_url}
                         target="_blank"
                         key={book.id}
                       >
                         <img
                           className="w-20 h-auto"
-                          src={book.web_url}
+                          src={book.cover_url}
                           alt={book.title}
                         />
                         <div className="p-4">

@@ -9,11 +9,11 @@ export async function searchYoutube(searchQuery: string) {
     `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_API_KEY}&q=${searchQuery}&videoDuration=medium&videoEmbeddable=true&type=video&maxResults=5`
   );
   if (!data) {
-    console.log("youtube fail");
+    console.log("The YouTube API failed");
     return null;
   }
   if (data.items[0] == undefined) {
-    console.log("youtube fail");
+    console.log("No video found");
     return null;
   }
   return data.items[0].id.videoId;

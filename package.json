@@ -54,6 +54,7 @@
     "d3-scale": "^4.0.2",
     "date-fns": "^3.5.0",
     "embla-carousel-react": "^8.0.0",
+    "google": "link:@types/@next/third-parties/google",
     "html-to-image": "^1.11.11",
     "input-otp": "^1.2.0",
     "lucide-react": "^0.358.0",
