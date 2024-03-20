@@ -30,7 +30,6 @@ export function PresetShare({ query }: { query: string }) {
     // cohere
     // gemini
   };
-
   return (
     <Popover>
       <PopoverTrigger asChild>

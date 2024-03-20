@@ -100,9 +100,10 @@ export const Drawer = () => {
                           referrerPolicy="no-referrer"
                         >
                           <Image
-                            src="./images/wikipedia.png"
+                            src="/images/wikipedia.png"
                             alt="Wikipedia Logo"
-                            className="w-4"
+                            width={16}
+                            height={16}
                           />
                         </a>
                       </TooltipTrigger>
@@ -123,7 +124,7 @@ export const Drawer = () => {
                     (book: IOrilley["data"][number], id: number) => (
                       <a
                         className="flex items-center bg-white rounded-md overflow-hidden cursor-pointer"
-                        href={book.web_url}
+                        href={"https://learning.oreilly.com" + book.web_url}
                         target="_blank"
                         key={book.id}
                       >
