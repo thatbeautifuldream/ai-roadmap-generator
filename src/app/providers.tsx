@@ -14,7 +14,7 @@ function Providers({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <Toaster position="top-center" richColors />
         {children}
-        <GoogleAnalytics gaId="" />
+        <GoogleAnalytics gaId="G-KGPW43F35B" />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </SessionProvider>
