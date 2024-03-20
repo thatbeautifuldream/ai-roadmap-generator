@@ -1,18 +1,16 @@
-import { HierarchyNode, tree } from "d3-hierarchy";
+import { getElements } from "@/lib/flow";
+import { HierarchyNode } from "d3-hierarchy";
 import { useEffect, useState } from "react";
 import ReactFlow, {
   Background,
   Controls,
-  Position,
   Node as RFNode,
   useReactFlow,
 } from "reactflow";
 import { useShallow } from "zustand/react/shallow";
 import useAnimatedNodes from "../../hooks/use-animated-nodes";
-import { Node } from "../shared/types/common";
-import { useUIStore } from "../stores/useUI";
 import { proOptions } from "../shared/constants";
-import { getElements } from "@/lib/flow";
+import { useUIStore } from "../stores/useUI";
 
 type ProProps = {
   animationDuration?: number;
@@ -71,10 +69,11 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
       elementsSelectable={false}
       snapToGrid
       proOptions={proOptions}
+      draggable={true}
     >
       <Background />
       <Controls
-        // Add custom UI for controls where we have our buttons invoke zoomIn,zoomOut
+        // Add custom UI for controls where we have our buttons invoke zoomIn, zoomOut
         // this one causes glitches
         onZoomIn={() => zoomIn({ duration: 800 })}
         onZoomOut={() => zoomOut({ duration: 800 })}
