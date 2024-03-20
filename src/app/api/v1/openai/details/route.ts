@@ -26,11 +26,10 @@ export const POST = async (req: Request, res: Response) => {
         {
           role: "system",
           content:
-            "You are a helpful AI assistant that can generate career/syllabus roadmap.",
+            `You are a helpful AI assistant that can generate career/syllabus roadmap.`,
         },
         {
           role: "user",
-          // "content": `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}}`
           content: `a roadmap in JSON format has been generated related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: [{moduleName: string, moduleDescription: string, link?: string}]}} and i'd like to request a small description and wikipedia link on moduleName: ${child} from chapterName: ${parent} in JSON format: {description: string, link: string}`,
         },
       ],
