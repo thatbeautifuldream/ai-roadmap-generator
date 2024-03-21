@@ -27,6 +27,7 @@ import {
 import { toPng } from "html-to-image";
 import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
 import { toast } from "sonner";
+import { tempData } from "@/app/shared/temp-data";
 
 export default function Roadmap() {
   const [query, setQuery] = useState("");
@@ -177,13 +178,13 @@ export default function Roadmap() {
         </div>
         <Separator />
       </div>
-      {/* <ExpandCollapse key={tempData[0].name} data={tempData} /> */}
-
-      {renderFlow && (
+      {renderFlow ? (
         <ExpandCollapse
           key={renderFlow}
           data={data?.data?.tree || decodeFromURL(params)}
         />
+      ) : (
+        <ExpandCollapse key={tempData[0].name} data={tempData} />
       )}
     </>
   );
