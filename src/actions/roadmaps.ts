@@ -32,6 +32,30 @@ export const deleteRoadmapById = async (id: string) => {
     return roadmap;
 }
 
+export const saveRoadmap = async (title: string, content: any) => {
+    try {
+        const userId = await gerUserId() as string;
+        const roadmap = await db.roadmap.create({
+            data: {
+                userId,
+                title,
+                content: JSON.stringify(content),
+            },
+        });
+
+        return {
+            status: "success",
+            data: roadmap,
+        };
+    } catch (error) {
+        return {
+            status: "error",
+            error,
+        };
+    }
+};
+
+
 export const gerUserId = async () => {
     const session = await auth();
     const userId = session?.user?.id;
