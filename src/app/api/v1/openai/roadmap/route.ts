@@ -1,7 +1,7 @@
 import { OpenAI } from "openai";
 import { NextResponse } from "next/server"
 import { capitalize } from "@/lib/utils";
-import { saveRoadmap } from "@/actions/saveRoadmap";
+import { saveRoadmap } from "@/actions/roadmaps";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY || 'MY_API_KEY',
