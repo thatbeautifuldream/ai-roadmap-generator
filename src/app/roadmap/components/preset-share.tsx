@@ -23,7 +23,7 @@ export function PresetShare({ query }: { query: string }) {
 
     // TODO
     // if openai
-    if (data?.state.data.data.tree) {
+    if (data?.state?.data?.data?.tree) {
       const string = JSON.stringify(data?.state?.data?.data?.tree || "{}");
       const compressed = LZString.compressToEncodedURIComponent(string);
       return compressed;
