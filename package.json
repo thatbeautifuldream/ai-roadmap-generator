@@ -11,7 +11,8 @@
     "db:generate": "pnpx prisma generate",
     "db:migrate": "pnpx prisma migrate dev",
     "db:push": "pnpx prisma db push",
-    "db:pull": "pnpx prisma db pull"
+    "db:pull": "pnpx prisma db pull",
+    "postinstall": "pnpx prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.5.0",
