@@ -1,7 +1,7 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import LZString from "lz-string";
 import { Node } from "@/app/shared/types/common";
+import { clsx, type ClassValue } from "clsx";
+import LZString from "lz-string";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -65,7 +65,7 @@ export function timeFromNow(dateString: string) {
   var createdDate = +new Date(dateString);
   var currentDate = +new Date();
   var timeDifference = Math.abs(currentDate - createdDate);
-  var hourDifference = Math.floor(timeDifference / (1000 * 60 * 60)); // Convert milliseconds to hours
+  var hourDifference = Math.floor(timeDifference / (1000 * 60 * 60));
 
   if (hourDifference < 1) {
     return "a few seconds ago";
@@ -75,3 +75,9 @@ export function timeFromNow(dateString: string) {
     return hourDifference + " hours ago";
   }
 }
+
+export const getFormattedDate = (dateString: string): string => {
+  return new Intl.DateTimeFormat("en-US", {
+    dateStyle: "long",
+  }).format(new Date(dateString));
+};
