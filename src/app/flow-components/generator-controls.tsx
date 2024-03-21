@@ -9,7 +9,6 @@ import {
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toPng } from "html-to-image";
-import Link from "next/link";
 import { useEffect } from "react";
 import { flushSync } from "react-dom";
 import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
@@ -94,18 +93,6 @@ export const GeneratorControls = (props: Props) => {
   return (
     <>
       <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
-        <div className="relative">
-          <Link
-            className="hidden sm:inline text-lg font-semibold mr-4"
-            href="/"
-          >
-            RoadmapAI
-          </Link>
-          <span className="hidden sm:inline top-[22px] absolute left-[72px] items-center rounded-md bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-700">
-            BETA
-          </span>
-        </div>
-
         <div className="ml-auto flex w-full space-x-2 sm:justify-end">
           <Input
             type="text"
@@ -132,7 +119,9 @@ export const GeneratorControls = (props: Props) => {
               </>
             )}
           </div>
-          <PresetActions />
+          <div className="flex space-x-2 sm:hidden">
+            <PresetActions />
+          </div>
         </div>
       </div>
     </>

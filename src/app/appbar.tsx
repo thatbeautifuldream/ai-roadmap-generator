@@ -22,7 +22,12 @@ async function AppBar() {
       <div className="ml-auto">
         {session && session.user ? (
           <div className="flex gap-2 items-center">
-            <p className="font-semibold text-sm">{session.user.name}</p>
+            <div
+              // hide on mobile
+              className="hidden sm:flex items-center gap-2"
+            >
+              <p className="font-semibold text-sm">{session.user.name}</p>
+            </div>
             <form
               action={async () => {
                 "use server";
