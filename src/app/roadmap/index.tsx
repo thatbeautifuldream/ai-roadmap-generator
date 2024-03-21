@@ -4,9 +4,8 @@ import ExpandCollapse from "@/app/flow-components/expand-collapse";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { LoaderCircle, Wand } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -29,6 +28,7 @@ import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
 import { toast } from "sonner";
 import { tempData } from "@/app/shared/temp-data";
 import GenerateButton from "../flow-components/generate-button";
+import { getRoadmapById } from "@/actions/roadmaps";
 
 interface Props {
   roadmapId?: string;
@@ -44,6 +44,13 @@ export default function Roadmap({ roadmapId }: Props) {
       model: state.model,
     }))
   );
+
+  const { data: roadmap, isPending: isRoadmapPending } = useQuery({
+    queryFn: async () => {
+      return roadmapId && getRoadmapById(roadmapId);
+    },
+    queryKey: ["Roadmap", roadmapId],
+  });
 
   const { data, mutate, isPending, isError, isSuccess } = useMutation<
     any,
