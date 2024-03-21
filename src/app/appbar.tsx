@@ -1,9 +1,11 @@
+import NavItems from "@/app/nav-items";
 import { Button } from "@/components/ui/button";
 import { auth, signIn, signOut } from "auth";
 import Link from "next/link";
 
 async function AppBar() {
   const session = await auth();
+  // const pathname = usePathname();
   return (
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="p-2 flex gap-2 items-center">
@@ -18,16 +20,7 @@ async function AppBar() {
             BETA
           </span>
         </div>
-        {session && session.user && (
-          <>
-            <Link className="font-semibold text-sm" href={"/dashboard"}>
-              Dashboard
-            </Link>
-            <Link className="font-semibold text-sm" href={"/roadmap"}>
-              Roadmap
-            </Link>
-          </>
-        )}
+        {session && session.user && <NavItems />}
         <div className="ml-auto">
           {session && session.user ? (
             <div className="flex gap-4 items-center">
