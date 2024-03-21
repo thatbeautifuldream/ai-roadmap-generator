@@ -1,7 +1,7 @@
 "use client";
-import { signIn } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
 
 export default function Login({
   searchParams,
@@ -16,6 +16,11 @@ export default function Login({
     });
   };
   return (
-    <Button onClick={() => handleLogin("google")}>Login using Google</Button>
+    <Button
+      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+      onClick={() => handleLogin("google")}
+    >
+      Login using Google
+    </Button>
   );
 }

@@ -5,18 +5,14 @@ import Link from "next/link";
 
 async function AppBar() {
   const session = await auth();
-  // const pathname = usePathname();
   return (
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="p-2 flex gap-2 items-center">
         <div className="relative">
-          <Link
-            className="hidden sm:inline text-lg font-semibold mr-4"
-            href="/"
-          >
+          <Link className="text-xl font-semibold mr-4" href="/">
             RoadmapAI
           </Link>
-          <span className="hidden sm:inline top-[22px] absolute left-[72px] items-center rounded-md bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-700">
+          <span className="top-[24px] absolute left-[72px] items-center rounded-md bg-gray-200 px-1.5 py-0.5 text-[10px] font-medium text-gray-700">
             BETA
           </span>
         </div>
