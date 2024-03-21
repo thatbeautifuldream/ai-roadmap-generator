@@ -1,14 +1,17 @@
-"use client";
-import Roadmap from "@/app/roadmap";
-import React, { Suspense } from "react";
-import { ReactFlowProvider } from "reactflow";
+import { db } from "@/lib/db";
+import { auth } from "@/auth";
 
-export default function Home() {
-  return (
-    <Suspense fallback={<></>}>
-      <ReactFlowProvider>
-        <Roadmap />
-      </ReactFlowProvider>
-    </Suspense>
-  );
-}
+const dashboard = async () => {
+  const session = await auth();
+  const userId = session?.user?.id;
+  console.log(userId);
+  const roadmaps = await db.roadmap.findMany({
+    where: {
+      userId,
+    },
+  });
+  console.log(roadmaps);
+  return <h1>{JSON.stringify(roadmaps)}</h1>;
+};
+
+export default dashboard;
