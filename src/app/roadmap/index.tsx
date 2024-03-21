@@ -28,8 +28,13 @@ import { toPng } from "html-to-image";
 import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
 import { toast } from "sonner";
 import { tempData } from "@/app/shared/temp-data";
+import GenerateButton from "../flow-components/generate-button";
 
-export default function Roadmap() {
+interface Props {
+  roadmapId?: string;
+}
+
+export default function Roadmap({ roadmapId }: Props) {
   const [query, setQuery] = useState("");
   const [mainQuery, setMainQuery] = useState("");
   const [modelApiKey, setModelApiKey] = useState("");
@@ -39,6 +44,7 @@ export default function Roadmap() {
       model: state.model,
     }))
   );
+
   const { data, mutate, isPending, isError, isSuccess } = useMutation<
     any,
     AxiosError,
@@ -145,19 +151,7 @@ export default function Roadmap() {
             <div className="hidden sm:flex">
               <ModelSelect />
             </div>
-            <Button onClick={onSubmit} disabled={isPending} type="submit">
-              {isPending ? (
-                <>
-                  <LoaderCircle size={20} className="animate-spin" />
-                  <span className="ml-2 hidden sm:inline">Generating</span>
-                </>
-              ) : (
-                <>
-                  <Wand size={20} />
-                  <span className="ml-2 hidden sm:inline">Generate</span>
-                </>
-              )}
-            </Button>
+            <GenerateButton onClick={onSubmit} disabled={isPending} />
             <div className="hidden space-x-2 md:flex">
               {renderFlow && (
                 <>
