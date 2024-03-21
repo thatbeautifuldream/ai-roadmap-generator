@@ -159,11 +159,8 @@ export default function Roadmap() {
               )}
             </Button>
             <div className="hidden space-x-2 md:flex">
-              {isSuccess && renderFlow && (
+              {renderFlow && (
                 <>
-                  <Button variant="secondary" onClick={handleSave}>
-                    Save
-                  </Button>
                   <PresetShare query={mainQuery} key={renderFlow} />
                   <Button variant="secondary" onClick={onClick}>
                     Download

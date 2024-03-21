@@ -6,7 +6,6 @@ export const saveRoadmap = async (title: string, content: any) => {
   try {
     const session = await auth();
     const userId = session?.user?.id;
-    console.log(session);
 
     if (!userId) return;
 
