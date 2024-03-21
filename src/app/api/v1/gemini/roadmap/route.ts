@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+import { capitalize } from "@/lib/utils";
 
 export const POST = async (req: Request, res: Response) => {
   try {
@@ -33,10 +34,23 @@ export const POST = async (req: Request, res: Response) => {
         `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}} not in mardown format containing backticks.`,
       ],
     ]);
-    let json = {};
+    let json: any = null;
     try {
       json = JSON.parse(String(response?.content));
-      return NextResponse.json({ status: true, text: json }, { status: 200 });
+      const tree = [
+        {
+          name: capitalize(json.query),
+          children: Object.keys(json.chapters).map((sectionName) => ({
+            name: sectionName,
+            children: json.chapters[sectionName].map(({ moduleName, link, moduleDescription }: { moduleName: string, link: string, moduleDescription: string }) => ({
+              name: moduleName,
+              moduleDescription,
+              link,
+            })),
+          })),
+        },
+      ];
+      return NextResponse.json({ status: true, text: json, tree }, { status: 200 });
     } catch (e) {
       console.log(e);
       return NextResponse.json(
