@@ -47,7 +47,13 @@ export default function Roadmap({ roadmapId }: Props) {
 
   const { data: roadmap, isPending: isRoadmapPending } = useQuery({
     queryFn: async () => {
-      return roadmapId && getRoadmapById(roadmapId);
+      let roadmap = await getRoadmapById(roadmapId || "");
+      if (roadmap) {
+        let json = JSON.parse(roadmap.content);
+        roadmap.content = json;
+        return roadmap;
+      }
+      throw Error("error");
     },
     queryKey: ["Roadmap", roadmapId],
   });
@@ -110,7 +116,9 @@ export default function Roadmap({ roadmapId }: Props) {
   };
 
   const renderFlow =
-    data?.data?.tree?.[0]?.name || decodeFromURL(params)?.[0]?.name;
+    roadmap?.content[0] ||
+    data?.data?.tree?.[0]?.name ||
+    decodeFromURL(params)?.[0]?.name;
 
   useEffect(() => {
     const modelApiKey = localStorage.getItem(`${model}_API_KEY`);
@@ -126,6 +134,8 @@ export default function Roadmap({ roadmapId }: Props) {
       toast.success("Roadmap saved successfully");
     }
   };
+
+  console.log(roadmap?.content);
 
   return (
     <>
@@ -174,13 +184,11 @@ export default function Roadmap({ roadmapId }: Props) {
         </div>
         <Separator />
       </div>
-      {renderFlow ? (
+      {renderFlow && (
         <ExpandCollapse
           key={renderFlow}
-          data={data?.data?.tree || decodeFromURL(params)}
+          data={roadmap?.content || data?.data?.tree || decodeFromURL(params)}
         />
-      ) : (
-        <ExpandCollapse key={tempData[0].name} data={tempData} />
       )}
     </>
   );
