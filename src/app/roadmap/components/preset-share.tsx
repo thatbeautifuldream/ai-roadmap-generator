@@ -20,6 +20,7 @@ export function PresetShare({ query }: { query: string }) {
   const getURL = () => {
     const mutationCache = queryClient.getMutationCache();
     const data = mutationCache.find({ mutationKey: ["Roadmap", query] }) as any;
+
     // TODO
     // if openai
     if (data?.state.data.data.tree) {

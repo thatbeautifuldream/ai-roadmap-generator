@@ -135,8 +135,6 @@ export default function Roadmap({ roadmapId }: Props) {
     }
   };
 
-  console.log(roadmap?.content);
-
   return (
     <>
       <div className="h-full flex-col md:flex">
