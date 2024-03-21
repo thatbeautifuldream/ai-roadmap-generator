@@ -57,9 +57,11 @@ model VerificationToken {
 }
 
 model Roadmap {
-  id      String @id @default(cuid())
-  title   String
-  content String
-  userId  String
-  author  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  userId    String
+  author    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  views     Int      @default(0)
 }
