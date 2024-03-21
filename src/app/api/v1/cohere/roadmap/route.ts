@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { saveRoadmap } from "@/actions/roadmaps";
+import { SanitiseJSON, capitalize } from "@/lib/utils";
 import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { capitalize, SanitiseJSON } from "@/lib/utils";
+import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest, res: Response) => {
   const apiKey = req.nextUrl.searchParams.get("apiKey");
@@ -53,6 +54,7 @@ export const POST = async (req: NextRequest, res: Response) => {
           })),
         },
       ];
+      await saveRoadmap(query, tree);
       return NextResponse.json(
         { status: true, text: json, tree: tree },
         { status: 200 },
