@@ -1,9 +1,9 @@
-import { HierarchyNode, hierarchy, tree } from "d3-hierarchy";
+import { HierarchyNode, hierarchy } from "d3-hierarchy";
 import { ReactFlowProvider } from "reactflow";
-import { Node } from "../shared/types/common";
-import { Drawer } from "./drawer";
 import "reactflow/dist/base.css";
 import "reactflow/dist/style.css";
+import { Node } from "../shared/types/common";
+import { Drawer } from "./drawer";
 import ReactFlowPro from "./react-flow-pro";
 
 type Props = {
@@ -21,7 +21,7 @@ function ExpandCollapse(props: Props) {
   });
 
   return (
-    <div className="w-full h-[93vh]">
+    <div className="w-full h-[87vh]">
       <ReactFlowProvider>
         <Drawer />
         <ReactFlowPro {...props} h={h} />

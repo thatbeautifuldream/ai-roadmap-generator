@@ -1,8 +1,4 @@
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { useShallow } from "zustand/react/shallow";
-import { useUIStore } from "../stores/useUI";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import {
   Tooltip,
   TooltipContent,
@@ -12,7 +8,11 @@ import {
 import { IOrilley } from "@/lib/types";
 import { formatDuration } from "@/lib/utils";
 import { searchYoutube } from "@/lib/youtube";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import Image from "next/image";
+import { useShallow } from "zustand/react/shallow";
+import { useUIStore } from "../stores/useUI";
 
 export const Drawer = () => {
   const { drawerOpen, toggleDrawer, drawerDetails, model } = useUIStore(
@@ -128,11 +128,14 @@ export const Drawer = () => {
                         target="_blank"
                         key={book.id}
                       >
-                        <img
-                          className="w-20 h-auto"
-                          src={book.cover_url}
-                          alt={book.title}
-                        />
+                        <div className="w-[80px]">
+                          <img
+                            className="w-20 h-auto"
+                            src={book.cover_url}
+                            alt={book.title}
+                            width={80}
+                          />
+                        </div>
                         <div className="px-4">
                           <p className="text-base font-regular mb-1">
                             {book.title}

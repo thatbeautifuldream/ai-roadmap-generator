@@ -65,7 +65,7 @@ export default async function Dashboard() {
             key={roadmap.id}
             title={roadmap.title}
             views="2 views"
-            timeAgo={timeFromNow(roadmap.createdAt.toString())}
+            timeAgo={timeFromNow(roadmap?.createdAt?.toString())}
             slug={roadmap.id}
           />
         ))}

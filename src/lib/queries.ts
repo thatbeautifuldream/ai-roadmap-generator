@@ -16,10 +16,8 @@ const MutationFactory = (mutationKey: QueryKey, url: string, method: 'POST' | 'P
         },
         ...options
     })
-
 }
 
 export const useGenerateRoadmap = (query: string, model: string, modelApiKey: string, options?: MutationOptions) => {
-    console.log(['Generate Roadmap', query])
     return MutationFactory(['Generate Roadmap', query], `/api/v1/${model}/roadmap?apiKey=${modelApiKey}`, 'POST', options)
 }

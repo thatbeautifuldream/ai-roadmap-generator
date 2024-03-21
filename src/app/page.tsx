@@ -1,64 +1,20 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { ArrowUpRight, Wand } from "lucide-react";
 
 export default function Home() {
   return (
     <>
-      {/* <Hero /> */}
       <RoadmapLanding />
     </>
   );
 }
 
-function Hero() {
-  return (
-    <section className="text-center mt-16 md:mt-18 items-center flex flex-col">
-      <Link href="/roadmap">
-        <Button
-          variant="outline"
-          className="rounded-full border-border flex space-x-2 items-center"
-        >
-          <span>Announcing AI Roadmap</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={12}
-            height={12}
-            fill="none"
-          >
-            <path
-              fill="currentColor"
-              d="M8.783 6.667H.667V5.333h8.116L5.05 1.6 6 .667 11.333 6 6 11.333l-.95-.933 3.733-3.733Z"
-            />
-          </svg>
-        </Button>
-      </Link>
-      <h1 className="text-6xl font-medium mt-6">Tailored Career Roadmaps</h1>
-      <p className="mt-4 md:mt-6 text-[#707070] max-w-[600px]">
-        {`Discover tailored learning paths to advance your career. Our roadmap
-        generator guides you towards success, whether you're a beginner or an
-        expert.`}
-      </p>
-      <div className="mt-8">
-        <div className="flex items-center space-x-4">
-          <Link href="/roadmap">
-            <Button
-              variant="outline"
-              className="border border-primary h-12 px-6"
-            >
-              Start Your Journey
-            </Button>
-          </Link>
-          <Link href="/explore">
-            <Button className="h-12 px-5">Explore Roadmaps</Button>
-          </Link>
-        </div>
-      </div>
-      <p className="text-xs text-[#707070] mt-6">No credit card required.</p>
-    </section>
-  );
-}
-
 function RoadmapLanding() {
+  const trendyRoadmaps = [
+    "Backend",
+    "Frontend",
+    "Fullstack",
+    "Machine Learning",
+  ];
   return (
     <>
       <div className="flex flex-grow flex-col items-center px-4 py-6 sm:px-6">
@@ -87,49 +43,24 @@ function RoadmapLanding() {
               />
             </div>
             <button className="flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50">
-              <span className="flex items-center text-base">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-ban mr-2"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="m4.9 4.9 14.2 14.2"></path>
-                </svg>
+              <span className="flex items-center gap-x-2 text-base">
+                <Wand size={20} />
                 Generate
               </span>
             </button>
           </form>
           <div className="flex flex-row flex-wrap items-center justify-center gap-2">
-            <button
-              type="button"
-              className="flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-sm transition-colors hover:border-black hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              OAuth
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="17"
-                height="17"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-arrow-up-right "
+            {/* TODO : Add trendy topic from the database */}
+            {trendyRoadmaps.map((trendyTopic) => (
+              <button
+                key={trendyTopic}
+                type="button"
+                className="flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-sm transition-colors hover:border-black hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <path d="M7 7h10v10"></path>
-                <path d="M7 17 17 7"></path>
-              </svg>
-            </button>
-            {/* Other buttons */}
+                {trendyTopic}
+                <ArrowUpRight size={16} />
+              </button>
+            ))}
           </div>
         </div>
         <div className="mt-12 flex flex-col items-center gap-4">
