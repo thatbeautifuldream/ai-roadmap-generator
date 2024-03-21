@@ -100,7 +100,7 @@ export default function Roadmap() {
     data?.data?.tree?.[0]?.name || decodeFromURL(params)?.[0]?.name;
 
   useEffect(() => {
-    const modelApiKey = localStorage.getItem(`${model}-api-key`);
+    const modelApiKey = localStorage.getItem(`${model}_API_KEY`);
     if (modelApiKey) {
       setModelApiKey(modelApiKey);
     }
@@ -159,17 +159,15 @@ export default function Roadmap() {
               )}
             </Button>
             <div className="hidden space-x-2 md:flex">
-              {renderFlow && <PresetShare query={mainQuery} key={renderFlow} />}
               {isSuccess && renderFlow && (
                 <>
-                  <Button
-                    variant="secondary"
-                    className="download-btn text-sm"
-                    onClick={onClick}
-                  >
+                  <Button variant="secondary" onClick={handleSave}>
+                    Save
+                  </Button>
+                  <PresetShare query={mainQuery} key={renderFlow} />
+                  <Button variant="secondary" onClick={onClick}>
                     Download
                   </Button>
-                  <Button onClick={handleSave}>Save</Button>
                 </>
               )}
             </div>
