@@ -15,7 +15,7 @@ export default async function Dashboard() {
 
         <div className="grid grid-cols-2 gap-4">
           {roadmaps.map((roadmap: any) => (
-            <Link key={roadmap.id} href={`/generator/${roadmap.id}`}>
+            <Link key={roadmap.id} href={`/generate/${roadmap.id}`}>
               <Card className="w-full">
                 <CardHeader>
                   <CardTitle>{roadmap.title}</CardTitle>
