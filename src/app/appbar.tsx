@@ -13,6 +13,7 @@ async function AppBar() {
         {session && session.user ? (
           <div className="flex gap-2 items-center">
             <p className="font-semibold text-sm">{session.user.name}</p>
+            <Link href={"/dashboard"}>Dashboard</Link>
             <form
               action={async () => {
                 "use server";
