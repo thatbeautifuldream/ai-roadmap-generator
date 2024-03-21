@@ -55,15 +55,15 @@ export default function Roadmap({ roadmapId }: Props) {
 
   return (
     <>
-      <div className="h-full flex-col md:flex">
+      <div className="mx-auto max-w-7xl">
         <GeneratorControls
           // data={data}
           mutate={mutate}
           isPending={isPending}
           renderFlow={renderFlow}
         />
-        <Separator />
       </div>
+      <Separator />
       {renderFlow && (
         <ExpandCollapse
           key={renderFlow}
