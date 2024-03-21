@@ -60,3 +60,18 @@ export function downloadImage(dataUrl: string) {
 // export const DIAGRAM_IMAGE_HEIGHT = 3048;
 export const DIAGRAM_IMAGE_WIDTH = 1224;
 export const DIAGRAM_IMAGE_HEIGHT = 786 + 786;
+
+export function timeFromNow(dateString: string) {
+  var createdDate = +new Date(dateString);
+  var currentDate = +new Date();
+  var timeDifference = Math.abs(currentDate - createdDate);
+  var hourDifference = Math.floor(timeDifference / (1000 * 60 * 60)); // Convert milliseconds to hours
+
+  if (hourDifference < 1) {
+    return "a few seconds ago";
+  } else if (hourDifference === 1) {
+    return "an hour ago";
+  } else {
+    return hourDifference + " hours ago";
+  }
+}

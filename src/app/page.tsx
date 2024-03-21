@@ -2,17 +2,13 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Home() {
-  return (
-    <>
-      <Hero />
-    </>
-  );
+  return <Hero />;
 }
 
-export function Hero() {
+function Hero() {
   return (
     <section className="text-center mt-16 md:mt-18 items-center flex flex-col">
-      <Link href="/generator">
+      <Link href="/roadmap">
         <Button
           variant="outline"
           className="rounded-full border-border flex space-x-2 items-center"
@@ -31,18 +27,15 @@ export function Hero() {
           </svg>
         </Button>
       </Link>
-
       <h1 className="text-6xl font-medium mt-6">Tailored Career Roadmaps</h1>
-
       <p className="mt-4 md:mt-6 text-[#707070] max-w-[600px]">
         {`Discover tailored learning paths to advance your career. Our roadmap
         generator guides you towards success, whether you're a beginner or an
         expert.`}
       </p>
-
       <div className="mt-8">
         <div className="flex items-center space-x-4">
-          <Link href="/generator">
+          <Link href="/roadmap">
             <Button
               variant="outline"
               className="border border-primary h-12 px-6"
@@ -50,13 +43,11 @@ export function Hero() {
               Start Your Journey
             </Button>
           </Link>
-
           <Link href="/explore">
             <Button className="h-12 px-5">Explore Roadmaps</Button>
           </Link>
         </div>
       </div>
-
       <p className="text-xs text-[#707070] mt-6">No credit card required.</p>
     </section>
   );
