@@ -12,12 +12,12 @@ export default function Home() {
 export function Hero() {
   return (
     <section className="text-center mt-16 md:mt-18 items-center flex flex-col">
-      <Link href="#">
+      <Link href="/generator">
         <Button
           variant="outline"
           className="rounded-full border-border flex space-x-2 items-center"
         >
-          <span>Announcing Early Adopters Plan</span>
+          <span>Announcing AI Roadmap</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={12}
@@ -42,7 +42,7 @@ export function Hero() {
 
       <div className="mt-8">
         <div className="flex items-center space-x-4">
-          <Link href="#">
+          <Link href="/generator">
             <Button
               variant="outline"
               className="border border-primary h-12 px-6"
@@ -51,9 +51,9 @@ export function Hero() {
             </Button>
           </Link>
 
-          <a href="https://app.midday.ai">
+          <Link href="/explore">
             <Button className="h-12 px-5">Explore Roadmaps</Button>
-          </a>
+          </Link>
         </div>
       </div>
 
