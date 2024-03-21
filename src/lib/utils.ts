@@ -75,3 +75,9 @@ export function timeFromNow(dateString: string) {
     return hourDifference + " hours ago";
   }
 }
+
+export const getFormattedDate = (dateString: string): string => {
+  return new Intl.DateTimeFormat("en-US", {
+    dateStyle: "long",
+  }).format(new Date(dateString));
+};
