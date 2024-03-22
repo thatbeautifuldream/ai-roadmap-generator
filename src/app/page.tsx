@@ -14,9 +14,12 @@ export default function Home() {
 async function RoadmapLanding() {
   const session = await auth();
   const userId = session?.user?.id;
-  const user = await db.user.findUnique({
-    where: { id: userId },
-  });
+  let user: any = {};
+  if (session) {
+    user = await db.user.findUnique({
+      where: { id: userId },
+    });
+  }
   const trendyRoadmaps = [
     "Backend",
     "Frontend",
