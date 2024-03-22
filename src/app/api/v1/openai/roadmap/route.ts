@@ -1,23 +1,30 @@
-import { saveRoadmap } from "@/actions/roadmaps";
+import { incrementRoadmapSearchCount, saveRoadmap } from "@/actions/roadmaps";
+import { decrementCreditsByUserId } from "@/actions/users";
 import { Node } from "@/app/shared/types/common";
 import { db } from "@/lib/db";
 import { JSONType } from "@/lib/types";
 import { capitalize } from "@/lib/utils";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { OpenAI } from "openai";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY || 'MY_API_KEY',
 });
 
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req: NextRequest, res: Response) => {
     try {
+        const apiKey = req.nextUrl.searchParams.get("apiKey");
         const body = await req.json();
         const query = body.query;
         if (!query) {
             return NextResponse.json({ status: false, message: "Please send query." }, { status: 400 });
         }
-
+        if (!apiKey && !process.env.OPENAI_API_KEY) {
+            return NextResponse.json(
+                { status: false, message: "Please provide API key." },
+                { status: 400 },
+            );
+        }
         const alreadyExists = await db.roadmap.findUnique({
             where: {
                 title: query
@@ -25,6 +32,7 @@ export const POST = async (req: Request, res: Response) => {
         })
 
         if (alreadyExists) {
+            await incrementRoadmapSearchCount(alreadyExists.id)
             const tree = JSON.parse(alreadyExists.content);
             return NextResponse.json({ status: true, tree }, { status: 200 });
         }
@@ -45,7 +53,18 @@ export const POST = async (req: Request, res: Response) => {
             ],
             response_format: { "type": "json_object" }
         })
-
+        if (!apiKey) {
+            const creditsRemaining = await decrementCreditsByUserId();
+            if (!creditsRemaining) {
+                return NextResponse.json(
+                    {
+                        status: true,
+                        message: "No credits remaining ",
+                    },
+                    { status: 200 }
+                );
+            }
+        }
         let json: JSONType | null = null;
 
         try {

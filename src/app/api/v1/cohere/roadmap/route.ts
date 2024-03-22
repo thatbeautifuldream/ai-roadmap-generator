@@ -1,4 +1,5 @@
-import { saveRoadmap } from "@/actions/roadmaps";
+import { incrementRoadmapSearchCount, saveRoadmap } from "@/actions/roadmaps";
+import { decrementCreditsByUserId } from "@/actions/users";
 import { Node } from "@/app/shared/types/common";
 import { db } from "@/lib/db";
 import { SanitiseJSON, capitalize } from "@/lib/utils";
@@ -34,6 +35,7 @@ export const POST = async (req: NextRequest, res: Response) => {
     })
 
     if (alreadyExists) {
+      await incrementRoadmapSearchCount(alreadyExists.id)
       const tree = JSON.parse(alreadyExists.content);
       return NextResponse.json({ status: true, tree }, { status: 200 });
     }
@@ -49,11 +51,23 @@ export const POST = async (req: NextRequest, res: Response) => {
       ],
       ["human", "{input}"],
     ]);
+
     const chain = prompt.pipe(model);
     const response = await chain.invoke({
       input: `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}}.`,
     });
-
+    if (!apiKey) {
+      const creditsRemaining = await decrementCreditsByUserId();
+      if (!creditsRemaining) {
+        return NextResponse.json(
+          {
+            status: true,
+            message: "No credits remaining ",
+          },
+          { status: 200 }
+        );
+      }
+    }
     let json: { query: string, chapters: { [key: string]: string[] } } | null = null;
 
     try {

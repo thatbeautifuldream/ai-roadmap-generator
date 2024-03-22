@@ -64,3 +64,16 @@ export const gerUserId = async () => {
   }
   return userId;
 };
+
+export const incrementRoadmapSearchCount = async (roadmapId: string) => {
+  await db.roadmap.update({
+    where: {
+      id: roadmapId
+    },
+    data: {
+      searchCount: {
+        increment: 1
+      }
+    }
+  })
+}

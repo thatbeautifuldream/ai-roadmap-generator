@@ -9,6 +9,16 @@ export default function NavItems() {
     <div className="flex gap-x-2">
       <Link
         className="font-semibold text-sm underline-offset-4 hover:underline"
+        href={"/explore"}
+      >
+        {pathname === "/explore" ? (
+          <span className="underline underline-offset-4">Explore</span>
+        ) : (
+          <span className="text-gray-500">Explore</span>
+        )}
+      </Link>
+      <Link
+        className="font-semibold text-sm underline-offset-4 hover:underline"
         href={"/dashboard"}
       >
         {pathname === "/dashboard" ? (
