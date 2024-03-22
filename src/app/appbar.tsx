@@ -18,7 +18,7 @@ async function AppBar() {
           />
         </Link>
         {session && session.user && <NavItems />}
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center">
           {session && session.user ? (
             <div className="flex gap-4 items-center">
               <div className="hidden sm:flex">
