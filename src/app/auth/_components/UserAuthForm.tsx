@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Icons } from "./Icons";
+import { Icons } from "@/app/shared/Icons";
 
 interface UserAuthFormProps {
   className?: string;

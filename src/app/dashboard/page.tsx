@@ -1,4 +1,5 @@
 import { getRoadmapsByUserId } from "@/actions/roadmaps";
+import { EmptyAlert } from "@/components/alerts/EmptyAlert";
 import { timeFromNow } from "@/lib/utils";
 import Link from "next/link";
 
@@ -61,15 +62,19 @@ export default async function Dashboard() {
         Your Roadmaps
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {roadmaps.map((roadmap) => (
-          <RoadmapCard
-            key={roadmap.id}
-            title={roadmap.title}
-            views="2 views"
-            timeAgo={timeFromNow(roadmap?.createdAt?.toString())}
-            slug={roadmap.id}
-          />
-        ))}
+        {roadmaps.length > 0 ? (
+          roadmaps.map((roadmap) => (
+            <RoadmapCard
+              key={roadmap.id}
+              title={roadmap.title}
+              views="2 views"
+              timeAgo={timeFromNow(roadmap?.createdAt?.toString())}
+              slug={roadmap.id}
+            />
+          ))
+        ) : (
+          <EmptyAlert description="You haven't created any roadmaps yet. Please create one to get started." />
+        )}
       </div>
     </div>
   );

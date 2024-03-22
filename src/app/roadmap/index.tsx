@@ -10,6 +10,7 @@ import { useSearchParams } from "next/navigation";
 import { useShallow } from "zustand/react/shallow";
 import { GeneratorControls } from "../flow-components/generator-controls";
 import { useUIStore } from "../stores/useUI";
+import { EmptyAlert } from "@/components/alerts/EmptyAlert";
 
 interface Props {
   roadmapId?: string;
@@ -24,7 +25,7 @@ export default function Roadmap({ roadmapId }: Props) {
       setMainQuery: state.setMainQuery,
       modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
-    }))
+    })),
   );
 
   const { data: roadmap, isPending: isRoadmapPending } = useQuery({
@@ -43,7 +44,7 @@ export default function Roadmap({ roadmapId }: Props) {
   const { data, mutate, isPending } = useGenerateRoadmap(
     mainQuery,
     model,
-    modelApiKey
+    modelApiKey,
   );
 
   const params = useSearchParams();
@@ -64,11 +65,15 @@ export default function Roadmap({ roadmapId }: Props) {
         />
       </div>
       <Separator />
-      {renderFlow && (
+      {renderFlow ? (
         <ExpandCollapse
           key={renderFlow}
           data={roadmap?.content || data?.tree || decodeFromURL(params)}
         />
+      ) : (
+        <div className="mx-auto max-w-5xl mt-8">
+          <EmptyAlert />
+        </div>
       )}
     </>
   );
