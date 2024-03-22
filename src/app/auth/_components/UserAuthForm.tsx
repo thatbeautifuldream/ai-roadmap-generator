@@ -1,10 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { signIn } from "next-auth/react";
-import { Icons } from "./Icons";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { toast } from "sonner";
+import { Icons } from "./Icons";
 
 interface UserAuthFormProps {
   className?: string;
@@ -18,11 +18,12 @@ const UserAuthForm = ({ className }: UserAuthFormProps) => {
     try {
       await signIn("google");
     } catch (error) {
-        toast.error("There was a problem", {
-            description: "There was an error logging you in. Please try again later",
-            duration: 4000,
-            position: "bottom-right",
-        })
+      toast.error("There was a problem", {
+        description:
+          "There was an error logging you in. Please try again later",
+        duration: 4000,
+        position: "bottom-right",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -38,7 +39,7 @@ const UserAuthForm = ({ className }: UserAuthFormProps) => {
         isLoading={isLoading}
       >
         {isLoading ? null : <Icons.google className="h-4 w-4 mr-2" />}
-        Google
+        Login using Google
       </Button>
     </div>
   );
