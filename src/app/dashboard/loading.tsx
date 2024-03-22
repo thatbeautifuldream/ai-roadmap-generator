@@ -10,7 +10,7 @@ const LoadingSkeleton = () => (
         <div className="flex items-center justify-between gap-2 px-2.5 py-2">
           <span className="flex items-center gap-1.5">
             <Skeleton className="w-[56px] max-w-full" />
-            <SVGSkeleton className="inline-block w-[15px] h-[15px]" />
+            <SVGSkeleton className="inline-block w-[10px] h-[15px]" />
           </span>
           <span className="flex items-center gap-1.5">
             <Skeleton className="w-[136px] max-w-full" />
@@ -24,7 +24,7 @@ const LoadingSkeleton = () => (
         <div className="flex items-center justify-between gap-2 px-2.5 py-2">
           <span className="flex items-center gap-1.5">
             <Skeleton className="w-[56px] max-w-full" />
-            <SVGSkeleton className="inline-block w-[15px] h-[15px]" />
+            <SVGSkeleton className="inline-block w-[10px] h-[15px]" />
           </span>
           <span className="flex items-center gap-1.5">
             <Skeleton className="w-[136px] max-w-full" />
@@ -38,7 +38,7 @@ const LoadingSkeleton = () => (
         <div className="flex items-center justify-between gap-2 px-2.5 py-2">
           <span className="flex items-center gap-1.5">
             <Skeleton className="w-[56px] max-w-full" />
-            <SVGSkeleton className="inline-block w-[15px] h-[15px]" />
+            <SVGSkeleton className="inline-block w-[10px] h-[15px]" />
           </span>
           <span className="flex items-center gap-1.5">
             <Skeleton className="w-[136px] max-w-full" />
