@@ -1,12 +1,12 @@
+import { Icons } from "@/app/shared/Icons";
 import Link from "next/link";
 import UserAuthForm from "./UserAuthForm";
-import { Icons } from "@/app/shared/Icons";
 
 const SignIn = () => {
   return (
     <div className="container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
       <div className="flex flex-col space-y-2 text-center">
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center">
           <Icons.logo />
         </div>
         <p className="text-sm text-gray-600 max-w-xs mx-auto pb-4">
