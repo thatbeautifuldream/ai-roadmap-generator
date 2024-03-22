@@ -28,17 +28,14 @@ interface Props {
 export const GeneratorControls = (props: Props) => {
   const { renderFlow, mutate, isPending } = props;
   const { getNodes } = useReactFlow();
-  const { model, query, mainQuery, setMainQuery, setModelApiKey, setQuery } =
-    useUIStore(
-      useShallow((state) => ({
-        model: state.model,
-        query: state.query,
-        mainQuery: state.mainQuery,
-        setMainQuery: state.setMainQuery,
-        setModelApiKey: state.setModelApiKey,
-        setQuery: state.setQuery,
-      }))
-    );
+  const { model, query, setModelApiKey, setQuery } = useUIStore(
+    useShallow((state) => ({
+      model: state.model,
+      query: state.query,
+      setModelApiKey: state.setModelApiKey,
+      setQuery: state.setQuery,
+    }))
+  );
 
   useEffect(() => {
     const modelApiKey = localStorage.getItem(`${model}_API_KEY`);
@@ -93,9 +90,8 @@ export const GeneratorControls = (props: Props) => {
         duration: 4000,
       });
 
-      setMainQuery(query);
       // [TODO] : Check if title query is present in db if yes return data from db
-      mutate({ body: { query: mainQuery } });
+      mutate({ body: { query } });
     } catch (e) {
       console.error(e);
     }
@@ -121,7 +117,7 @@ export const GeneratorControls = (props: Props) => {
         <GenerateButton onClick={onSubmit} disabled={isPending} />
         {renderFlow && (
           <>
-            <PresetShare query={mainQuery} key={renderFlow} />
+            <PresetShare query={query} key={renderFlow} />
             <Button variant="secondary" onClick={onClick}>
               Download
             </Button>
