@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useSearch } from "@/lib/queries";
 import { useState } from "react";
 
@@ -13,8 +14,8 @@ export const Search = () => {
   } = useSearch(search);
 
   return (
-    <>
-      <input value={search} onChange={(e) => setSearch(e.target.value)} />
+    <div className="flex flex-row">
+      <Input value={search} onChange={(e) => setSearch(e.target.value)} />
       <Button
         onClick={() => {
           searchMutate(
@@ -29,6 +30,6 @@ export const Search = () => {
       >
         Search
       </Button>
-    </>
+    </div>
   );
 };

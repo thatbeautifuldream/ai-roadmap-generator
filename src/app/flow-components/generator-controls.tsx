@@ -93,8 +93,8 @@ export const GeneratorControls = (props: Props) => {
         duration: 4000,
       });
 
-      setMainQuery(query);
       // [TODO] : Check if title query is present in db if yes return data from db
+      setMainQuery(query);
       mutate({ body: { query: mainQuery } });
     } catch (e) {
       console.error(e);
