@@ -1,3 +1,4 @@
+import { saveRoadmap } from "@/actions/roadmaps";
 import { JSONType } from "@/lib/types";
 import { capitalize } from "@/lib/utils";
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
@@ -61,6 +62,7 @@ export const POST = async (req: Request, res: Response) => {
           })),
         },
       ];
+      await saveRoadmap(query, tree)
       return NextResponse.json({ status: true, text: json, tree }, { status: 200 });
     } catch (e) {
       console.log(e);
