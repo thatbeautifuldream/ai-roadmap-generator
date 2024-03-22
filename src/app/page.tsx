@@ -1,3 +1,4 @@
+import MarqueeDemo from "@/components/ui/marque-wrapper";
 import { ArrowUpRight, Wand } from "lucide-react";
 
 export default function Home() {
@@ -18,8 +19,8 @@ function RoadmapLanding() {
   return (
     <>
       <div className="flex flex-grow flex-col items-center px-4 py-6 sm:px-6">
-        <div className="flex flex-col gap-0 text-center sm:gap-2 md:mt-24 lg:mt-32">
-          <h1 className="relative text-2xl font-medium sm:text-3xl">
+        <div className="flex flex-col gap-0 text-center sm:gap-2 md:mt-6 lg:mt-14">
+          <h1 className="relative text-4xl font-bold sm:text-3xl">
             <span className="hidden sm:inline">Generate roadmaps with AI</span>
             <span className="inline sm:hidden">AI Roadmap Generator</span>
           </h1>
@@ -32,7 +33,10 @@ function RoadmapLanding() {
             </span>
           </p>
         </div>
-        <div className="my-3 flex w-full max-w-[600px] flex-col items-center gap-3 sm:my-5">
+        <div className="overflow-hidden max-w-7xl h-96">
+          <MarqueeDemo />
+        </div>
+        <div className="my-3 mt-6 flex w-full max-w-[600px] flex-col items-center gap-3 sm:my-5">
           <form className="flex w-full flex-col gap-2 sm:flex-row">
             <div className="relative w-full">
               <input
