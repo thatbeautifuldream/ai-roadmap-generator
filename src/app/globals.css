@@ -76,6 +76,10 @@
   background-color: #eee;
 }
 
+.skew-scroll {
+  animation: skew-scroll 20s linear infinite;
+}
+
 /* .react-flow__node.selected {
   background-color: #ff0072;
   color: white;
