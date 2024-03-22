@@ -5,10 +5,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { UModel, useUIStore } from "../stores/useUI";
-import { useShallow } from "zustand/react/shallow";
 import { useEffect } from "react";
-import { availableModels, modelKeys } from "../shared/constants";
+import { useShallow } from "zustand/react/shallow";
+import { availableModels, modelKeys } from "../../app/shared/constants";
+import { UModel, useUIStore } from "../../app/stores/useUI";
 
 const ModelSelect = () => {
   const { setModel, model } = useUIStore(

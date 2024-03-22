@@ -1,5 +1,5 @@
 import { getRoadmapById } from "@/actions/roadmaps";
-import { Flow } from "@/app/flow-components/Flow";
+import { Flow } from "@/components/flow-components/Flow";
 
 type PageProps = {
   params: { id: string };
