@@ -1,8 +1,8 @@
 import NavItems from "@/app/nav-items";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { auth, signOut } from "auth";
-import Image from "next/image";
 import Link from "next/link";
+import { Icons } from "./shared/Icons";
 
 async function AppBar() {
   const session = await auth();
@@ -10,12 +10,7 @@ async function AppBar() {
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="p-2 flex gap-2 items-center">
         <Link href="/">
-          <Image
-            src="/roadmapai.svg"
-            alt="RoadmapAI"
-            width={125}
-            height={125}
-          />
+          <Icons.logo className="h-[40px] w-[125px]" />
         </Link>
         {session && session.user && <NavItems />}
         <div className="ml-auto flex items-center">
