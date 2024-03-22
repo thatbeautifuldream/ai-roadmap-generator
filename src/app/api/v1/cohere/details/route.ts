@@ -54,8 +54,6 @@ export const POST = async (req: Request, res: Response) => {
 
     try {
       const data = SanitiseJSON(String(response?.content));
-      console.log(typeof data);
-
       json = JSON.parse(data);
 
       return NextResponse.json({ status: true, text: json }, { status: 200 });
