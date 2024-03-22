@@ -1,4 +1,5 @@
 import { saveRoadmap } from "@/actions/roadmaps";
+import { db } from "@/lib/db";
 import { JSONType } from "@/lib/types";
 import { capitalize } from "@/lib/utils";
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
@@ -15,6 +16,18 @@ export const POST = async (req: Request, res: Response) => {
         { status: 400 }
       );
     }
+    const alreadyExists = await db.roadmap.findUnique({
+      where: {
+        title: query
+      }
+    })
+
+    if (alreadyExists) {
+      const tree = JSON.parse(alreadyExists.content);
+      return NextResponse.json({ status: true, tree }, { status: 200 });
+    }
+
+
     const model = new ChatGoogleGenerativeAI({
       modelName: "gemini-pro",
       maxOutputTokens: 2048,

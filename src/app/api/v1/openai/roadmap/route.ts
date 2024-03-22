@@ -1,5 +1,6 @@
 import { saveRoadmap } from "@/actions/roadmaps";
 import { Node } from "@/app/shared/types/common";
+import { db } from "@/lib/db";
 import { JSONType } from "@/lib/types";
 import { capitalize } from "@/lib/utils";
 import { NextResponse } from "next/server";
@@ -16,6 +17,18 @@ export const POST = async (req: Request, res: Response) => {
         if (!query) {
             return NextResponse.json({ status: false, message: "Please send query." }, { status: 400 });
         }
+
+        const alreadyExists = await db.roadmap.findUnique({
+            where: {
+                title: query
+            }
+        })
+
+        if (alreadyExists) {
+            const tree = JSON.parse(alreadyExists.content);
+            return NextResponse.json({ status: true, tree }, { status: 200 });
+        }
+
         const text = await openai.chat.completions.create({
             model: "gpt-3.5-turbo-1106",
             temperature: 1,

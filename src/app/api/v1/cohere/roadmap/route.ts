@@ -1,5 +1,6 @@
 import { saveRoadmap } from "@/actions/roadmaps";
 import { Node } from "@/app/shared/types/common";
+import { db } from "@/lib/db";
 import { SanitiseJSON, capitalize } from "@/lib/utils";
 import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -25,6 +26,18 @@ export const POST = async (req: NextRequest, res: Response) => {
         { status: 400 },
       );
     }
+
+    const alreadyExists = await db.roadmap.findUnique({
+      where: {
+        title: query
+      }
+    })
+
+    if (alreadyExists) {
+      const tree = JSON.parse(alreadyExists.content);
+      return NextResponse.json({ status: true, tree }, { status: 200 });
+    }
+
     const model = new ChatCohere({
       apiKey: apiKey || process.env.COHERE_API_KEY,
       model: "command",
