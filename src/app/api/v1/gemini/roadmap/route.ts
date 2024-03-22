@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+import { JSONType } from "@/lib/types";
 import { capitalize } from "@/lib/utils";
+import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { NextResponse } from "next/server";
 
 export const POST = async (req: Request, res: Response) => {
   try {
@@ -27,22 +28,32 @@ export const POST = async (req: Request, res: Response) => {
     const response = await model.invoke([
       [
         "system",
-        "You are a helpful AI assistant that can generate career/syllabus roadmaps. You can arrange it in a way so that the order of the chapters is always from beginner to advanced. Always generate a minimum of 4 modules inside a chapter.",
+        "You are a helpful AI assistant that can generate career/syllabus roadmaps. You can arrange it in a way so that the order of the chapters is always from beginner to advanced. Always generate a minimum of 4 modules inside a chapter and a link to wikipedia if possible",
       ],
       [
         "human",
-        `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}} not in mardown format containing backticks.`,
+        `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: [{moduleName: string, moduleDescription: string, link?: string}]}} not in mardown format containing backticks.`,
       ],
     ]);
-    let json: any = null;
+    let json: JSONType | null = null;
+
     try {
       json = JSON.parse(String(response?.content));
+      if (!json) {
+        return NextResponse.json(
+          {
+            status: false,
+            message: "Error parsing roadmap data.",
+          },
+          { status: 500 }
+        );
+      }
       const tree = [
         {
           name: capitalize(json.query),
           children: Object.keys(json.chapters).map((sectionName) => ({
             name: sectionName,
-            children: json.chapters[sectionName].map(({ moduleName, link, moduleDescription }: { moduleName: string, link: string, moduleDescription: string }) => ({
+            children: json?.chapters[sectionName].map(({ moduleName, link, moduleDescription }) => ({
               name: moduleName,
               moduleDescription,
               link,

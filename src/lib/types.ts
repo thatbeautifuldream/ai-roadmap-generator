@@ -42,3 +42,10 @@ export interface IOrilley {
         minutes_required: 2220.3
     }[]
 }
+
+export type JSONType = {
+    query: string,
+    chapters: {
+        [key: string]: { moduleName: string, moduleDescription: string, link: string }[]
+    }
+}
