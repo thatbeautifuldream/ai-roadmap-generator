@@ -8,7 +8,7 @@ interface Props {
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
       | React.KeyboardEvent<HTMLInputElement>
-  ) => Promise<void>;
+  ) => Promise<string | number | undefined>;
   disabled: boolean;
 }
 
