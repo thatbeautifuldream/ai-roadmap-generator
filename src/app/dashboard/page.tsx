@@ -53,6 +53,8 @@ function RoadmapCard({
 
 export default async function Dashboard() {
   const roadmaps = await getRoadmapsByUserId();
+  const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
+  await wait(5000);
 
   return (
     <div className="flex flex-col gap-4">
