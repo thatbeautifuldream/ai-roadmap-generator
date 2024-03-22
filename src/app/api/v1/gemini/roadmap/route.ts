@@ -1,4 +1,4 @@
-import { saveRoadmap } from "@/actions/roadmaps";
+import { incrementRoadmapSearchCount, saveRoadmap } from "@/actions/roadmaps";
 import { decrementCreditsByUserId } from "@/actions/users";
 import { db } from "@/lib/db";
 import { JSONType } from "@/lib/types";
@@ -24,6 +24,7 @@ export const POST = async (req: Request, res: Response) => {
     })
 
     if (alreadyExists) {
+      await incrementRoadmapSearchCount(alreadyExists.id)
       const tree = JSON.parse(alreadyExists.content);
       return NextResponse.json({ status: true, tree }, { status: 200 });
     }

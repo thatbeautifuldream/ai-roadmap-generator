@@ -63,14 +63,15 @@ enum Visibility {
 }
 
 model Roadmap {
-  id         String     @id @default(cuid())
-  title      String     @unique
-  content    String
-  userId     String
-  author     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt  DateTime   @default(now())
-  views      Int        @default(0)
-  visibility Visibility @default(PUBLIC)
+  id          String     @id @default(cuid())
+  title       String     @unique
+  content     String
+  userId      String
+  author      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  views       Int        @default(0)
+  searchCount Int        @default(0)
+  visibility  Visibility @default(PUBLIC)
 
   @@index([title])
 }
