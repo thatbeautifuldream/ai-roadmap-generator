@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function SanitiseJSON(text: any) {
+export function SanitiseJSON(text: string) {
   console.log("=>", text.split("```json")[1].split("```")[0]);
 
   // ugly hack to remove the first and last part of response to get the JSON
@@ -44,7 +44,7 @@ export const decodeFromURL = (params: URLSearchParams): Node[] => {
     const uncompressed = LZString.decompressFromEncodedURIComponent(code);
     try {
       array = JSON.parse(uncompressed);
-    } catch (e) {}
+    } catch (e) { }
   }
   return array;
 };

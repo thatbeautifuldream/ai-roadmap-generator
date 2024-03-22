@@ -1,4 +1,5 @@
 import { saveRoadmap } from "@/actions/roadmaps";
+import { Node } from "@/app/shared/types/common";
 import { SanitiseJSON, capitalize } from "@/lib/utils";
 import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -42,8 +43,8 @@ export const POST = async (req: NextRequest, res: Response) => {
 
     let json: any = {};
     try {
-      json = JSON.parse(String(SanitiseJSON(response?.content)));
-      const tree = [
+      json = JSON.parse(SanitiseJSON(String(response?.content)));
+      const tree: Node[] = [
         {
           name: capitalize(json.query),
           children: Object.keys(json.chapters).map((sectionName) => ({

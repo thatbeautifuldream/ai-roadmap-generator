@@ -1,7 +1,8 @@
-import { OpenAI } from "openai";
-import { NextResponse } from "next/server"
-import { capitalize } from "@/lib/utils";
 import { saveRoadmap } from "@/actions/roadmaps";
+import { Node } from "@/app/shared/types/common";
+import { capitalize } from "@/lib/utils";
+import { NextResponse } from "next/server";
+import { OpenAI } from "openai";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY || 'MY_API_KEY',
@@ -35,7 +36,7 @@ export const POST = async (req: Request, res: Response) => {
         try {
             json = JSON.parse(text?.choices?.[0]?.message?.content || '');
 
-            const tree = [
+            const tree: Node[] = [
                 {
                     name: capitalize(json.query),
                     children: Object.keys(json.chapters).map((sectionName) => ({

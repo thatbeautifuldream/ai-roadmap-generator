@@ -1,7 +1,6 @@
 import { MutationOptions, QueryKey, useMutation } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-
 const MutationFactory = (mutationKey: QueryKey, url: string, method: 'POST' | 'PUT' | 'PATCH', options?: MutationOptions) => {
     return useMutation<any, AxiosError, any>({
         mutationKey,

@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { SanitiseJSON } from "@/lib/utils";
 import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { SanitiseJSON } from "@/lib/utils";
+import { NextResponse } from "next/server";
 
 export const POST = async (req: Request, res: Response) => {
   try {
@@ -53,7 +53,7 @@ export const POST = async (req: Request, res: Response) => {
     let json: any = {};
 
     try {
-      const data = SanitiseJSON(response?.content);
+      const data = SanitiseJSON(String(response?.content));
       console.log(typeof data);
 
       json = JSON.parse(data);
