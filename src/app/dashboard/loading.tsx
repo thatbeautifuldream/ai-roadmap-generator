@@ -21,7 +21,7 @@ const LoadingSkeleton = ({ width }: { width: string }) => (
 
 const Loading = () => {
   const items = [
-    { id: 1, width: "320px" }, // Adjusted width to match RoadmapCard component
+    { id: 1, width: "320px" },
     { id: 2, width: "320px" },
     { id: 3, width: "320px" },
     { id: 4, width: "320px" },
