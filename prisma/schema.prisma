@@ -71,4 +71,6 @@ model Roadmap {
   views     Int      @default(0)
 
   visibility Visibility @default(PUBLIC)
+
+  @@index([title])
 }
