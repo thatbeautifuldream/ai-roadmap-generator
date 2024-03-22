@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+import { JSONType } from "@/lib/types";
+import { SanitiseJSON } from "@/lib/utils";
 import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { SanitiseJSON } from "@/lib/utils";
+import { NextResponse } from "next/server";
 
 export const POST = async (req: Request, res: Response) => {
   try {
@@ -32,7 +33,7 @@ export const POST = async (req: Request, res: Response) => {
 
     // const chain = prompt.pipe(model);
 
-    // let json: any = {};
+    // let json = {};
 
     // const response = await chain.invoke({
     //   input: `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}}.`,
@@ -50,13 +51,20 @@ export const POST = async (req: Request, res: Response) => {
       input: `a roadmap in JSON format has been generated related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: [{moduleName: string, moduleDescription: string, link?: string}]}} and i'd like to request a small description and wikipedia link on moduleName: ${child} from chapterName: ${parent} in JSON format: {description: string, link: string}`,
     });
 
-    let json: any = {};
+    let json: JSONType | null = null;
 
     try {
-      const data = SanitiseJSON(response?.content);
-      console.log(typeof data);
-
+      const data = SanitiseJSON(String(response?.content));
       json = JSON.parse(data);
+      if (!json) {
+        return NextResponse.json(
+          {
+            status: false,
+            message: "Error parsing roadmap data.",
+          },
+          { status: 500 }
+        );
+      }
 
       return NextResponse.json({ status: true, text: json }, { status: 200 });
     } catch (e) {

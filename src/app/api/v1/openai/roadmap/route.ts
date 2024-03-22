@@ -1,7 +1,9 @@
-import { OpenAI } from "openai";
-import { NextResponse } from "next/server"
-import { capitalize } from "@/lib/utils";
 import { saveRoadmap } from "@/actions/roadmaps";
+import { Node } from "@/app/shared/types/common";
+import { JSONType } from "@/lib/types";
+import { capitalize } from "@/lib/utils";
+import { NextResponse } from "next/server";
+import { OpenAI } from "openai";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY || 'MY_API_KEY',
@@ -31,16 +33,25 @@ export const POST = async (req: Request, res: Response) => {
             response_format: { "type": "json_object" }
         })
 
-        let json: any = {};
+        let json: JSONType | null = null;
+
         try {
             json = JSON.parse(text?.choices?.[0]?.message?.content || '');
-
-            const tree = [
+            if (!json) {
+                return NextResponse.json(
+                    {
+                        status: false,
+                        message: "Error parsing roadmap data.",
+                    },
+                    { status: 500 }
+                );
+            }
+            const tree: Node[] = [
                 {
                     name: capitalize(json.query),
                     children: Object.keys(json.chapters).map((sectionName) => ({
                         name: sectionName,
-                        children: json.chapters[sectionName].map(({ moduleName, link, moduleDescription }: { moduleName: string, link: string, moduleDescription: string }) => ({
+                        children: json?.chapters?.[sectionName]?.map(({ moduleName, link, moduleDescription }) => ({
                             name: moduleName,
                             moduleDescription,
                             link,

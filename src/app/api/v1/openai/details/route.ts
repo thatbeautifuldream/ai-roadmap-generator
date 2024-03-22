@@ -1,5 +1,5 @@
-import { OpenAI } from "openai";
 import { NextResponse } from "next/server";
+import { OpenAI } from "openai";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || 'MY_API_KEY',
@@ -36,7 +36,7 @@ export const POST = async (req: Request, res: Response) => {
       response_format: { type: "json_object" },
     });
 
-    let json: any = {};
+    let json: { description: string, link: string } | null = null;
     try {
       json = JSON.parse(text?.choices?.[0]?.message?.content || "");
 

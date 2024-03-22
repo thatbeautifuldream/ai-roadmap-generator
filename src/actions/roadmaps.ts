@@ -1,4 +1,5 @@
 "use server";
+import { Node } from "@/app/shared/types/common";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
@@ -32,7 +33,7 @@ export const deleteRoadmapById = async (id: string) => {
   return roadmap;
 };
 
-export const saveRoadmap = async (title: string, content: any) => {
+export const saveRoadmap = async (title: string, content: Node[]) => {
   try {
     const userId = (await gerUserId()) as string;
     const roadmap = await db.roadmap.create({

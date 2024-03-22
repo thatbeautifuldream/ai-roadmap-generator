@@ -1,4 +1,5 @@
 import { saveRoadmap } from "@/actions/roadmaps";
+import { Node } from "@/app/shared/types/common";
 import { SanitiseJSON, capitalize } from "@/lib/utils";
 import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -40,15 +41,25 @@ export const POST = async (req: NextRequest, res: Response) => {
       input: `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}}.`,
     });
 
-    let json: any = {};
+    let json: { query: string, chapters: { [key: string]: string[] } } | null = null;
+
     try {
-      json = JSON.parse(String(SanitiseJSON(response?.content)));
-      const tree = [
+      json = JSON.parse(SanitiseJSON(String(response?.content)));
+      if (!json) {
+        return NextResponse.json(
+          {
+            status: false,
+            message: "Error parsing roadmap data.",
+          },
+          { status: 500 },
+        );
+      }
+      const tree: Node[] = [
         {
           name: capitalize(json.query),
           children: Object.keys(json.chapters).map((sectionName) => ({
             name: sectionName,
-            children: json.chapters[sectionName].map((moduleName: string) => ({
+            children: json?.chapters?.[sectionName]?.map((moduleName: string) => ({
               name: moduleName,
             })),
           })),
