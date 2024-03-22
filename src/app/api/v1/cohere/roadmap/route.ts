@@ -56,15 +56,17 @@ export const POST = async (req: NextRequest, res: Response) => {
     const response = await chain.invoke({
       input: `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}}.`,
     });
-    const creditsRemaining = await decrementCreditsByUserId();
-    if (!creditsRemaining) {
-      return NextResponse.json(
-        {
-          status: true,
-          message: "No credits remaining ",
-        },
-        { status: 200 }
-      );
+    if (!apiKey) {
+      const creditsRemaining = await decrementCreditsByUserId();
+      if (!creditsRemaining) {
+        return NextResponse.json(
+          {
+            status: true,
+            message: "No credits remaining ",
+          },
+          { status: 200 }
+        );
+      }
     }
     let json: { query: string, chapters: { [key: string]: string[] } } | null = null;
 
