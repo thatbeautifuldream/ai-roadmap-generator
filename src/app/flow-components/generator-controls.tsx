@@ -10,7 +10,6 @@ import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toPng } from "html-to-image";
 import { useEffect } from "react";
-import { flushSync } from "react-dom";
 import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
 import { useShallow } from "zustand/react/shallow";
 import GenerateButton from "../flow-components/generate-button";
@@ -18,6 +17,7 @@ import ModelSelect from "../flow-components/model-select";
 import { PresetActions } from "../roadmap/components/preset-actions";
 import { PresetShare } from "../roadmap/components/preset-share";
 import { useUIStore } from "../stores/useUI";
+import { toast } from "sonner";
 
 interface Props {
   renderFlow: string;
@@ -45,7 +45,7 @@ export const GeneratorControls = (props: Props) => {
     if (modelApiKey) {
       setModelApiKey(modelApiKey);
     }
-  });
+  }, [model, setModelApiKey]);
 
   const onClick = () => {
     // we calculate a transform for the nodes so that all nodes are visible
@@ -80,50 +80,62 @@ export const GeneratorControls = (props: Props) => {
   ) => {
     e.preventDefault();
     try {
-      flushSync(() => {
-        setMainQuery(query);
+      if (!query) {
+        return toast.error("Please enter a query", {
+          description: "We need a query to generate a roadmap.",
+          position: "bottom-right",
+          duration: 4000,
+        });
+      }
+
+      toast.info("We are generating your roadmap. Please wait...", {
+        position: "bottom-right",
+        duration: 4000,
       });
 
+      setMainQuery(query);
       mutate({ body: { query: mainQuery } });
+      toast.success("Roadmap generated successfully", {
+        description: "You can now download or share your roadmap.",
+        position: "bottom-right",
+        duration: 4000,
+      })
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
   return (
-    <>
-      <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
-        <div className="ml-auto flex w-full space-x-2 sm:justify-end">
-          <Input
-            type="text"
-            placeholder="e.g. Try searching for Frontend or Backend"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                onSubmit(e);
-              }
-            }}
-          />
-          <div className="hidden sm:flex">
-            <ModelSelect />
-          </div>
-          <GenerateButton onClick={onSubmit} disabled={isPending} />
-          <div className="hidden space-x-2 md:flex">
-            {renderFlow && (
-              <>
-                <PresetShare query={mainQuery} key={renderFlow} />
-                <Button variant="secondary" onClick={onClick}>
-                  Download
-                </Button>
-              </>
-            )}
-          </div>
-          <div className="flex space-x-2 sm:hidden">
-            <PresetActions />
-          </div>
+    <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
+      <div className="ml-auto flex w-full space-x-2 sm:justify-end">
+        <Input
+          type="text"
+          placeholder="e.g. Try searching for Frontend or Backend"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onSubmit(e);
+            }
+          }}
+        />
+        <div className="hidden sm:flex">
+          <ModelSelect />
         </div>
+        <GenerateButton onClick={onSubmit} disabled={isPending} />
+        {renderFlow && (
+          <>
+            <PresetShare query={mainQuery} key={renderFlow} />
+            <Button variant="secondary" onClick={onClick}>
+              Download
+            </Button>
+          </>
+        )}
       </div>
-    </>
+      <div className="flex space-x-2 sm:hidden">
+        <PresetActions />
+      </div>
+    </div>
   );
 };
+

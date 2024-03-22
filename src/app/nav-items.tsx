@@ -8,7 +8,7 @@ export default function NavItems() {
   return (
     <>
       <Link
-        className="font-semibold text-sm underline-offset-4 hover:underline"
+        className="font-semibold ml-10 mr-2 text-sm underline-offset-4 hover:underline"
         href={"/dashboard"}
       >
         {pathname === "/dashboard" ? (
@@ -21,7 +21,7 @@ export default function NavItems() {
         className="font-semibold text-sm underline-offset-4 hover:underline"
         href={"/roadmap"}
       >
-        {pathname === "/roadmap" ? (
+        {pathname.includes("/roadmap") ? (
           <span className="underline underline-offset-4">Roadmap</span>
         ) : (
           <span className="text-gray-500">Roadmap</span>
