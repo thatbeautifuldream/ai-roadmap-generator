@@ -10,8 +10,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import LZString from "lz-string";
 import { useQueryClient } from "@tanstack/react-query";
+import LZString from "lz-string";
 import { toast } from "sonner";
 
 export function PresetShare({ query }: { query: string }) {

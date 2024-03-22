@@ -17,14 +17,11 @@ interface Props {
 }
 
 export default function Roadmap({ roadmapId }: Props) {
-  const { model, mainQuery, modelApiKey } = useUIStore(
+  const { model, modelApiKey, query } = useUIStore(
     useShallow((state) => ({
       model: state.model,
       query: state.query,
-      mainQuery: state.mainQuery,
-      setMainQuery: state.setMainQuery,
       modelApiKey: state.modelApiKey,
-      setModelApiKey: state.setModelApiKey,
     }))
   );
 
@@ -42,7 +39,7 @@ export default function Roadmap({ roadmapId }: Props) {
   });
 
   const { data, mutate, isPending } = useGenerateRoadmap(
-    mainQuery,
+    query,
     model,
     modelApiKey
   );
