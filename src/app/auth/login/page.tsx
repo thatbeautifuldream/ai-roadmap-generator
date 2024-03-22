@@ -1,26 +1,13 @@
-"use client";
+import SignIn from "../_components/SignIn";
 
-import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
-
-export default function Login({
-  searchParams,
-}: {
-  searchParams: { [callbackUrl: string]: string };
-}) {
-  const callbackUrl = searchParams.callbackUrl;
-
-  const handleLogin = (provider: "google") => {
-    signIn(provider, {
-      callbackUrl: callbackUrl || "/",
-    });
-  };
+const page = () => {
   return (
-    <Button
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-      onClick={() => handleLogin("google")}
-    >
-      Login using Google
-    </Button>
+    <div className="absolute inset-0">
+      <div className="h-full max-w-2xl mx-auto flex flex-col items-center justify-center gap-20">
+        <SignIn />
+      </div>
+    </div>
   );
-}
+};
+
+export default page;

@@ -1,5 +1,5 @@
 import NavItems from "@/app/nav-items";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { auth, signIn, signOut } from "auth";
 import Link from "next/link";
 
@@ -12,7 +12,7 @@ async function AppBar() {
           <Link className="text-xl font-semibold mr-4" href="/">
             RoadmapAI
           </Link>
-          <span className="top-[24px] absolute left-[72px] items-center rounded-md bg-gray-200 px-1.5 py-0.5 text-[10px] font-medium text-gray-700">
+          <span className="top-[24px] absolute left-[98px] items-center rounded-md bg-gray-200 px-1.5 py-0.5 text-[10px] font-medium text-gray-700">
             BETA
           </span>
         </div>
@@ -35,14 +35,9 @@ async function AppBar() {
               </form>
             </div>
           ) : (
-            <form
-              action={async () => {
-                "use server";
-                await signIn();
-              }}
-            >
-              <Button type="submit">Login</Button>
-            </form>
+            <Link href="/auth/login" className={buttonVariants()}>
+              Login
+            </Link>
           )}
         </div>
       </div>

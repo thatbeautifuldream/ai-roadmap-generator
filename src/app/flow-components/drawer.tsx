@@ -13,6 +13,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../stores/useUI";
+import { Loader2 } from "lucide-react";
 
 export const Drawer = () => {
   const { drawerOpen, toggleDrawer, drawerDetails, model } = useUIStore(
@@ -21,7 +22,7 @@ export const Drawer = () => {
       toggleDrawer: state.toggleDrawer,
       drawerDetails: state.drawerDetails,
       model: state.model,
-    }))
+    })),
   );
 
   const { data, isSuccess } = useQuery({
@@ -39,9 +40,9 @@ export const Drawer = () => {
     },
     enabled: Boolean(
       drawerDetails &&
-        drawerDetails?.query &&
-        drawerDetails?.parent &&
-        drawerDetails?.child
+      drawerDetails?.query &&
+      drawerDetails?.parent &&
+      drawerDetails?.child,
     ),
     staleTime: Infinity,
   });
@@ -87,7 +88,7 @@ export const Drawer = () => {
           <p className="font-light">{drawerDetails?.child}</p>
         </div>
         <div>
-          {isSuccess && (
+          {isSuccess ? (
             <div>
               <div className="flex flex-wrap mb-2">
                 {data.data.text.link && (
@@ -151,10 +152,14 @@ export const Drawer = () => {
                           )}
                         </div>
                       </a>
-                    )
+                    ),
                   )}
                 </div>
               </div>
+            </div>
+          ) : (
+            <div className="flex justify-center items-center w-full h-[500px]">
+              <Loader2 className="w-6 h-6 animate-spin" />
             </div>
           )}
         </div>
