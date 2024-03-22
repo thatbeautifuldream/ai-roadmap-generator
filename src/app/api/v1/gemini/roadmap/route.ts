@@ -1,4 +1,5 @@
 import { saveRoadmap } from "@/actions/roadmaps";
+import { decrementCreditsByUserId } from "@/actions/users";
 import { db } from "@/lib/db";
 import { JSONType } from "@/lib/types";
 import { capitalize } from "@/lib/utils";
@@ -49,6 +50,16 @@ export const POST = async (req: Request, res: Response) => {
         `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: [{moduleName: string, moduleDescription: string, link?: string}]}} not in mardown format containing backticks.`,
       ],
     ]);
+    const creditsRemaining = await decrementCreditsByUserId();
+    if (!creditsRemaining) {
+      return NextResponse.json(
+        {
+          status: true,
+          message: "No credits remaining ",
+        },
+        { status: 200 }
+      );
+    }
     let json: JSONType | null = null;
 
     try {

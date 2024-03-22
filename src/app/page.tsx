@@ -1,4 +1,6 @@
+import { auth } from "@/auth";
 import MarqueeDemo from "@/components/ui/marque-wrapper";
+import { db } from "@/lib/db";
 import { ArrowUpRight, Wand } from "lucide-react";
 
 export default function Home() {
@@ -9,13 +11,19 @@ export default function Home() {
   );
 }
 
-function RoadmapLanding() {
+async function RoadmapLanding() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  const user = await db.user.findUnique({
+    where: { id: userId },
+  });
   const trendyRoadmaps = [
     "Backend",
     "Frontend",
     "Fullstack",
     "Machine Learning",
   ];
+
   return (
     <>
       <div className="flex flex-grow flex-col items-center px-4 py-6 sm:px-6">
@@ -71,7 +79,7 @@ function RoadmapLanding() {
           <p className="text-center text-gray-500">
             You have generated{" "}
             <span className="inline-block min-w-[50px] rounded-xl border px-1.5 text-center text-sm tabular-nums text-gray-800">
-              4 of 4
+              {user?.credits} of 5
             </span>{" "}
             roadmaps today.
           </p>

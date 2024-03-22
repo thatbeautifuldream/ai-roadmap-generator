@@ -1,4 +1,5 @@
 import { saveRoadmap } from "@/actions/roadmaps";
+import { decrementCreditsByUserId } from "@/actions/users";
 import { Node } from "@/app/shared/types/common";
 import { db } from "@/lib/db";
 import { JSONType } from "@/lib/types";
@@ -45,7 +46,16 @@ export const POST = async (req: Request, res: Response) => {
             ],
             response_format: { "type": "json_object" }
         })
-
+        const creditsRemaining = await decrementCreditsByUserId();
+        if (!creditsRemaining) {
+            return NextResponse.json(
+                {
+                    status: true,
+                    message: "No credits remaining ",
+                },
+                { status: 200 }
+            );
+        }
         let json: JSONType | null = null;
 
         try {
