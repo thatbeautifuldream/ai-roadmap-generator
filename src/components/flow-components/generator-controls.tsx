@@ -13,11 +13,11 @@ import { useEffect } from "react";
 import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
 import { toast } from "sonner";
 import { useShallow } from "zustand/react/shallow";
-import GenerateButton from "../flow-components/generate-button";
-import ModelSelect from "../flow-components/model-select";
-import { PresetActions } from "../roadmap/components/preset-actions";
-import { PresetShare } from "../roadmap/components/preset-share";
-import { useUIStore } from "../stores/useUI";
+import { PresetActions } from "../../app/roadmap/components/preset-actions";
+import { PresetShare } from "../../app/roadmap/components/preset-share";
+import { useUIStore } from "../../app/stores/useUI";
+import GenerateButton from "./generate-button";
+import ModelSelect from "./model-select";
 
 interface Props {
   renderFlow: string;

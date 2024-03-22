@@ -1,16 +1,16 @@
 "use client";
 
 import { getRoadmapById } from "@/actions/roadmaps";
-import ExpandCollapse from "@/app/flow-components/expand-collapse";
+import { EmptyAlert } from "@/components/alerts/EmptyAlert";
+import ExpandCollapse from "@/components/flow-components/expand-collapse";
 import { Separator } from "@/components/ui/separator";
 import { useGenerateRoadmap } from "@/lib/queries";
 import { decodeFromURL } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useShallow } from "zustand/react/shallow";
-import { GeneratorControls } from "../flow-components/generator-controls";
+import { GeneratorControls } from "../../components/flow-components/generator-controls";
 import { useUIStore } from "../stores/useUI";
-import { EmptyAlert } from "@/components/alerts/EmptyAlert";
 
 interface Props {
   roadmapId?: string;
@@ -25,7 +25,7 @@ export default function Roadmap({ roadmapId }: Props) {
       setMainQuery: state.setMainQuery,
       modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
-    })),
+    }))
   );
 
   const { data: roadmap, isPending: isRoadmapPending } = useQuery({
@@ -44,7 +44,7 @@ export default function Roadmap({ roadmapId }: Props) {
   const { data, mutate, isPending } = useGenerateRoadmap(
     mainQuery,
     model,
-    modelApiKey,
+    modelApiKey
   );
 
   const params = useSearchParams();
@@ -58,7 +58,6 @@ export default function Roadmap({ roadmapId }: Props) {
     <>
       <div className="mx-auto max-w-7xl">
         <GeneratorControls
-          // data={data}
           mutate={mutate}
           isPending={isPending}
           renderFlow={renderFlow}

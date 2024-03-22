@@ -10,10 +10,10 @@ import { formatDuration } from "@/lib/utils";
 import { searchYoutube } from "@/lib/youtube";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useShallow } from "zustand/react/shallow";
-import { useUIStore } from "../stores/useUI";
-import { Loader2 } from "lucide-react";
+import { useUIStore } from "../../app/stores/useUI";
 
 export const Drawer = () => {
   const { drawerOpen, toggleDrawer, drawerDetails, model } = useUIStore(
@@ -22,7 +22,7 @@ export const Drawer = () => {
       toggleDrawer: state.toggleDrawer,
       drawerDetails: state.drawerDetails,
       model: state.model,
-    })),
+    }))
   );
 
   const { data, isSuccess } = useQuery({
@@ -40,9 +40,9 @@ export const Drawer = () => {
     },
     enabled: Boolean(
       drawerDetails &&
-      drawerDetails?.query &&
-      drawerDetails?.parent &&
-      drawerDetails?.child,
+        drawerDetails?.query &&
+        drawerDetails?.parent &&
+        drawerDetails?.child
     ),
     staleTime: Infinity,
   });
@@ -152,7 +152,7 @@ export const Drawer = () => {
                           )}
                         </div>
                       </a>
-                    ),
+                    )
                   )}
                 </div>
               </div>

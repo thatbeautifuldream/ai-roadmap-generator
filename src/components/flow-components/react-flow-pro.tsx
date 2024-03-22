@@ -8,9 +8,9 @@ import ReactFlow, {
   useReactFlow,
 } from "reactflow";
 import { useShallow } from "zustand/react/shallow";
+import { proOptions } from "../../app/shared/constants";
+import { useUIStore } from "../../app/stores/useUI";
 import useAnimatedNodes from "../../hooks/use-animated-nodes";
-import { proOptions } from "../shared/constants";
-import { useUIStore } from "../stores/useUI";
 
 type ProProps = {
   animationDuration?: number;
