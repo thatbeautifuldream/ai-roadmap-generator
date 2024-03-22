@@ -9,7 +9,7 @@ async function AppBar() {
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="p-2 flex gap-2 items-center">
         <div className="relative">
-          <Link className="text-xl font-semibold mr-4" href="/">
+          <Link className="text-xl font-bold mr-4" href="/">
             RoadmapAI
           </Link>
           <span className="top-[24px] absolute left-[98px] items-center rounded-md bg-gray-200 px-1.5 py-0.5 text-[10px] font-medium text-gray-700">

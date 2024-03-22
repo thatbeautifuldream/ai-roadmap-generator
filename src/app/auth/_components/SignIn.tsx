@@ -7,7 +7,7 @@ const SignIn = () => {
     <div className="container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
       <div className="flex flex-col space-y-2 text-center">
         <div className="relative mb-8">
-          <Link className="text-3xl font-semibold mr-4" href="/">
+          <Link className="text-3xl font-bold mr-4" href="/">
             RoadmapAI
           </Link>
           <span className="top-[34px] absolute right-[70px] items-center rounded-md bg-gray-200 px-1.5 py-0.5 text-[10px] font-medium text-gray-700">
