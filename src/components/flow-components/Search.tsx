@@ -1,9 +1,45 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useSearch } from "@/lib/queries";
+import { EyeIcon } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
+
+function RoadmapCard({
+  title,
+  views,
+  timeAgo,
+  id,
+}: {
+  title?: string;
+  views?: string;
+  timeAgo?: string;
+  id?: string;
+}) {
+  return (
+    <>
+      <Link
+        href={`/roadmap/${id}`}
+        className="flex flex-col rounded-md border transition-colors hover:bg-gray-100"
+        style={{ maxHeight: "150px", overflow: "hidden" }}
+      >
+        <h2 className="flex-grow px-2.5 py-2.5 text-base font-medium leading-tight">
+          {title}
+        </h2>
+        <div className="flex items-center justify-between gap-2 px-2.5 py-2">
+          <span className="flex items-center gap-1.5 text-xs text-gray-400">
+            <EyeIcon />
+            {views}
+          </span>
+          <span className="flex items-center gap-1.5 text-xs text-gray-400">
+            {timeAgo}
+          </span>
+        </div>
+      </Link>
+    </>
+  );
+}
 
 export const Search = () => {
   const [search, setSearch] = useState("");
@@ -35,10 +71,21 @@ export const Search = () => {
           Search
         </Button>
       </div>
-      {searchData &&
-        searchData.data.map((item: any) => (
-          <Card key={item.id}>{item.title}</Card>
-        ))}
+      <div className="mx-auto max-w-7xl sm:px-6 lg:px-8"></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {searchData &&
+          searchData.data.map((item: any) => (
+            <>
+              <RoadmapCard
+                key={item.id}
+                title={item.title}
+                views="2 views"
+                timeAgo="2 days ago"
+                id={item.id}
+              />
+            </>
+          ))}
+      </div>
     </>
   );
 };
