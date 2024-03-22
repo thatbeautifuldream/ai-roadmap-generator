@@ -11,13 +11,13 @@ import { AxiosError } from "axios";
 import { toPng } from "html-to-image";
 import { useEffect } from "react";
 import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
+import { toast } from "sonner";
 import { useShallow } from "zustand/react/shallow";
 import GenerateButton from "../flow-components/generate-button";
 import ModelSelect from "../flow-components/model-select";
 import { PresetActions } from "../roadmap/components/preset-actions";
 import { PresetShare } from "../roadmap/components/preset-share";
 import { useUIStore } from "../stores/useUI";
-import { toast } from "sonner";
 
 interface Props {
   renderFlow: string;
@@ -94,12 +94,8 @@ export const GeneratorControls = (props: Props) => {
       });
 
       setMainQuery(query);
+      // [TODO] : Check if title query is present in db if yes return data from db
       mutate({ body: { query: mainQuery } });
-      toast.success("Roadmap generated successfully", {
-        description: "You can now download or share your roadmap.",
-        position: "bottom-right",
-        duration: 4000,
-      })
     } catch (e) {
       console.error(e);
     }
@@ -138,4 +134,3 @@ export const GeneratorControls = (props: Props) => {
     </div>
   );
 };
-

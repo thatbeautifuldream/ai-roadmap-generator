@@ -10,7 +10,7 @@ async function AppBar() {
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="p-2 flex gap-2 items-center">
         <Link href="/">
-          <Icons.logo className="h-[40px] w-[125px]" />
+          <Icons.logo className="h-[50px] w-[150px]" />
         </Link>
         {session && session.user && <NavItems />}
         <div className="ml-auto flex items-center">

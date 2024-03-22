@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 export default function NavItems() {
   const pathname = usePathname();
   return (
-    <div className="flex gap-x-2 ml-4">
+    <div className="flex gap-x-2">
       <Link
         className="font-semibold text-sm underline-offset-4 hover:underline"
         href={"/dashboard"}

@@ -63,6 +63,7 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
     <ReactFlow
       minZoom={-Infinity}
       fitView
+      // [TODO] : add nodeTypes and edgeTypes for memoisation
       nodes={nodes}
       edges={edges}
       onNodeClick={handleNodeClick}

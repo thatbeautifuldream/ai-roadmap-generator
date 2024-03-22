@@ -56,12 +56,19 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+enum Visibility {
+  PRIVATE
+  PUBLIC
+}
+
 model Roadmap {
   id        String   @id @default(cuid())
-  title     String
+  title     String   @unique
   content   String
   userId    String
   author    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   views     Int      @default(0)
+
+  visibility Visibility @default(PUBLIC)
 }
