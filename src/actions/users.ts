@@ -1,9 +1,9 @@
 "use server";
 import { db } from "@/lib/db";
-import { gerUserId } from "./roadmaps";
+import { getUserId } from "./roadmaps";
 
 export const decrementCreditsByUserId = async () => {
-  const userId = (await gerUserId()) as string;
+  const userId = (await getUserId()) as string;
   try {
     // Retrieve the current user's credits
     const user = await db.user.findUnique({
@@ -35,16 +35,19 @@ export const decrementCreditsByUserId = async () => {
   }
 };
 
-export const getUserCredits = async () => {
-  const userId = (await gerUserId()) as string;
+export const userHasCredits = async () => {
+  const userId = (await getUserId()) as string;
   const user = await db.user.findUnique({
     where: {
       id: userId,
     },
+    select: {
+      credits: true,
+    },
   });
-  const credits = user?.credits;
-  if (user && !credits || credits as number < 1) {
-    return false;
+
+  if (user && user?.credits > 0) {
+    return true;
   }
-  return true;
+  return false;
 };

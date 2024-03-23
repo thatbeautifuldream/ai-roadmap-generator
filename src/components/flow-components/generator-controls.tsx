@@ -101,6 +101,7 @@ export const GeneratorControls = (props: Props) => {
       }
 
       const userCredits = await getUserCredits();
+      const userCredits = await userHasCredits();
       if (!userCredits && modelApiKey === "") {
         return toast.error("You don't have enough credits", {
           description: "To continue please enter your own api key.",
