@@ -7,7 +7,7 @@ const SignIn = () => {
     <div className="container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
       <div className="flex flex-col space-y-2 text-center">
         <div className="flex justify-center">
-          <Icons.logo />
+          <Icons.roadmapai />
         </div>
         <p className="text-sm text-gray-600 max-w-xs mx-auto pb-4">
           By continuing, you are setting up for a RoadmapAI account and agree to

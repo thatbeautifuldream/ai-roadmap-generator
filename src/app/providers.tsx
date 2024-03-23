@@ -1,10 +1,11 @@
 "use client";
 
-import { SessionProvider } from "next-auth/react";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { SessionProvider } from "next-auth/react";
+import * as React from "react";
 import { Toaster } from "sonner";
-import { GoogleAnalytics } from "@next/third-parties/google";
 
 const queryClient = new QueryClient();
 

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -12,6 +12,7 @@
     "db:migrate": "pnpx prisma migrate dev",
     "db:push": "pnpx prisma db push",
     "db:pull": "pnpx prisma db pull",
+    "db:seed": "node ./prisma/seed.js",
     "postinstall": "pnpx prisma generate"
   },
   "dependencies": {
