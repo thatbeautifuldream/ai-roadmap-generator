@@ -67,7 +67,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             status: true,
             message: "No credits remaining ",
           },
-          { status: 200 }
+          { status: 400 }
         );
       }
     }

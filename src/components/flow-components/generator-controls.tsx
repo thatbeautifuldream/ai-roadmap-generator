@@ -34,6 +34,7 @@ import {
 } from "../ui/select";
 import { Visibility } from "@prisma/client";
 import ApiKeyDialog from "@/components/ApiKeyDialog";
+import { decrementCreditsByUserId } from "@/actions/users";
 
 interface Props {
   renderFlow: string;
@@ -44,7 +45,7 @@ interface Props {
 export const GeneratorControls = (props: Props) => {
   const { renderFlow, mutate, isPending } = props;
   const { getNodes } = useReactFlow();
-  const { model, query, setModelApiKey, setQuery } = useUIStore(
+  const { model, query, setModelApiKey, setQuery, modelApiKey } = useUIStore(
     useShallow((state) => ({
       model: state.model,
       query: state.query,
@@ -101,6 +102,15 @@ export const GeneratorControls = (props: Props) => {
         });
       }
 
+      const userCredits = await decrementCreditsByUserId()
+      if(!userCredits && modelApiKey === "") {
+        return toast.error("You don't have enough credits", {
+          description: "To continue please enter your own api key.",
+          position: "bottom-right",
+          duration: 4000,
+        })
+      }
+
       toast.info("We are generating your roadmap. Please wait...", {
         position: "bottom-right",
         duration: 4000,
@@ -108,8 +118,14 @@ export const GeneratorControls = (props: Props) => {
 
       // [TODO] : Check if title query is present in db if yes return data from db
       mutate({ body: { query } });
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      if (e.response?.message) {
+        toast.error(e.response.message, {
+          position: "bottom-right",
+          duration: 4000,
+        });
+      }
+      console.error("api error",e);
     }
   };
 
