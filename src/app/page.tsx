@@ -30,7 +30,7 @@ async function RoadmapLanding() {
   return (
     <>
       <div className="flex flex-grow flex-col items-center px-4 py-6 sm:px-6">
-        <div className="flex flex-col gap-0 text-center sm:gap-2 md:mt-6 lg:mt-14">
+        <div className="flex flex-col gap-0 text-center sm:gap-1 md:mt-6 lg:mt-14">
           <h1 className="relative text-4xl font-bold sm:text-3xl">
             <span className="hidden sm:inline">Generate roadmaps with AI</span>
             <span className="inline sm:hidden">AI Roadmap Generator</span>
@@ -43,9 +43,6 @@ async function RoadmapLanding() {
               Enter a topic to generate a roadmap
             </span>
           </p>
-        </div>
-        <div className="overflow-hidden max-w-7xl h-72">
-          <MarqueeDemo />
         </div>
         <div className="my-3 mt-6 flex w-full max-w-[600px] flex-col items-center gap-3 sm:my-5">
           <form className="flex w-full flex-col gap-2 sm:flex-row">
@@ -78,7 +75,7 @@ async function RoadmapLanding() {
             ))}
           </div>
         </div>
-        <div className="mt-12 flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4">
           <p className="text-center text-gray-500">
             You have generated{" "}
             <span className="inline-block min-w-[50px] rounded-xl border px-1.5 text-center text-sm tabular-nums text-gray-800">
@@ -94,6 +91,9 @@ async function RoadmapLanding() {
               </span>
             </button>
           </p>
+        </div>
+        <div className="overflow-hidden max-w-6xl h-64">
+          <MarqueeDemo />
         </div>
       </div>
     </>
