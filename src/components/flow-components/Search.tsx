@@ -1,10 +1,10 @@
 "use client";
+import { EmptyAlert } from "../alerts/EmptyAlert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSearch } from "@/lib/queries";
 import { timeFromNow } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { EmptyAlert } from "../alerts/EmptyAlert";
 import RoadmapCard from "./roadmap-card";
 
 export const Search = () => {
@@ -44,7 +44,9 @@ export const Search = () => {
             />
           ))
         ) : (
-          <EmptyAlert description="You haven't created any roadmaps yet. Please create one to get started." />
+          <div className="w-full mx-auto">
+            <EmptyAlert description="You haven't created any roadmaps yet. Please create one to get started." />
+          </div>
         )}
       </div>
     </>
