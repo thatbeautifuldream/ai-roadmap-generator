@@ -49,6 +49,7 @@ export const GeneratorControls = (props: Props) => {
     useShallow((state) => ({
       model: state.model,
       query: state.query,
+      modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
     })),
@@ -102,13 +103,13 @@ export const GeneratorControls = (props: Props) => {
         });
       }
 
-      const userCredits = await decrementCreditsByUserId()
-      if(!userCredits && modelApiKey === "") {
+      const userCredits = await decrementCreditsByUserId();
+      if (!userCredits && modelApiKey === "") {
         return toast.error("You don't have enough credits", {
           description: "To continue please enter your own api key.",
           position: "bottom-right",
           duration: 4000,
-        })
+        });
       }
 
       toast.info("We are generating your roadmap. Please wait...", {
@@ -125,7 +126,7 @@ export const GeneratorControls = (props: Props) => {
           duration: 4000,
         });
       }
-      console.error("api error",e);
+      console.error("api error", e);
     }
   };
 
