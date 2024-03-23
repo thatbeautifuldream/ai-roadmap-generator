@@ -22,6 +22,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical } from "lucide-react";
@@ -34,7 +35,8 @@ import {
 } from "../ui/select";
 import { Visibility } from "@prisma/client";
 import ApiKeyDialog from "@/components/ApiKeyDialog";
-import { decrementCreditsByUserId } from "@/actions/users";
+import { getUserCredits } from "@/actions/users";
+import { useRouter } from "next/navigation";
 
 interface Props {
   renderFlow: string;
@@ -54,6 +56,8 @@ export const GeneratorControls = (props: Props) => {
       setQuery: state.setQuery,
     })),
   );
+
+  const router = useRouter();
 
   useEffect(() => {
     const modelApiKey = localStorage.getItem(`${model.toUpperCase()}_API_KEY`);
@@ -103,7 +107,7 @@ export const GeneratorControls = (props: Props) => {
         });
       }
 
-      const userCredits = await decrementCreditsByUserId();
+      const userCredits = await getUserCredits();
       if (!userCredits && modelApiKey === "") {
         return toast.error("You don't have enough credits", {
           description: "To continue please enter your own api key.",
@@ -112,20 +116,38 @@ export const GeneratorControls = (props: Props) => {
         });
       }
 
-      toast.info("We are generating your roadmap. Please wait...", {
+      toast.info("Generating roadmap", {
+        description: "We are generating a roadmap for you.",
         position: "bottom-right",
         duration: 4000,
       });
 
       // [TODO] : Check if title query is present in db if yes return data from db
-      mutate({ body: { query } });
+      mutate(
+        {
+          body: { query },
+        },
+        {
+          onSuccess: () => {
+            setQuery("");
+            toast.success("Success", {
+              description: "Roadmap generated successfully.",
+              position: "bottom-right",
+              duration: 4000,
+            });
+          },
+          onError: (error: any) => {
+            console.log("Trying to catch error", error);
+            toast.error("Something went wrong", {
+              description:
+                error.response?.data?.message || "Unknown error occurred",
+              position: "bottom-right",
+              duration: 4000,
+            });
+          },
+        },
+      );
     } catch (e: any) {
-      if (e.response?.message) {
-        toast.error(e.response.message, {
-          position: "bottom-right",
-          duration: 4000,
-        });
-      }
       console.error("api error", e);
     }
   };
@@ -174,7 +196,7 @@ export const GeneratorControls = (props: Props) => {
                   <PresetShare query={query} key={renderFlow} />
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Button variant="secondary" onClick={onClick}>
+                  <Button variant="default" className="w-full" onClick={onClick}>
                     Download
                   </Button>
                 </DropdownMenuItem>

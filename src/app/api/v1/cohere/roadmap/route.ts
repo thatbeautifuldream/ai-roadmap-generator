@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest, res: Response) => {
 
     if (!apiKey && !process.env.COHERE_API_KEY) {
       return NextResponse.json(
-        { status: false, message: "Please provide API key." },
+        { status: false, message: "API key not found. Please provide your api key to generate a roadmap." },
         { status: 400 },
       );
     }
