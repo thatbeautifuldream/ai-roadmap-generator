@@ -5,13 +5,15 @@ import "reactflow/dist/style.css";
 import { Node } from "../../app/shared/types/common";
 import { Drawer } from "./drawer";
 import ReactFlowPro from "./react-flow-pro";
+import { Loader2 } from "lucide-react";
 
 type Props = {
   data: Node[];
+  isPending: boolean;
 };
 
 function ExpandCollapse(props: Props) {
-  const { data } = props;
+  const { data, isPending } = props;
 
   const h: HierarchyNode<unknown> = hierarchy<unknown>(data[0]);
   h.descendants().forEach((d: any, i: number) => {
@@ -19,6 +21,13 @@ function ExpandCollapse(props: Props) {
     d._children = d.children;
     d.children = null;
   });
+
+  if (isPending)
+    return (
+      <div className="w-full h-[86vh] flex justify-center items-center">
+        <Loader2 className="animate-spin w-8 h-8" />
+      </div>
+    );
 
   return (
     <div className="w-full h-[86vh]">

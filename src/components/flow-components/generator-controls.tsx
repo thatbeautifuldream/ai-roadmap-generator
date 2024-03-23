@@ -18,6 +18,23 @@ import { PresetShare } from "../../app/roadmap/components/preset-share";
 import { useUIStore } from "../../app/stores/useUI";
 import GenerateButton from "./generate-button";
 import ModelSelect from "./model-select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { EllipsisVertical } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Visibility } from "@prisma/client";
+import ApiKeyDialog from "@/components/ApiKeyDialog";
+import { decrementCreditsByUserId } from "@/actions/users";
 
 interface Props {
   renderFlow: string;
@@ -28,17 +45,17 @@ interface Props {
 export const GeneratorControls = (props: Props) => {
   const { renderFlow, mutate, isPending } = props;
   const { getNodes } = useReactFlow();
-  const { model, query, setModelApiKey, setQuery } = useUIStore(
+  const { model, query, setModelApiKey, setQuery, modelApiKey } = useUIStore(
     useShallow((state) => ({
       model: state.model,
       query: state.query,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
-    }))
+    })),
   );
 
   useEffect(() => {
-    const modelApiKey = localStorage.getItem(`${model}_API_KEY`);
+    const modelApiKey = localStorage.getItem(`${model.toUpperCase()}_API_KEY`);
     if (modelApiKey) {
       setModelApiKey(modelApiKey);
     }
@@ -54,7 +71,7 @@ export const GeneratorControls = (props: Props) => {
       DIAGRAM_IMAGE_WIDTH,
       DIAGRAM_IMAGE_HEIGHT,
       0.5,
-      2
+      2,
     );
 
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
@@ -73,7 +90,7 @@ export const GeneratorControls = (props: Props) => {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>,
   ) => {
     e.preventDefault();
     try {
@@ -85,6 +102,15 @@ export const GeneratorControls = (props: Props) => {
         });
       }
 
+      const userCredits = await decrementCreditsByUserId()
+      if(!userCredits && modelApiKey === "") {
+        return toast.error("You don't have enough credits", {
+          description: "To continue please enter your own api key.",
+          position: "bottom-right",
+          duration: 4000,
+        })
+      }
+
       toast.info("We are generating your roadmap. Please wait...", {
         position: "bottom-right",
         duration: 4000,
@@ -92,9 +118,19 @@ export const GeneratorControls = (props: Props) => {
 
       // [TODO] : Check if title query is present in db if yes return data from db
       mutate({ body: { query } });
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      if (e.response?.message) {
+        toast.error(e.response.message, {
+          position: "bottom-right",
+          duration: 4000,
+        });
+      }
+      console.error("api error",e);
     }
+  };
+
+  const onValueChange = (value: string) => {
+    console.log(value);
   };
 
   return (
@@ -114,13 +150,35 @@ export const GeneratorControls = (props: Props) => {
         <div className="hidden sm:flex">
           <ModelSelect />
         </div>
+        {/* TODO Add logic to set visibility in backend */}
+        <Select onValueChange={onValueChange}>
+          <SelectTrigger className="md:w-[140px] w-fit">
+            <SelectValue placeholder="Visibility" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={Visibility.PUBLIC}>Public</SelectItem>
+            <SelectItem value={Visibility.PRIVATE}>Private</SelectItem>
+          </SelectContent>
+        </Select>
         <GenerateButton onClick={onSubmit} disabled={isPending} />
+        <ApiKeyDialog />
         {renderFlow && (
           <>
-            <PresetShare query={query} key={renderFlow} />
-            <Button variant="secondary" onClick={onClick}>
-              Download
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <EllipsisVertical />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>
+                  <PresetShare query={query} key={renderFlow} />
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Button variant="secondary" onClick={onClick}>
+                    Download
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </>
         )}
       </div>
