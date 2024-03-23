@@ -44,7 +44,7 @@ async function RoadmapLanding() {
             </span>
           </p>
         </div>
-        <div className="overflow-hidden max-w-7xl h-96">
+        <div className="overflow-hidden max-w-7xl h-72">
           <MarqueeDemo />
         </div>
         <div className="my-3 mt-6 flex w-full max-w-[600px] flex-col items-center gap-3 sm:my-5">

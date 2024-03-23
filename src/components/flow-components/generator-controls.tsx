@@ -33,6 +33,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Visibility } from "@prisma/client";
+import ApiKeyDialog from "@/components/ApiKeyDialog";
 
 interface Props {
   renderFlow: string;
@@ -144,6 +145,7 @@ export const GeneratorControls = (props: Props) => {
           </SelectContent>
         </Select>
         <GenerateButton onClick={onSubmit} disabled={isPending} />
+        <ApiKeyDialog />
         {renderFlow && (
           <>
             <DropdownMenu>
