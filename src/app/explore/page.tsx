@@ -6,7 +6,6 @@ const explore = () => {
       <h2 className="text-center text-lg font-semibold leading-8 text-gray-900 my-4">
         Explore Roadmaps
       </h2>
-
       <Search />
     </div>
   );

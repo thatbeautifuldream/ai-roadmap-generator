@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function SearchAlert() {
   return (
-    <Alert variant="destructive">
+    <Alert variant="destructive" className="w-full min-w-[50vw]">
       <AlertCircle className="h-4 w-4" />
       <AlertTitle>Oops</AlertTitle>
       <AlertDescription>

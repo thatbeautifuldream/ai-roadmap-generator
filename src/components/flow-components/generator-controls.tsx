@@ -18,6 +18,21 @@ import { PresetShare } from "../../app/roadmap/components/preset-share";
 import { useUIStore } from "../../app/stores/useUI";
 import GenerateButton from "./generate-button";
 import ModelSelect from "./model-select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { EllipsisVertical } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Visibility } from "@prisma/client";
 
 interface Props {
   renderFlow: string;
@@ -34,7 +49,7 @@ export const GeneratorControls = (props: Props) => {
       query: state.query,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
-    }))
+    })),
   );
 
   useEffect(() => {
@@ -54,7 +69,7 @@ export const GeneratorControls = (props: Props) => {
       DIAGRAM_IMAGE_WIDTH,
       DIAGRAM_IMAGE_HEIGHT,
       0.5,
-      2
+      2,
     );
 
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
@@ -73,7 +88,7 @@ export const GeneratorControls = (props: Props) => {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>,
   ) => {
     e.preventDefault();
     try {
@@ -97,6 +112,10 @@ export const GeneratorControls = (props: Props) => {
     }
   };
 
+  const onValueChange = (value: string) => {
+    console.log(value);
+  };
+
   return (
     <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
       <div className="ml-auto flex w-full space-x-2 sm:justify-end">
@@ -114,13 +133,34 @@ export const GeneratorControls = (props: Props) => {
         <div className="hidden sm:flex">
           <ModelSelect />
         </div>
+        {/* TODO Add logic to set visibility in backend */}
+        <Select onValueChange={onValueChange}>
+          <SelectTrigger className="md:w-[140px] w-fit">
+            <SelectValue placeholder="Visibility" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={Visibility.PUBLIC}>Public</SelectItem>
+            <SelectItem value={Visibility.PRIVATE}>Private</SelectItem>
+          </SelectContent>
+        </Select>
         <GenerateButton onClick={onSubmit} disabled={isPending} />
         {renderFlow && (
           <>
-            <PresetShare query={query} key={renderFlow} />
-            <Button variant="secondary" onClick={onClick}>
-              Download
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <EllipsisVertical />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>
+                  <PresetShare query={query} key={renderFlow} />
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Button variant="secondary" onClick={onClick}>
+                    Download
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </>
         )}
       </div>

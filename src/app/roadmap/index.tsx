@@ -11,6 +11,7 @@ import { useSearchParams } from "next/navigation";
 import { useShallow } from "zustand/react/shallow";
 import { GeneratorControls } from "../../components/flow-components/generator-controls";
 import { useUIStore } from "../stores/useUI";
+import { Loader2 } from "lucide-react";
 
 interface Props {
   roadmapId?: string;
@@ -22,7 +23,7 @@ export default function Roadmap({ roadmapId }: Props) {
       model: state.model,
       query: state.query,
       modelApiKey: state.modelApiKey,
-    }))
+    })),
   );
 
   const { data: roadmap, isPending: isRoadmapPending } = useQuery({
@@ -41,7 +42,7 @@ export default function Roadmap({ roadmapId }: Props) {
   const { data, mutate, isPending } = useGenerateRoadmap(
     query,
     model,
-    modelApiKey
+    modelApiKey,
   );
 
   const params = useSearchParams();
@@ -61,15 +62,27 @@ export default function Roadmap({ roadmapId }: Props) {
         />
       </div>
       <Separator />
-      {renderFlow ? (
-        <ExpandCollapse
-          key={renderFlow}
-          data={roadmap?.content || data?.tree || decodeFromURL(params)}
-        />
-      ) : (
-        <div className="mx-auto max-w-5xl mt-8">
-          <EmptyAlert />
+      {isPending ? (
+        <div className="h-[75vh] grid place-content-center">
+          <Loader2 className="animate-spin w-8 h-8" />
         </div>
+      ) : (
+        <>
+          {renderFlow ? (
+            <ExpandCollapse
+              key={renderFlow}
+              data={roadmap?.content || data?.tree || decodeFromURL(params)}
+              isPending={isRoadmapPending || isPending}
+            />
+          ) : (
+            <div className="mt-8 grid place-content-center">
+              <EmptyAlert
+                title="Generate a roadmap"
+                description={`Type something in the input field and click "Generate" to see results.`}
+              />
+            </div>
+          )}
+        </>
       )}
     </>
   );

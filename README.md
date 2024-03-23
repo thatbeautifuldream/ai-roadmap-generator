@@ -44,3 +44,8 @@ OPENAI_API_KEY=
 GOOGLE_API_KEY=
 COHERE_API_KEY=
 ```
+
+## Setting up Docker for production
+
+- Build your container: `docker build -t roadmap-ai .`
+- Run your container: `docker run -p 3000:3000 roadmap-ai`

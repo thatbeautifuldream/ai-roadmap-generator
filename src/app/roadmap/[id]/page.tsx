@@ -1,4 +1,5 @@
 import { getRoadmapById } from "@/actions/roadmaps";
+import { ErrorAlert } from "@/components/alerts/ErrorAlert";
 import { Flow } from "@/components/flow-components/Flow";
 
 type PageProps = {
@@ -11,7 +12,7 @@ const generatorById = async (props: PageProps) => {
     params: { id: roadmapId },
   } = props;
   const roadmap = await getRoadmapById(roadmapId);
-  if (!roadmap) return <>Error Component</>;
+  if (!roadmap) return <ErrorAlert />;
   return (
     <>
       <Flow roadmapId={roadmapId} />

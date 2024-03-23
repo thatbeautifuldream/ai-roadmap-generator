@@ -33,7 +33,7 @@ const ModelSelect = () => {
 
   return (
     <Select value={model} onValueChange={onValueChange}>
-      <SelectTrigger className="w-[120px]">
+      <SelectTrigger className="w-[110px]">
         <SelectValue placeholder="Model" />
       </SelectTrigger>
       <SelectContent>
