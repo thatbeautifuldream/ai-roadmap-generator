@@ -78,7 +78,7 @@ export const incrementRoadmapSearchCount = async (roadmapId: string) => {
 
 export const changeRoadmapVisibility = async (
   roadmapId: string,
-  visibility: "PUBLIC" | "PRIVATE",
+  visibility: "PUBLIC" | "PRIVATE"
 ) => {
   await db.roadmap.update({
     where: {
@@ -88,4 +88,29 @@ export const changeRoadmapVisibility = async (
       visibility,
     },
   });
+};
+
+export const toggleRoadmapVisibility = async (roadmapId: string) => {
+  const roadmap = await db.roadmap.findUnique({
+    where: {
+      id: roadmapId,
+    },
+  });
+
+  if (!roadmap) {
+    throw Error("Roadmap not found");
+  }
+
+  const visibility = roadmap.visibility === "PUBLIC" ? "PRIVATE" : "PUBLIC";
+
+  await db.roadmap.update({
+    where: {
+      id: roadmapId,
+    },
+    data: {
+      visibility,
+    },
+  });
+
+  return visibility;
 };
