@@ -143,6 +143,9 @@ dependencies:
   d3-scale:
     specifier: ^4.0.2
     version: 4.0.2
+  d3-timer:
+    specifier: ^3.0.1
+    version: 3.0.1
   date-fns:
     specifier: ^3.5.0
     version: 3.5.0
