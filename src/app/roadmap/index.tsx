@@ -7,11 +7,11 @@ import { Separator } from "@/components/ui/separator";
 import { useGenerateRoadmap } from "@/lib/queries";
 import { decodeFromURL } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useShallow } from "zustand/react/shallow";
 import { GeneratorControls } from "../../components/flow-components/generator-controls";
 import { useUIStore } from "../stores/useUI";
-import { Loader2 } from "lucide-react";
 
 interface Props {
   roadmapId?: string;
@@ -23,7 +23,7 @@ export default function Roadmap({ roadmapId }: Props) {
       model: state.model,
       query: state.query,
       modelApiKey: state.modelApiKey,
-    })),
+    }))
   );
 
   const { data: roadmap, isPending: isRoadmapPending } = useQuery({
@@ -37,12 +37,13 @@ export default function Roadmap({ roadmapId }: Props) {
       throw Error("error");
     },
     queryKey: ["Roadmap", roadmapId],
+    enabled: Boolean(roadmapId),
   });
 
   const { data, mutate, isPending } = useGenerateRoadmap(
     query,
     model,
-    modelApiKey,
+    modelApiKey
   );
 
   const params = useSearchParams();

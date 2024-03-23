@@ -30,7 +30,7 @@ async function RoadmapLanding() {
   return (
     <>
       <div className="flex flex-grow flex-col items-center px-4 py-6 sm:px-6">
-        <div className="flex flex-col gap-0 text-center sm:gap-1 md:mt-6 lg:mt-14">
+        <div className="flex flex-col gap-0 text-center sm:gap-1 md:mt-6 lg:mt-32">
           <h1 className="relative text-4xl font-bold sm:text-3xl">
             <span className="hidden sm:inline">Generate roadmaps with AI</span>
             <span className="inline sm:hidden">AI Roadmap Generator</span>

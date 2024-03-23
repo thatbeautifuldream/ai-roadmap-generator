@@ -6,10 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useQueryClient } from "@tanstack/react-query";
 import LZString from "lz-string";
 import { toast } from "sonner";
@@ -32,17 +35,19 @@ export function PresetShare({ query }: { query: string }) {
     // gemini
   };
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="secondary">Share</Button>
-      </PopoverTrigger>
-      <PopoverContent align="end" className="w-[520px]">
-        <div className="flex flex-col space-y-2 text-center sm:text-left">
-          <h3 className="text-lg font-semibold">Share roadmap</h3>
-          <p className="text-sm text-muted-foreground">
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="default" className="w-full">
+          Share
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="w-[520px]">
+        <DialogHeader>
+          <DialogTitle>Share roadmap</DialogTitle>
+          <DialogDescription>
             Anyone who has this link can view your roadmap.
-          </p>
-        </div>
+          </DialogDescription>
+        </DialogHeader>
         <div className="flex items-center space-x-2 pt-4">
           <div className="grid flex-1 gap-2">
             <Label htmlFor="link" className="sr-only">
@@ -51,9 +56,9 @@ export function PresetShare({ query }: { query: string }) {
             <Input
               id="link"
               defaultValue={
-                typeof window !== "undefined" && window.location.origin
+                typeof window !== "undefined"
                   ? window.location.origin + "?code=" + getURL()
-                  : "" + "?code=" + getURL()
+                  : ""
               }
               readOnly
               className="h-9"
@@ -62,9 +67,13 @@ export function PresetShare({ query }: { query: string }) {
           <Button
             onClick={() => {
               navigator.clipboard.writeText(
-                (document.getElementById("link") as HTMLInputElement)?.value
+                (document.getElementById("link") as HTMLInputElement)?.value,
               );
-              toast.success("Link copied to clipboard");
+              toast.success("Copied", {
+                description: "Link copied to clipboard successfully.",
+                position: "bottom-right",
+                duration: 4000,
+              });
             }}
             type="button"
             size="sm"
@@ -74,7 +83,7 @@ export function PresetShare({ query }: { query: string }) {
             <CopyIcon className="h-4 w-4" />
           </Button>
         </div>
-      </PopoverContent>
-    </Popover>
+      </DialogContent>
+    </Dialog>
   );
 }
