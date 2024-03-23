@@ -54,7 +54,7 @@ export const GeneratorControls = (props: Props) => {
   );
 
   useEffect(() => {
-    const modelApiKey = localStorage.getItem(`${model}_API_KEY`);
+    const modelApiKey = localStorage.getItem(`${model.toUpperCase()}_API_KEY`);
     if (modelApiKey) {
       setModelApiKey(modelApiKey);
     }
