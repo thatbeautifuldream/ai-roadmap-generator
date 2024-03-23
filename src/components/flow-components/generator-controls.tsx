@@ -30,15 +30,34 @@ import { PresetShare } from "../../app/roadmap/components/preset-share";
 import { useUIStore } from "../../app/stores/useUI";
 import GenerateButton from "./generate-button";
 import ModelSelect from "./model-select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { EllipsisVertical } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Visibility } from "@prisma/client";
+import ApiKeyDialog from "@/components/ApiKeyDialog";
+import { userHasCredits } from "@/actions/users";
+import { changeRoadmapVisibility } from "@/actions/roadmaps";
 
 interface Props {
   renderFlow: string;
   isPending: boolean;
   mutate: UseMutateFunction<any, AxiosError<unknown, any>, any, unknown>;
+  dbRoadmapId: string;
 }
 
 export const GeneratorControls = (props: Props) => {
-  const { renderFlow, mutate, isPending } = props;
+  const { renderFlow, mutate, isPending, roadmapId, dbRoadmapId } = props;
   const { getNodes } = useReactFlow();
   const { model, query, setModelApiKey, setQuery, modelApiKey } = useUIStore(
     useShallow((state) => ({
@@ -50,7 +69,6 @@ export const GeneratorControls = (props: Props) => {
     }))
   );
 
-  const router = useRouter();
 
   useEffect(() => {
     const modelApiKey = localStorage.getItem(`${model.toUpperCase()}_API_KEY`);
@@ -146,8 +164,8 @@ export const GeneratorControls = (props: Props) => {
     }
   };
 
-  const onValueChange = (value: string) => {
-    console.log(value);
+  const onValueChange = async (value: Visibility) => {
+    await changeRoadmapVisibility(dbRoadmapId, value);
   };
 
   return (

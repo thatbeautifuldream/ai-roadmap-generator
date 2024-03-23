@@ -60,6 +60,7 @@ export default function Roadmap({ roadmapId }: Props) {
           mutate={mutate}
           isPending={isPending}
           renderFlow={renderFlow}
+          dbRoadmapId={roadmapId || ""}
         />
       </div>
       <Separator />

@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
 export const getRoadmapsByUserId = async () => {
-  const userId = (await gerUserId()) as string;
+  const userId = (await getUserId()) as string;
   const roadmaps = await db.roadmap.findMany({
     where: {
       userId,
@@ -14,7 +14,6 @@ export const getRoadmapsByUserId = async () => {
 };
 
 export const getRoadmapById = async (id: string) => {
-  const userId = (await gerUserId()) as string;
   const roadmap = await db.roadmap.findUnique({
     where: {
       id,
@@ -24,7 +23,6 @@ export const getRoadmapById = async (id: string) => {
 };
 
 export const deleteRoadmapById = async (id: string) => {
-  const userId = (await gerUserId()) as string;
   const roadmap = await db.roadmap.delete({
     where: {
       id,
@@ -35,7 +33,7 @@ export const deleteRoadmapById = async (id: string) => {
 
 export const saveRoadmap = async (title: string, content: Node[]) => {
   try {
-    const userId = (await gerUserId()) as string;
+    const userId = (await getUserId()) as string;
     const roadmap = await db.roadmap.create({
       data: {
         userId,
@@ -56,7 +54,7 @@ export const saveRoadmap = async (title: string, content: Node[]) => {
   }
 };
 
-export const gerUserId = async () => {
+export const getUserId = async () => {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) {
@@ -68,12 +66,26 @@ export const gerUserId = async () => {
 export const incrementRoadmapSearchCount = async (roadmapId: string) => {
   await db.roadmap.update({
     where: {
-      id: roadmapId
+      id: roadmapId,
     },
     data: {
       searchCount: {
-        increment: 1
-      }
-    }
-  })
-}
+        increment: 1,
+      },
+    },
+  });
+};
+
+export const changeRoadmapVisibility = async (
+  roadmapId: string,
+  visibility: "PUBLIC" | "PRIVATE",
+) => {
+  await db.roadmap.update({
+    where: {
+      id: roadmapId,
+    },
+    data: {
+      visibility,
+    },
+  });
+};
