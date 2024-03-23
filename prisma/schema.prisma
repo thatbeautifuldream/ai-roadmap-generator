@@ -13,14 +13,15 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String? @db.Text
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -42,9 +43,10 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  credits       Int       @default(5)
   accounts      Account[]
-  roadmaps      Roadmap[]
   sessions      Session[]
+  roadmaps      Roadmap[]
 }
 
 model VerificationToken {
@@ -55,18 +57,21 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Roadmap {
-  id         String     @id @default(cuid())
-  title      String     @unique
-  content    String
-  userId     String
-  createdAt  DateTime   @default(now())
-  views      Int        @default(0)
-  visibility Visibility @default(PUBLIC)
-  author     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 enum Visibility {
   PRIVATE
   PUBLIC
+}
+
+model Roadmap {
+  id          String     @id @default(cuid())
+  title       String     @unique
+  content     String
+  userId      String
+  author      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  views       Int        @default(0)
+  searchCount Int        @default(0)
+  visibility  Visibility @default(PUBLIC)
+
+  @@index([title])
 }
