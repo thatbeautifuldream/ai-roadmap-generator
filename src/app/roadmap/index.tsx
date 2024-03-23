@@ -22,7 +22,7 @@ export default function Roadmap({ roadmapId }: Props) {
       model: state.model,
       query: state.query,
       modelApiKey: state.modelApiKey,
-    }))
+    })),
   );
 
   const { data: roadmap, isPending: isRoadmapPending } = useQuery({
@@ -41,7 +41,7 @@ export default function Roadmap({ roadmapId }: Props) {
   const { data, mutate, isPending } = useGenerateRoadmap(
     query,
     model,
-    modelApiKey
+    modelApiKey,
   );
 
   const params = useSearchParams();
@@ -67,8 +67,11 @@ export default function Roadmap({ roadmapId }: Props) {
           data={roadmap?.content || data?.tree || decodeFromURL(params)}
         />
       ) : (
-        <div className="mx-auto max-w-5xl mt-8">
-          <EmptyAlert />
+        <div className="h-[75vh] grid place-content-center">
+          <EmptyAlert
+            title="Generate a roadmap"
+            description={`Type something in the input field and click "Generate" to see results.`}
+          />
         </div>
       )}
     </>
