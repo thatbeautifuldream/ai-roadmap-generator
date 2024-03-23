@@ -79,9 +79,9 @@ async function RoadmapLanding() {
           <p className="text-center text-gray-500">
             You have generated{" "}
             <span className="inline-block min-w-[50px] rounded-xl border px-1.5 text-center text-sm tabular-nums text-gray-800">
-              {user?.credits} out of 5
+              {Math.abs((5 - user?.credits))} out of 5
             </span>{" "}
-            roadmaps.
+            free roadmaps.
           </p>
           <p className="flex items-center text-sm">
             <button className="rounded-xl border border-current px-2 py-0.5 text-sm text-blue-500 transition-colors hover:bg-blue-400 hover:text-white">
