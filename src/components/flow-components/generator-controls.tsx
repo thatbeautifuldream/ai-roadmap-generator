@@ -47,18 +47,22 @@ import {
 import { Visibility } from "@prisma/client";
 import ApiKeyDialog from "@/components/ApiKeyDialog";
 import { userHasCredits } from "@/actions/users";
+import { useRouter } from "next/navigation";
 import { changeRoadmapVisibility } from "@/actions/roadmaps";
 
 interface Props {
   renderFlow: string;
   isPending: boolean;
   mutate: UseMutateFunction<any, AxiosError<unknown, any>, any, unknown>;
+  roadmapId: string;
   dbRoadmapId: string;
 }
 
 export const GeneratorControls = (props: Props) => {
   const { renderFlow, mutate, isPending, roadmapId, dbRoadmapId } = props;
   const { getNodes } = useReactFlow();
+  const router = useRouter();
+
   const { model, query, setModelApiKey, setQuery, modelApiKey } = useUIStore(
     useShallow((state) => ({
       model: state.model,
@@ -68,7 +72,6 @@ export const GeneratorControls = (props: Props) => {
       setQuery: state.setQuery,
     }))
   );
-
 
   useEffect(() => {
     const modelApiKey = localStorage.getItem(`${model.toUpperCase()}_API_KEY`);
@@ -118,7 +121,6 @@ export const GeneratorControls = (props: Props) => {
         });
       }
 
-      const userCredits = await getUserCredits();
       const userCredits = await userHasCredits();
       if (!userCredits && modelApiKey === "") {
         return toast.error("You don't have enough credits", {
@@ -167,6 +169,12 @@ export const GeneratorControls = (props: Props) => {
   const onValueChange = async (value: Visibility) => {
     await changeRoadmapVisibility(dbRoadmapId, value);
   };
+
+  useEffect(() => {
+    if (roadmapId) {
+      router.push(`/roadmap/${roadmapId}`);
+    }
+  }, [roadmapId]);
 
   return (
     <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">

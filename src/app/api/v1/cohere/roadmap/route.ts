@@ -30,20 +30,24 @@ export const POST = async (req: NextRequest, res: Response) => {
 
     const alreadyExists = await db.roadmap.findUnique({
       where: {
-        title: query
-      }
-    })
+        title: query,
+      },
+    });
 
     if (alreadyExists) {
-      await incrementRoadmapSearchCount(alreadyExists.id)
+      await incrementRoadmapSearchCount(alreadyExists.id);
       const tree = JSON.parse(alreadyExists.content);
-      return NextResponse.json({ status: true, tree }, { status: 200 });
+      return NextResponse.json(
+        { status: true, tree, roadmapId: alreadyExists.id },
+        { status: 200 },
+      );
     }
 
     const model = new ChatCohere({
       apiKey: apiKey || process.env.COHERE_API_KEY,
       model: "command",
     });
+
     const prompt = ChatPromptTemplate.fromMessages([
       [
         "ai",
@@ -57,7 +61,8 @@ export const POST = async (req: NextRequest, res: Response) => {
       input: `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}}.`,
     });
 
-    let json: { query: string, chapters: { [key: string]: string[] } } | null = null;
+    let json: { query: string; chapters: { [key: string]: string[] } } | null =
+      null;
 
     try {
       json = JSON.parse(SanitiseJSON(String(response?.content)));
@@ -69,10 +74,11 @@ export const POST = async (req: NextRequest, res: Response) => {
               status: true,
               message: "No credits remaining ",
             },
-            { status: 400 }
+            { status: 400 },
           );
         }
       }
+
       if (!json) {
         return NextResponse.json(
           {
@@ -82,20 +88,23 @@ export const POST = async (req: NextRequest, res: Response) => {
           { status: 500 },
         );
       }
+
       const tree: Node[] = [
         {
           name: capitalize(json.query),
           children: Object.keys(json.chapters).map((sectionName) => ({
             name: sectionName,
-            children: json?.chapters?.[sectionName]?.map((moduleName: string) => ({
-              name: moduleName,
-            })),
+            children: json?.chapters?.[sectionName]?.map(
+              (moduleName: string) => ({
+                name: moduleName,
+              }),
+            ),
           })),
         },
       ];
-      await saveRoadmap(query, tree);
+      const { data } = await saveRoadmap(query, tree);
       return NextResponse.json(
-        { status: true, text: json, tree: tree },
+        { status: true, text: json, tree: tree, roadmapId: data?.id },
         { status: 200 },
       );
     } catch (e) {
