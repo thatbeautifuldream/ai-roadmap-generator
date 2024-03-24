@@ -203,17 +203,19 @@ export const GeneratorControls = (props: Props) => {
   return (
     <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
       <div className="ml-auto flex w-full space-x-2 sm:justify-end">
-        <Input
-          type="text"
-          placeholder="e.g. Try searching for Frontend or Backend"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              onSubmit(e);
-            }
-          }}
-        />
+        {!dbRoadmapId && (
+          <Input
+            type="text"
+            placeholder="e.g. Try searching for Frontend or Backend"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                onSubmit(e);
+              }
+            }}
+          />
+        )}
         {showVisibilityDropdown && (
           <Select onValueChange={onValueChange} value={visibility}>
             <SelectTrigger className="md:w-[140px] w-fit">
@@ -226,33 +228,22 @@ export const GeneratorControls = (props: Props) => {
           </Select>
         )}
 
-        <div className="hidden sm:flex">
-          <ModelSelect />
-        </div>
-        <GenerateButton onClick={onSubmit} disabled={isPending} />
-        <ApiKeyDialog />
-        {renderFlow && (
-          <>
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <EllipsisVertical />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>
-                  <PresetShare query={query} key={renderFlow} />
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Button
-                    variant="default"
-                    className="w-full"
-                    onClick={onClick}
-                  >
-                    Download
-                  </Button>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </>
+        {!dbRoadmapId && (
+          <div className="hidden sm:flex">
+            <ModelSelect />
+          </div>
+        )}
+        {!dbRoadmapId && (
+          <GenerateButton onClick={onSubmit} disabled={isPending} />
+        )}
+        {!dbRoadmapId && <ApiKeyDialog />}
+        {renderFlow && dbRoadmapId && (
+          <div className="flex space-x-2">
+            <PresetShare query={query} key={renderFlow} />
+            <Button variant="default" className="w-full" onClick={onClick}>
+              Download
+            </Button>
+          </div>
         )}
       </div>
       <div className="flex space-x-2 sm:hidden">
