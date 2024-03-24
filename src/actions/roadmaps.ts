@@ -91,43 +91,42 @@ export const changeRoadmapVisibility = async (
   });
 };
 
-export const toggleRoadmapVisibility = async (roadmapId: string) => {
-  const roadmap = await db.roadmap.findUnique({
-    where: {
-      id: roadmapId,
-    },
-  });
+// export const toggleRoadmapVisibility = async (roadmapId: string) => {
+//   const roadmap = await db.roadmap.findUnique({
+//     where: {
+//       id: roadmapId,
+//     },
+//   });
 
-  if (!roadmap) {
-    throw Error("Roadmap not found");
-  }
+//   if (!roadmap) {
+//     throw Error("Roadmap not found");
+//   }
 
-  const visibility =
-    roadmap.visibility === Visibility.PUBLIC
-      ? Visibility.PRIVATE
-      : Visibility.PUBLIC;
+//   const visibility =
+//     roadmap.visibility === Visibility.PUBLIC
+//       ? Visibility.PRIVATE
+//       : Visibility.PUBLIC;
 
-  await db.roadmap.update({
-    where: {
-      id: roadmapId,
-    },
-    data: {
-      visibility,
-    },
-  });
+//   await db.roadmap.update({
+//     where: {
+//       id: roadmapId,
+//     },
+//     data: {
+//       visibility,
+//     },
+//   });
 
-  return visibility;
-};
+//   return visibility;
+// };
 
 export const isRoadmapGeneratedByUser = async (roadmapId: string) => {
   const userId = (await getUserId()) as string;
   const roadmap = await db.roadmap.findFirst({
     where: {
       id: roadmapId,
-      userId
     },
   });
 
-  if (roadmap) return true;
+  if (roadmap?.userId === userId) return true;
   return false;
 };

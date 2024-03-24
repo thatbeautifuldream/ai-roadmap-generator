@@ -10,18 +10,19 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
         title: {
           contains: searchString,
         },
+        visibility: "PUBLIC",
       },
     });
 
     return NextResponse.json(
       { status: true, data: searchResults },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (e) {
     console.log(e);
     return NextResponse.json(
       { status: false, message: "bad reqe" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };

@@ -47,10 +47,12 @@ interface Props {
   mutate: UseMutateFunction<any, AxiosError<unknown, any>, any, unknown>;
   roadmapId: string;
   dbRoadmapId: string;
+  visibility: Visibility;
 }
 
 export const GeneratorControls = (props: Props) => {
-  const { renderFlow, mutate, isPending, roadmapId, dbRoadmapId } = props;
+  const { renderFlow, mutate, isPending, roadmapId, dbRoadmapId, visibility } =
+    props;
   const { getNodes } = useReactFlow();
   const router = useRouter();
 
@@ -193,8 +195,8 @@ export const GeneratorControls = (props: Props) => {
           }}
         />
         {/* TODO Add logic to set visibility in backend */}
-        {(dbRoadmapId || showVisibilityDropdown) && (
-          <Select onValueChange={onValueChange}>
+        {showVisibilityDropdown && (
+          <Select onValueChange={onValueChange} value={visibility}>
             <SelectTrigger className="md:w-[140px] w-fit">
               <SelectValue placeholder="Visibility" />
             </SelectTrigger>

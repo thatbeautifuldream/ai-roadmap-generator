@@ -62,6 +62,7 @@ export default function Roadmap({ roadmapId }: Props) {
           renderFlow={renderFlow}
           roadmapId={data?.roadmapId}
           dbRoadmapId={roadmapId || ""}
+          visibility={roadmap?.visibility}
         />
       </div>
       <Separator />
