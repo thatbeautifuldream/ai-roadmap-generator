@@ -129,7 +129,6 @@ export const GeneratorControls = (props: Props) => {
         },
         {
           onSuccess: () => {
-            setQuery("");
             toast.success("Success", {
               description: "Roadmap generated successfully.",
               position: "bottom-right",
