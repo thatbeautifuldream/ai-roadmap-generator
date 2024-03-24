@@ -1,5 +1,8 @@
 "use client";
-import { changeRoadmapVisibility } from "@/actions/roadmaps";
+import {
+  changeRoadmapVisibility,
+  isRoadmapGeneratedByUser,
+} from "@/actions/roadmaps";
 import { userHasCredits } from "@/actions/users";
 import ApiKeyDialog from "@/components/ApiKeyDialog";
 import { Button } from "@/components/ui/button";
@@ -28,7 +31,7 @@ import { AxiosError } from "axios";
 import { toPng } from "html-to-image";
 import { EllipsisVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
 import { toast } from "sonner";
 import { useShallow } from "zustand/react/shallow";
@@ -155,11 +158,25 @@ export const GeneratorControls = (props: Props) => {
     await changeRoadmapVisibility(dbRoadmapId, value);
   };
 
+  const [showVisibilityDropdown, setShowVisibilityDropdown] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (dbRoadmapId !== undefined) {
+        const visibility = await isRoadmapGeneratedByUser(dbRoadmapId);
+        setShowVisibilityDropdown(visibility);
+      }
+    };
+
+    fetchData();
+  }, [roadmapId]);
+
   useEffect(() => {
     if (roadmapId) {
       router.push(`/roadmap/${roadmapId}`);
     }
   }, [roadmapId]);
+  console.log(dbRoadmapId, showVisibilityDropdown);
 
   return (
     <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
@@ -175,17 +192,19 @@ export const GeneratorControls = (props: Props) => {
             }
           }}
         />
-
         {/* TODO Add logic to set visibility in backend */}
-        <Select onValueChange={onValueChange}>
-          <SelectTrigger className="md:w-[140px] w-fit">
-            <SelectValue placeholder="Visibility" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={Visibility.PUBLIC}>Public</SelectItem>
-            <SelectItem value={Visibility.PRIVATE}>Private</SelectItem>
-          </SelectContent>
-        </Select>
+        {(dbRoadmapId || showVisibilityDropdown) && (
+          <Select onValueChange={onValueChange}>
+            <SelectTrigger className="md:w-[140px] w-fit">
+              <SelectValue placeholder="Visibility" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={Visibility.PUBLIC}>Public</SelectItem>
+              <SelectItem value={Visibility.PRIVATE}>Private</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
+
         <div className="hidden sm:flex">
           <ModelSelect />
         </div>
