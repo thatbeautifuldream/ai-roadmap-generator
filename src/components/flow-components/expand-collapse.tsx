@@ -1,11 +1,11 @@
 import { HierarchyNode, hierarchy } from "d3-hierarchy";
+import { Loader2 } from "lucide-react";
 import { ReactFlowProvider } from "reactflow";
 import "reactflow/dist/base.css";
 import "reactflow/dist/style.css";
 import { Node } from "../../app/shared/types/common";
 import { Drawer } from "./drawer";
 import ReactFlowPro from "./react-flow-pro";
-import { Loader2 } from "lucide-react";
 
 type Props = {
   data: Node[];
@@ -30,7 +30,7 @@ function ExpandCollapse(props: Props) {
     );
 
   return (
-    <div className="w-full h-[86vh]">
+    <div className="w-full h-[84vh]">
       <ReactFlowProvider>
         <Drawer />
         <ReactFlowPro {...props} h={h} />
