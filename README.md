@@ -45,7 +45,9 @@ GOOGLE_API_KEY=
 COHERE_API_KEY=
 ```
 
-## Setting up Docker for production
+## Setting up Docker for `fly.io`
 
-- Build your container: `docker build -t roadmap-ai .`
-- Run your container: `docker run -p 3000:3000 roadmap-ai`
+- You can generate Docker image by first installing `pnpm i @flydotio/dockerfile`
+- Run `pnpx dockerfile` to generate the Dockerfile automatically.
+
+## Change URL in google auth credentials
