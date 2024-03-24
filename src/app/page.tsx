@@ -1,6 +1,4 @@
-import { auth } from "@/auth";
 import MarqueeDemo from "@/components/ui/marque-wrapper";
-import { db } from "@/lib/db";
 import { ArrowUpRight, Wand } from "lucide-react";
 
 export default function Home() {
@@ -12,14 +10,14 @@ export default function Home() {
 }
 
 async function RoadmapLanding() {
-  const session = await auth();
-  const userId = session?.user?.id;
-  let user: any = {};
-  if (session) {
-    user = await db.user.findUnique({
-      where: { id: userId },
-    });
-  }
+  // const session = await auth();
+  // const userId = session?.user?.id;
+  // let user: any = {};
+  // if (session) {
+  //   user = await db.user.findUnique({
+  //     where: { id: userId },
+  //   });
+  // }
   const trendyRoadmaps = [
     "Backend",
     "Frontend",
@@ -76,18 +74,18 @@ async function RoadmapLanding() {
           </div>
         </div>
         <div className="flex flex-col items-center gap-4">
-          <p className="text-center text-gray-500">
+          {/* <p className="text-center text-gray-500">
             You have generated{" "}
             <span className="inline-block min-w-[50px] rounded-xl border px-1.5 text-center text-sm tabular-nums text-gray-800">
-              {Math.abs((5 - user?.credits))} out of 5
+              {Math.abs(5 - user?.credits)} out of 5
             </span>{" "}
             free roadmaps.
-          </p>
+          </p> */}
           <p className="flex items-center text-sm">
             <button className="rounded-xl border border-current px-2 py-0.5 text-sm text-blue-500 transition-colors hover:bg-blue-400 hover:text-white">
               By-pass all limits by{" "}
               <span className="font-semibold">
-                adding your own OpenAI API key
+                adding your own API key
               </span>
             </button>
           </p>
