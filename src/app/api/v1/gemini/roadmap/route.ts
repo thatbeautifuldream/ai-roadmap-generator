@@ -16,10 +16,10 @@ export const POST = async (req: NextRequest, res: Response) => {
     if (!query) {
       return NextResponse.json(
         { status: false, message: "Please send query." },
-        { status: 400 }
+        { status: 400 },
       );
     }
-    if (!apiKey && !process.env.GOOGLE_API_KEY) {
+    if (!apiKey && !process.env.GEMINI_API_KEY) {
       return NextResponse.json(
         { status: false, message: "Please provide API key." },
         { status: 400 },
@@ -27,20 +27,20 @@ export const POST = async (req: NextRequest, res: Response) => {
     }
     const alreadyExists = await db.roadmap.findUnique({
       where: {
-        title: query
-      }
-    })
+        title: query,
+      },
+    });
 
     if (alreadyExists) {
-      await incrementRoadmapSearchCount(alreadyExists.id)
+      await incrementRoadmapSearchCount(alreadyExists.id);
       const tree = JSON.parse(alreadyExists.content);
       return NextResponse.json({ status: true, tree }, { status: 200 });
     }
 
-
     const model = new ChatGoogleGenerativeAI({
       modelName: "gemini-pro",
       maxOutputTokens: 2048,
+      apiKey: apiKey || process.env.GEMINI_API_KEY,
       safetySettings: [
         {
           category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -67,7 +67,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             status: true,
             message: "No credits remaining ",
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -81,7 +81,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             status: false,
             message: "Error parsing roadmap data.",
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
       const tree = [
@@ -89,16 +89,21 @@ export const POST = async (req: NextRequest, res: Response) => {
           name: capitalize(json.query),
           children: Object.keys(json.chapters).map((sectionName) => ({
             name: sectionName,
-            children: json?.chapters[sectionName].map(({ moduleName, link, moduleDescription }) => ({
-              name: moduleName,
-              moduleDescription,
-              link,
-            })),
+            children: json?.chapters[sectionName].map(
+              ({ moduleName, link, moduleDescription }) => ({
+                name: moduleName,
+                moduleDescription,
+                link,
+              }),
+            ),
           })),
         },
       ];
-      await saveRoadmap(query, tree)
-      return NextResponse.json({ status: true, text: json, tree }, { status: 200 });
+      const { data } = await saveRoadmap(query, tree);
+      return NextResponse.json(
+        { status: true, text: json, tree, roadmapId: data?.id },
+        { status: 200 },
+      );
     } catch (e) {
       console.log(e);
       return NextResponse.json(
@@ -106,14 +111,14 @@ export const POST = async (req: NextRequest, res: Response) => {
           status: false,
           message: "Error parsing roadmap data.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (e) {
     console.log(e);
     return NextResponse.json(
       { status: false, message: "Something went wrong." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 };
