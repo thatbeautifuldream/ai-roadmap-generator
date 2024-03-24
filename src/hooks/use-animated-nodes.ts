@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useReactFlow } from "reactflow";
-//@ts-expect-error
 import { timer } from "d3-timer";
 
 const defaultOptions = { duration: 500 };
