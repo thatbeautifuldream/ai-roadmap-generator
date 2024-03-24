@@ -58,15 +58,13 @@ export const GeneratorControls = (props: Props) => {
       modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
-    }))
+    })),
   );
 
   useEffect(() => {
     const modelApiKey = localStorage.getItem(`${model.toUpperCase()}_API_KEY`);
-    if (modelApiKey) {
-      setModelApiKey(modelApiKey);
-    }
-  }, [model, setModelApiKey]);
+    setModelApiKey(modelApiKey);
+  }, [model]);
 
   const onClick = () => {
     // we calculate a transform for the nodes so that all nodes are visible
@@ -78,7 +76,7 @@ export const GeneratorControls = (props: Props) => {
       DIAGRAM_IMAGE_WIDTH,
       DIAGRAM_IMAGE_HEIGHT,
       0.5,
-      2
+      2,
     );
 
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
@@ -97,7 +95,7 @@ export const GeneratorControls = (props: Props) => {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>,
   ) => {
     e.preventDefault();
     try {
@@ -147,7 +145,7 @@ export const GeneratorControls = (props: Props) => {
               duration: 4000,
             });
           },
-        }
+        },
       );
     } catch (e: any) {
       console.error("api error", e);

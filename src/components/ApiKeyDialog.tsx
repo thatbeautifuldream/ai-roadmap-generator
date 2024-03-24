@@ -11,11 +11,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { useUIStore } from "@/app/stores/useUI";
 
 const ApiKeyDialog = () => {
   const [openAIKey, setOpenAIKey] = useState("");
   const [geminiKey, setGeminiKey] = useState("");
   const [cohereKey, setCohereKey] = useState("");
+
+  const { modelApiKey, setModelApiKey, model } = useUIStore((state) => ({
+    setModelApiKey: state.setModelApiKey,
+    modelApiKey: state.modelApiKey,
+    model: state.model,
+  }));
 
   useEffect(() => {
     const openAIKey = localStorage.getItem("OPENAI_API_KEY");
@@ -32,6 +39,16 @@ const ApiKeyDialog = () => {
     localStorage.setItem("OPENAI_API_KEY", openAIKey);
     localStorage.setItem("GEMINI_API_KEY", geminiKey);
     localStorage.setItem("COHERE_API_KEY", cohereKey);
+
+    if (model === "openai") {
+      setModelApiKey(openAIKey);
+    }
+    if (model === "gemini") {
+      setModelApiKey(geminiKey);
+    }
+    if (model === "cohere") {
+      setModelApiKey(cohereKey);
+    }
   };
 
   return (
