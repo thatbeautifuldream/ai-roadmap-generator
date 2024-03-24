@@ -47,12 +47,19 @@ interface Props {
   mutate: UseMutateFunction<any, AxiosError<unknown, any>, any, unknown>;
   roadmapId: string;
   dbRoadmapId: string;
-  visibility: Visibility;
+  visibility?: Visibility;
 }
 
 export const GeneratorControls = (props: Props) => {
-  const { renderFlow, mutate, isPending, roadmapId, dbRoadmapId, visibility: initialVisibility } = props;
-  const [visibility, setVisibility] = useState<Visibility>(initialVisibility); // Manage visibility state
+  const {
+    renderFlow,
+    mutate,
+    isPending,
+    roadmapId,
+    dbRoadmapId,
+    visibility: initialVisibility,
+  } = props;
+  const [visibility, setVisibility] = useState(initialVisibility); // Manage visibility state
   const { getNodes } = useReactFlow();
   const router = useRouter();
 
@@ -182,7 +189,7 @@ export const GeneratorControls = (props: Props) => {
   console.log(dbRoadmapId, showVisibilityDropdown);
 
   // Utility function to format visibility
-  const formatVisibility = (visibility: Visibility) => {
+  const formatVisibility = (visibility?: Visibility) => {
     switch (visibility) {
       case Visibility.PUBLIC:
         return "Public";
@@ -210,7 +217,7 @@ export const GeneratorControls = (props: Props) => {
         {showVisibilityDropdown && (
           <Select onValueChange={onValueChange} value={visibility}>
             <SelectTrigger className="md:w-[140px] w-fit">
-              <SelectValue placeholder={formatVisibility(initialVisibility)} /> {/* Use the formatted value */}
+              <SelectValue placeholder={formatVisibility(initialVisibility)} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value={Visibility.PUBLIC}>Public</SelectItem>
