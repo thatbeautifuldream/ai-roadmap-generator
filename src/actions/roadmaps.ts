@@ -2,6 +2,7 @@
 import { Node } from "@/app/shared/types/common";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import {Visibility} from "@prisma/client"
 
 export const getRoadmapsByUserId = async () => {
   const userId = (await getUserId()) as string;
@@ -78,7 +79,7 @@ export const incrementRoadmapSearchCount = async (roadmapId: string) => {
 
 export const changeRoadmapVisibility = async (
   roadmapId: string,
-  visibility: "PUBLIC" | "PRIVATE"
+  visibility: Visibility
 ) => {
   await db.roadmap.update({
     where: {
@@ -101,7 +102,7 @@ export const toggleRoadmapVisibility = async (roadmapId: string) => {
     throw Error("Roadmap not found");
   }
 
-  const visibility = roadmap.visibility === "PUBLIC" ? "PRIVATE" : "PUBLIC";
+  const visibility = roadmap.visibility === Visibility.PUBLIC ? Visibility.PRIVATE : Visibility.PUBLIC;
 
   await db.roadmap.update({
     where: {
