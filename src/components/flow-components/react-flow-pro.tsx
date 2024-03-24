@@ -10,7 +10,6 @@ import ReactFlow, {
 import { useShallow } from "zustand/react/shallow";
 import { proOptions } from "../../app/shared/constants";
 import { useUIStore } from "../../app/stores/useUI";
-import useAnimatedNodes from "../../hooks/use-animated-nodes";
 
 type ProProps = {
   animationDuration?: number;
@@ -19,9 +18,7 @@ type ProProps = {
 
 function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
   const initialElements = getElements(h);
-  const [nodes, setNodes] = useAnimatedNodes(initialElements.nodes, {
-    duration: animationDuration,
-  });
+  const [nodes, setNodes] = useState(initialElements.nodes);
   const [edges, setEdges] = useState(initialElements.edges);
   const { fitView, zoomIn, zoomOut } = useReactFlow();
   const { toggleDrawer, setDrawerDetails } = useUIStore(
