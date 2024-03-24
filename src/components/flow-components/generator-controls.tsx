@@ -51,8 +51,8 @@ interface Props {
 }
 
 export const GeneratorControls = (props: Props) => {
-  const { renderFlow, mutate, isPending, roadmapId, dbRoadmapId, visibility } =
-    props;
+  const { renderFlow, mutate, isPending, roadmapId, dbRoadmapId, visibility: initialVisibility } = props;
+  const [visibility, setVisibility] = useState<Visibility>(initialVisibility); // Manage visibility state
   const { getNodes } = useReactFlow();
   const router = useRouter();
 
@@ -158,6 +158,7 @@ export const GeneratorControls = (props: Props) => {
 
   const onValueChange = async (value: Visibility) => {
     await changeRoadmapVisibility(dbRoadmapId, value);
+    setVisibility(value); // Update visibility state
   };
 
   const [showVisibilityDropdown, setShowVisibilityDropdown] = useState(false);
@@ -180,6 +181,18 @@ export const GeneratorControls = (props: Props) => {
   }, [roadmapId]);
   console.log(dbRoadmapId, showVisibilityDropdown);
 
+  // Utility function to format visibility
+  const formatVisibility = (visibility: Visibility) => {
+    switch (visibility) {
+      case Visibility.PUBLIC:
+        return "Public";
+      case Visibility.PRIVATE:
+        return "Private";
+      default:
+        return "Unknown";
+    }
+  };
+
   return (
     <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
       <div className="ml-auto flex w-full space-x-2 sm:justify-end">
@@ -194,11 +207,10 @@ export const GeneratorControls = (props: Props) => {
             }
           }}
         />
-        {/* TODO Add logic to set visibility in backend */}
         {showVisibilityDropdown && (
           <Select onValueChange={onValueChange} value={visibility}>
             <SelectTrigger className="md:w-[140px] w-fit">
-              <SelectValue placeholder="Visibility" />
+              <SelectValue placeholder={formatVisibility(initialVisibility)} /> {/* Use the formatted value */}
             </SelectTrigger>
             <SelectContent>
               <SelectItem value={Visibility.PUBLIC}>Public</SelectItem>
