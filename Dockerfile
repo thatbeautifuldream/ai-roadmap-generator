@@ -15,6 +15,11 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
+# Copy Prisma schema and configuration files
+COPY prisma ./prisma
+
+# Generate Prisma client
+RUN npx prisma generate
 
 # Rebuild the source code only when needed
 FROM base AS builder
