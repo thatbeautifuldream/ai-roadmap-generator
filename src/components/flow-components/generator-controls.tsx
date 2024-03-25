@@ -37,24 +37,24 @@ import GenerateButton from "./generate-button";
 import ModelSelect from "./model-select";
 
 interface Props {
-  renderFlow: string;
-  isPending: boolean;
-  mutate: UseMutateFunction<any, AxiosError<unknown, any>, any, unknown>;
+  title?: string;
   roadmapId: string;
+  isPending: boolean;
+  renderFlow: string;
   dbRoadmapId: string;
   visibility?: Visibility;
-  title?: string;
+  mutate: UseMutateFunction<any, AxiosError<unknown, any>, any, unknown>;
 }
 
 export const GeneratorControls = (props: Props) => {
   const {
-    renderFlow,
+    title,
     mutate,
-    isPending,
     roadmapId,
+    isPending,
+    renderFlow,
     dbRoadmapId,
     visibility: initialVisibility,
-    title,
   } = props;
   const [visibility, setVisibility] = useState(initialVisibility); // Manage visibility state
   const { getNodes } = useReactFlow();
@@ -67,7 +67,7 @@ export const GeneratorControls = (props: Props) => {
       modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
-    }))
+    })),
   );
 
   useEffect(() => {
@@ -80,12 +80,12 @@ export const GeneratorControls = (props: Props) => {
     // we then overwrite the transform of the `.react-flow__viewport` element
     // with the style option of the html-to-image library
     const nodesBounds = getRectOfNodes(getNodes());
-    const [x, y, scale] = getTransformForBounds(
+    const [x, y] = getTransformForBounds(
       nodesBounds,
       DIAGRAM_IMAGE_WIDTH,
       DIAGRAM_IMAGE_HEIGHT,
       0.5,
-      2
+      2,
     );
 
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
@@ -104,7 +104,7 @@ export const GeneratorControls = (props: Props) => {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>,
   ) => {
     e.preventDefault();
     try {
@@ -123,9 +123,7 @@ export const GeneratorControls = (props: Props) => {
         });
       }
       console.log("title", title);
-      const titleExists = await checkIfTitleInUsersRoadmaps(
-        title as string,
-      );
+      const titleExists = await checkIfTitleInUsersRoadmaps(title as string);
 
       if (titleExists.state) {
         return toast.info("Roadmap already exists", {
@@ -165,7 +163,7 @@ export const GeneratorControls = (props: Props) => {
               duration: 4000,
             });
           },
-        }
+        },
       );
     } catch (e: any) {
       console.error("api error", e);
@@ -224,6 +222,7 @@ export const GeneratorControls = (props: Props) => {
             }}
           />
         )}
+
         {dbRoadmapId && (
           <div className="flex-1">
             <Link
@@ -236,6 +235,7 @@ export const GeneratorControls = (props: Props) => {
             </Link>
           </div>
         )}
+
         {showVisibilityDropdown && (
           <Select onValueChange={onValueChange} value={visibility}>
             <SelectTrigger className="md:w-[140px] w-fit">
@@ -253,10 +253,13 @@ export const GeneratorControls = (props: Props) => {
             <ModelSelect />
           </div>
         )}
+
         {!dbRoadmapId && (
           <GenerateButton onClick={onSubmit} disabled={isPending} />
         )}
+
         {!dbRoadmapId && <ApiKeyDialog />}
+
         {renderFlow && dbRoadmapId && (
           <div className="flex space-x-2">
             <PresetShare query={query} key={renderFlow} />
@@ -266,6 +269,7 @@ export const GeneratorControls = (props: Props) => {
           </div>
         )}
       </div>
+
       <div className="flex space-x-2 sm:hidden">
         <PresetActions />
       </div>
