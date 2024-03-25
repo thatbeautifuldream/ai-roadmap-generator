@@ -130,3 +130,15 @@ export const isRoadmapGeneratedByUser = async (roadmapId: string) => {
   if (roadmap?.userId === userId) return true;
   return false;
 };
+
+export const getPublicRoadmaps = async () => {
+  const roadmaps = await db.roadmap.findMany({
+    where: {
+      visibility: Visibility.PUBLIC,
+    },
+    orderBy: {
+      createdAt: "desc",
+    }
+  });
+  return roadmaps;
+};
