@@ -1,10 +1,10 @@
 "use client";
+import { Icons } from "@/app/shared/Icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Icons } from "@/app/shared/Icons";
 
 interface UserAuthFormProps {
   className?: string;
@@ -16,7 +16,9 @@ const UserAuthForm = ({ className }: UserAuthFormProps) => {
   const loginWithGoogle = async () => {
     setIsLoading(true);
     try {
-      await signIn("google");
+      await signIn("google", {
+        callbackUrl: "/",
+      });
     } catch (error) {
       toast.error("There was a problem", {
         description:

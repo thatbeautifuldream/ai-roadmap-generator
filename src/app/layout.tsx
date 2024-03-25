@@ -7,21 +7,8 @@ import "./globals.css";
 const nunito = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  openGraph: {
-    title: "AI Roadmap Generator",
-    description: "Generate your roadmaps with AI.",
-    url: "https://airoadmapgenerator.com",
-    siteName: "AI Roadmap Generator",
-    images: [
-      {
-        url: "https://airoadmapgenerator.com/opengraph-image.png",
-        width: 800,
-        height: 600,
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
+  title: "AI Roadmap Generator",
+  description: "Generate your roadmaps with AI.",
 };
 
 export default function RootLayout({
