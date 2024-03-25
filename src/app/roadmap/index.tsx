@@ -1,7 +1,7 @@
 "use client";
 
 import { getRoadmapById } from "@/actions/roadmaps";
-import { Icons } from "@/app/shared/Icons";
+import { EmptyAlert } from "@/components/alerts/EmptyAlert";
 import ExpandCollapse from "@/components/flow-components/expand-collapse";
 import { Separator } from "@/components/ui/separator";
 import { useGenerateRoadmap } from "@/lib/queries";
@@ -80,8 +80,11 @@ export default function Roadmap({ roadmapId }: Props) {
               isPending={isRoadmapPending || isPending}
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center opacity-5">
-              <Icons.roadmapai />
+            <div className="mt-8 grid place-content-center">
+              <EmptyAlert
+                title="Generate a roadmap"
+                description={`Type something in the input field and click "Generate" to see results.`}
+              />
             </div>
           )}
         </>
