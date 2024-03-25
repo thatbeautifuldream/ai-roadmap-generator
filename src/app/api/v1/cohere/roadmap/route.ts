@@ -28,11 +28,18 @@ export const POST = async (req: NextRequest, res: Response) => {
       );
     }
 
-    const alreadyExists = await db.roadmap.findUnique({
+    const normalizedQuery = query.replace(/\s+/g, '').toLowerCase();
+
+    const roadmaps = await db.roadmap.findMany({
       where: {
-        title: query,
+        title: {
+          mode: 'insensitive',
+          contains: normalizedQuery,
+        },
       },
     });
+
+    const alreadyExists = roadmaps.find(roadmap => roadmap.title.replace(/\s+/g, '').toLowerCase() === normalizedQuery);
 
     if (alreadyExists) {
       await incrementRoadmapSearchCount(alreadyExists.id);

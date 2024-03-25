@@ -25,11 +25,17 @@ export const POST = async (req: NextRequest, res: Response) => {
         { status: 400 }
       );
     }
-    const alreadyExists = await db.roadmap.findUnique({
+    const normalizedQuery = query.replace(/\s+/g, '').toLowerCase();
+
+    const roadmaps = await db.roadmap.findMany({
       where: {
-        title: query,
+        title: {
+          mode: 'insensitive', // This line is optional and depends on your database
+          contains: normalizedQuery,
+        },
       },
     });
+    const alreadyExists = roadmaps.find(roadmap => roadmap.title.replace(/\s+/g, '').toLowerCase() === normalizedQuery);
 
     if (alreadyExists) {
       await incrementRoadmapSearchCount(alreadyExists.id);
