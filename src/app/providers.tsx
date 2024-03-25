@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <SessionProvider>
+    <SessionProvider baseUrl="https://www.airoadmapgenerator.com">
       <QueryClientProvider client={queryClient}>
         <Toaster position="bottom-right" richColors />
         {children}
