@@ -1,16 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { getPublicRoadmaps } from "@/actions/roadmaps";
+import { timeFromNow } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useQuery } from "@tanstack/react-query";
-import { getPublicRoadmaps } from "@/actions/roadmaps";
-import RoadmapCard from "./roadmap-card";
+import { EmptyAlert } from "../alerts/EmptyAlert";
 import { SearchAlert } from "../alerts/SearchAlert";
 import { Input } from "../ui/input";
-import { timeFromNow } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
-import { EmptyAlert } from "../alerts/EmptyAlert";
+import RoadmapCard from "./roadmap-card";
 
 const formSchema = z.object({
   query: z.string().min(1, { message: "Please enter a query to search" }),
@@ -42,8 +42,10 @@ const Search = () => {
 
   console.log("roadmaps", filteredRoadmaps);
 
-  if (roadmaps!.length === 0 && filteredRoadmaps!.length === 0) {
-    return <EmptyAlert description="There are no roadmaps that are public yet. Please come back again later or create a new public roadmap." />;
+  if (roadmaps?.length === 0 && filteredRoadmaps?.length === 0) {
+    return (
+      <EmptyAlert description="There are no roadmaps that are public yet. Please come back again later or create a new public roadmap." />
+    );
   }
 
   return (
@@ -60,8 +62,8 @@ const Search = () => {
               roadmaps?.filter((roadmap) =>
                 roadmap.title
                   .toLowerCase()
-                  .includes(e.target.value.toLowerCase()),
-              ),
+                  .includes(e.target.value.toLowerCase())
+              )
             );
           }}
         />
@@ -73,8 +75,8 @@ const Search = () => {
           <div className="w-[80vw] h-[70vh] flex justify-center items-center">
             <Loader2 className="animate-spin w-8 h-8" />
           </div>
-        ) : filteredRoadmaps!.length > 0 ? (
-          filteredRoadmaps!.map((roadmap) => (
+        ) : filteredRoadmaps && filteredRoadmaps?.length > 0 ? (
+          filteredRoadmaps?.map((roadmap) => (
             <RoadmapCard
               key={roadmap.id}
               title={roadmap.title}
