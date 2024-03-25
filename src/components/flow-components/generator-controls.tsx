@@ -159,7 +159,6 @@ export const GeneratorControls = (props: Props) => {
             });
           },
           onError: (error: any) => {
-            console.log("Trying to catch error", error);
             toast.error("Something went wrong", {
               description:
                 error.response?.data?.message || "Unknown error occurred",
