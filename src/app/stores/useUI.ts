@@ -28,7 +28,7 @@ export const useUIStore = create<UIState>((set) => ({
   toggleDrawer: () => set((state) => ({ drawerOpen: !state.drawerOpen })),
   drawerDetails: null,
   setDrawerDetails: (data) => set(() => ({ drawerDetails: data })),
-  model: "openai",
+  model: "cohere",
   setModel: (model) => set(() => ({ model })),
   query: "",
   setQuery: (query) => set(() => ({ query })),
