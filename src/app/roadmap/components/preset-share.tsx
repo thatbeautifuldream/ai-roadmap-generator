@@ -13,27 +13,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useQueryClient } from "@tanstack/react-query";
-import LZString from "lz-string";
 import { toast } from "sonner";
+import { usePathname } from "next/navigation";
 
-export function PresetShare({ query }: { query: string }) {
-  const queryClient = useQueryClient();
+export function PresetShare() {
+  const pathName = usePathname();
 
-  const getURL = () => {
-    const mutationCache = queryClient.getMutationCache();
-    const data = mutationCache.find({ mutationKey: ["Roadmap", query] }) as any;
-
-    // TODO
-    // if openai
-    if (data?.state?.data?.data?.tree) {
-      const string = JSON.stringify(data?.state?.data?.data?.tree || "{}");
-      const compressed = LZString.compressToEncodedURIComponent(string);
-      return compressed;
-    } else return "";
-    // cohere
-    // gemini
-  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -57,7 +42,7 @@ export function PresetShare({ query }: { query: string }) {
               id="link"
               defaultValue={
                 typeof window !== "undefined"
-                  ? window.location.origin + "?code=" + getURL()
+                  ? window.location.origin + pathName
                   : ""
               }
               readOnly

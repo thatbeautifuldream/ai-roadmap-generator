@@ -40,8 +40,6 @@ const Search = () => {
     }
   }, [roadmaps]);
 
-  console.log("roadmaps", filteredRoadmaps);
-
   if (roadmaps?.length === 0 && filteredRoadmaps?.length === 0) {
     return (
       <EmptyAlert description="There are no roadmaps that are public yet. Please come back again later or create a new public roadmap." />
@@ -62,8 +60,8 @@ const Search = () => {
               roadmaps?.filter((roadmap) =>
                 roadmap.title
                   .toLowerCase()
-                  .includes(e.target.value.toLowerCase())
-              )
+                  .includes(e.target.value.toLowerCase()),
+              ),
             );
           }}
         />

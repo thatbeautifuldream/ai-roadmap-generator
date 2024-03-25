@@ -262,7 +262,7 @@ export const GeneratorControls = (props: Props) => {
 
         {renderFlow && dbRoadmapId && (
           <div className="flex space-x-2">
-            <PresetShare query={query} key={renderFlow} />
+            <PresetShare key={renderFlow} />
             <Button variant="default" className="w-full" onClick={onClick}>
               Download
             </Button>
