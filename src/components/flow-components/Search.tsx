@@ -65,16 +65,14 @@ const Search = () => {
             );
           }}
         />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 mb-10">
-        {" "}
-        {isLoading ? (
-          <div className="w-[80vw] h-[70vh] flex justify-center items-center">
-            <Loader2 className="animate-spin w-8 h-8" />
-          </div>
-        ) : filteredRoadmaps && filteredRoadmaps?.length > 0 ? (
-          filteredRoadmaps?.map((roadmap) => (
+      </div>{" "}
+      {isLoading ? (
+        <div className="w-[80vw] h-[70vh] flex justify-center items-center">
+          <Loader2 className="animate-spin w-8 h-8" />
+        </div>
+      ) : filteredRoadmaps && filteredRoadmaps?.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 mb-10">
+          {filteredRoadmaps?.map((roadmap) => (
             <RoadmapCard
               key={roadmap.id}
               title={roadmap.title}
@@ -82,11 +80,13 @@ const Search = () => {
               timeAgo={timeFromNow(roadmap?.createdAt?.toString())}
               slug={roadmap.id}
             />
-          ))
-        ) : (
+          ))}
+        </div>
+      ) : (
+        <div className="mt-6">
           <SearchAlert />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
