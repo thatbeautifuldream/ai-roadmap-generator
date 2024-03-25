@@ -1,4 +1,4 @@
-import { Search } from "@/components/flow-components/Search";
+import Search from "@/components/flow-components/Search";
 
 const explore = () => {
   return (
