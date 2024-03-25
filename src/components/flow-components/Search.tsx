@@ -42,8 +42,8 @@ const Search = () => {
 
   console.log("roadmaps", filteredRoadmaps);
 
-  if (!roadmaps && !filteredRoadmaps) {
-    return <EmptyAlert description="No roadmaps found" />;
+  if (roadmaps!.length === 0 && filteredRoadmaps!.length === 0) {
+    return <EmptyAlert description="There are no roadmaps that are public yet. Please come back again later or create a new public roadmap." />;
   }
 
   return (
