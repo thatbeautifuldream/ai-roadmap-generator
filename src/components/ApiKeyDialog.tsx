@@ -24,7 +24,14 @@ const ApiKeyDialog = () => {
     model: state.model,
   }));
 
+  const setApiKeys = () => {
+    localStorage.setItem("OPENAI_API_KEY", openAIKey);
+    localStorage.setItem("GEMINI_API_KEY", geminiKey);
+    localStorage.setItem("COHERE_API_KEY", cohereKey);
+  }
+
   useEffect(() => {
+    setApiKeys();
     const openAIKey = localStorage.getItem("OPENAI_API_KEY");
     const geminiKey = localStorage.getItem("GEMINI_API_KEY");
     const cohereKey = localStorage.getItem("COHERE_API_KEY");
@@ -36,9 +43,7 @@ const ApiKeyDialog = () => {
 
   const onSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    localStorage.setItem("OPENAI_API_KEY", openAIKey);
-    localStorage.setItem("GEMINI_API_KEY", geminiKey);
-    localStorage.setItem("COHERE_API_KEY", cohereKey);
+    setApiKeys();
 
     if (model === "openai") {
       setModelApiKey(openAIKey);
