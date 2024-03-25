@@ -6,12 +6,6 @@ import {
 import { userHasCredits } from "@/actions/users";
 import ApiKeyDialog from "@/components/ApiKeyDialog";
 import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -29,7 +23,7 @@ import { Visibility } from "@prisma/client";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toPng } from "html-to-image";
-import { EllipsisVertical } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
@@ -40,7 +34,6 @@ import { PresetShare } from "../../app/roadmap/components/preset-share";
 import { useUIStore } from "../../app/stores/useUI";
 import GenerateButton from "./generate-button";
 import ModelSelect from "./model-select";
-import Link from "next/link";
 
 interface Props {
   renderFlow: string;
@@ -71,7 +64,7 @@ export const GeneratorControls = (props: Props) => {
       modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
-    })),
+    }))
   );
 
   useEffect(() => {
@@ -89,7 +82,7 @@ export const GeneratorControls = (props: Props) => {
       DIAGRAM_IMAGE_WIDTH,
       DIAGRAM_IMAGE_HEIGHT,
       0.5,
-      2,
+      2
     );
 
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
@@ -108,7 +101,7 @@ export const GeneratorControls = (props: Props) => {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>,
+      | React.KeyboardEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
     try {
@@ -157,7 +150,7 @@ export const GeneratorControls = (props: Props) => {
               duration: 4000,
             });
           },
-        },
+        }
       );
     } catch (e: any) {
       console.error("api error", e);
@@ -218,9 +211,16 @@ export const GeneratorControls = (props: Props) => {
           />
         )}
         {dbRoadmapId && (
-          <Link href={`/roadmap`} className={buttonVariants()}>
-            Back to Generator
-          </Link>
+          <div className="flex-1">
+            <Link
+              href={`/roadmap`}
+              className={buttonVariants({
+                variant: "link",
+              })}
+            >
+              ← Back to Generator
+            </Link>
+          </div>
         )}
         {showVisibilityDropdown && (
           <Select onValueChange={onValueChange} value={visibility}>

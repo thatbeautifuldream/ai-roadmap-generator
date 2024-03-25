@@ -1,6 +1,7 @@
 "use client";
 import Roadmap from "@/app/roadmap";
-import React, { Suspense } from "react";
+import { Icons } from "@/app/shared/Icons";
+import { Suspense } from "react";
 import { ReactFlowProvider } from "reactflow";
 
 export default function Home() {
