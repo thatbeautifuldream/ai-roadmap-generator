@@ -5,7 +5,7 @@ import {
 } from "@/actions/roadmaps";
 import { userHasCredits } from "@/actions/users";
 import ApiKeyDialog from "@/components/ApiKeyDialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,6 +40,7 @@ import { PresetShare } from "../../app/roadmap/components/preset-share";
 import { useUIStore } from "../../app/stores/useUI";
 import GenerateButton from "./generate-button";
 import ModelSelect from "./model-select";
+import Link from "next/link";
 
 interface Props {
   renderFlow: string;
@@ -202,7 +203,7 @@ export const GeneratorControls = (props: Props) => {
 
   return (
     <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
-      <div className="ml-auto flex w-full space-x-2 sm:justify-end">
+      <div className="md:mx-14 flex w-full space-x-2 sm:justify-end">
         {!dbRoadmapId && (
           <Input
             type="text"
@@ -215,6 +216,11 @@ export const GeneratorControls = (props: Props) => {
               }
             }}
           />
+        )}
+        {dbRoadmapId && (
+          <Link href={`/roadmap`} className={buttonVariants()}>
+            Back to Generator
+          </Link>
         )}
         {showVisibilityDropdown && (
           <Select onValueChange={onValueChange} value={visibility}>
