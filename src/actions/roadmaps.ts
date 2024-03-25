@@ -161,3 +161,17 @@ export const checkIfTitleInUsersRoadmaps = async (title: string) => {
     return { state: false };
   }
 };
+
+export const incrementUserCredits = async () => {
+  const userId = (await getUserId()) as string;
+  await db.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      credits: {
+        increment: 1,
+      },
+    },
+  });
+}

@@ -1,4 +1,8 @@
-import { incrementRoadmapSearchCount, saveRoadmap } from "@/actions/roadmaps";
+import {
+  incrementRoadmapSearchCount,
+  incrementUserCredits,
+  saveRoadmap,
+} from "@/actions/roadmaps";
 import { decrementCreditsByUserId } from "@/actions/users";
 import { db } from "@/lib/db";
 import { JSONType } from "@/lib/types";
@@ -16,31 +20,34 @@ export const POST = async (req: NextRequest, res: Response) => {
     if (!query) {
       return NextResponse.json(
         { status: false, message: "Please send query." },
-        { status: 400 }
+        { status: 400 },
       );
     }
     if (!apiKey && !process.env.GEMINI_API_KEY) {
       return NextResponse.json(
         { status: false, message: "Please provide API key." },
-        { status: 400 }
+        { status: 400 },
       );
     }
-    const normalizedQuery = query.replace(/\s+/g, '').toLowerCase();
+    const normalizedQuery = query.replace(/\s+/g, "").toLowerCase();
 
     const roadmaps = await db.roadmap.findMany({
       where: {
         title: {
-          mode: 'insensitive', // This line is optional and depends on your database
+          mode: "insensitive", // This line is optional and depends on your database
           contains: normalizedQuery,
         },
       },
     });
-    const alreadyExists = roadmaps.find(roadmap => roadmap.title.replace(/\s+/g, '').toLowerCase() === normalizedQuery);
+    const alreadyExists = roadmaps.find(
+      (roadmap) =>
+        roadmap.title.replace(/\s+/g, "").toLowerCase() === normalizedQuery,
+    );
 
     if (alreadyExists) {
-      await incrementRoadmapSearchCount(alreadyExists.id);
+      await incrementRoadmapSearchCount(alreadyExists.id); // does not return roadmapID to redirect
       const tree = JSON.parse(alreadyExists.content);
-      return NextResponse.json({ status: true, tree }, { status: 200 });
+      return NextResponse.json({ status: true, tree, roadmapId: alreadyExists.id }, { status: 200 });
     }
 
     const model = new ChatGoogleGenerativeAI({
@@ -73,7 +80,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             status: true,
             message: "No credits remaining ",
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -82,12 +89,13 @@ export const POST = async (req: NextRequest, res: Response) => {
     try {
       json = JSON.parse(String(response?.content));
       if (!json) {
+        incrementUserCredits();
         return NextResponse.json(
           {
             status: false,
-            message: "Error parsing roadmap data.",
+            message: "An unexpected error occurred. Please try again.",
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
       const tree = [
@@ -100,7 +108,7 @@ export const POST = async (req: NextRequest, res: Response) => {
                 name: moduleName,
                 moduleDescription,
                 link,
-              })
+              }),
             ),
           })),
         },
@@ -108,7 +116,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const { data } = await saveRoadmap(query, tree);
       return NextResponse.json(
         { status: true, text: json, tree, roadmapId: data?.id },
-        { status: 200 }
+        { status: 200 },
       );
     } catch (e) {
       console.log(e);
@@ -117,14 +125,14 @@ export const POST = async (req: NextRequest, res: Response) => {
           status: false,
           message: "Error parsing roadmap data.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (e) {
     console.log(e);
     return NextResponse.json(
       { status: false, message: "Something went wrong." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 };

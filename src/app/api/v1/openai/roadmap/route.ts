@@ -1,4 +1,4 @@
-import { incrementRoadmapSearchCount, saveRoadmap } from "@/actions/roadmaps";
+import { incrementRoadmapSearchCount, incrementUserCredits, saveRoadmap } from "@/actions/roadmaps";
 import { decrementCreditsByUserId } from "@/actions/users";
 import { Node } from "@/app/shared/types/common";
 import { db } from "@/lib/db";
@@ -42,7 +42,7 @@ export const POST = async (req: NextRequest, res: Response) => {
     if (alreadyExists.length > 0) {
       await incrementRoadmapSearchCount(alreadyExists[0].id);
       const tree = JSON.parse(alreadyExists[0].content);
-      return NextResponse.json({ status: true, tree }, { status: 200 });
+      return NextResponse.json({ status: true, tree, roadmapId: alreadyExists[0].id }, { status: 200 });
     }
 
     const text = await openai.chat.completions.create({
@@ -108,6 +108,7 @@ export const POST = async (req: NextRequest, res: Response) => {
         { status: 200 },
       );
     } catch (e) {
+      incrementUserCredits()
       console.log(e);
       return NextResponse.json(
         {
