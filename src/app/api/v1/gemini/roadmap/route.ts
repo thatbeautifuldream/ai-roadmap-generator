@@ -16,13 +16,13 @@ export const POST = async (req: NextRequest, res: Response) => {
     if (!query) {
       return NextResponse.json(
         { status: false, message: "Please send query." },
-        { status: 400 },
+        { status: 400 }
       );
     }
     if (!apiKey && !process.env.GEMINI_API_KEY) {
       return NextResponse.json(
         { status: false, message: "Please provide API key." },
-        { status: 400 },
+        { status: 400 }
       );
     }
     const alreadyExists = await db.roadmap.findUnique({
@@ -67,7 +67,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             status: true,
             message: "No credits remaining ",
           },
-          { status: 400 },
+          { status: 400 }
         );
       }
     }
@@ -81,7 +81,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             status: false,
             message: "Error parsing roadmap data.",
           },
-          { status: 500 },
+          { status: 500 }
         );
       }
       const tree = [
@@ -94,7 +94,7 @@ export const POST = async (req: NextRequest, res: Response) => {
                 name: moduleName,
                 moduleDescription,
                 link,
-              }),
+              })
             ),
           })),
         },
@@ -102,7 +102,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const { data } = await saveRoadmap(query, tree);
       return NextResponse.json(
         { status: true, text: json, tree, roadmapId: data?.id },
-        { status: 200 },
+        { status: 200 }
       );
     } catch (e) {
       console.log(e);
@@ -111,14 +111,14 @@ export const POST = async (req: NextRequest, res: Response) => {
           status: false,
           message: "Error parsing roadmap data.",
         },
-        { status: 500 },
+        { status: 500 }
       );
     }
   } catch (e) {
     console.log(e);
     return NextResponse.json(
       { status: false, message: "Something went wrong." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 };

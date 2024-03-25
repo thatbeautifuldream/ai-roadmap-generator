@@ -15,6 +15,8 @@ export const Search = () => {
     data: searchData,
     mutate: searchMutate,
     isPending: isSearchPending,
+    isSuccess: isSearchSuccess,
+    isError: isSearchError,
   } = useSearch(search);
 
   const onSearch = () => {
@@ -35,13 +37,16 @@ export const Search = () => {
         />
         <Button onClick={onSearch}>Search</Button>
       </div>
+      {isSearchPending && (
+        <div className="flex justify-center mt-8">
+          <Loader2 className="animate-spin" />
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 mb-10">
-        {isSearchPending ? (
-          <div className="w-[100vw] min-h-[86vh] flex justify-center">
-            <Loader2 className="animate-spin w-8 h-8" />
-          </div>
-        ) : searchData?.data?.length > 0 ? (
-          [...searchData.data].reverse()
+        {isSearchSuccess &&
+          searchData?.data?.length > 0 &&
+          [...searchData.data]
+            .reverse()
             .map((roadmap: any) => (
               <RoadmapCard
                 key={roadmap.id}
@@ -50,8 +55,8 @@ export const Search = () => {
                 timeAgo={timeFromNow(roadmap?.createdAt?.toString())}
                 slug={roadmap.id}
               />
-            ))
-        ) : (
+            ))}
+        {isSearchError && (
           <div className="w-full ml-48">
             <SearchAlert />
           </div>
