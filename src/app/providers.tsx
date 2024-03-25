@@ -13,7 +13,7 @@ function Providers({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
-        <Toaster position="top-center" richColors />
+        <Toaster position="bottom-right" richColors />
         {children}
         <GoogleAnalytics gaId="G-KGPW43F35B" />
         <ReactQueryDevtools initialIsOpen={false} />

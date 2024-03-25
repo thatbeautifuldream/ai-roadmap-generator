@@ -1,6 +1,7 @@
 "use client";
 import {
   changeRoadmapVisibility,
+  checkIfTitleInUsersRoadmaps,
   isRoadmapGeneratedByUser,
 } from "@/actions/roadmaps";
 import { userHasCredits } from "@/actions/users";
@@ -42,6 +43,7 @@ interface Props {
   roadmapId: string;
   dbRoadmapId: string;
   visibility?: Visibility;
+  title?: string;
 }
 
 export const GeneratorControls = (props: Props) => {
@@ -52,6 +54,7 @@ export const GeneratorControls = (props: Props) => {
     roadmapId,
     dbRoadmapId,
     visibility: initialVisibility,
+    title,
   } = props;
   const [visibility, setVisibility] = useState(initialVisibility); // Manage visibility state
   const { getNodes } = useReactFlow();
@@ -108,7 +111,6 @@ export const GeneratorControls = (props: Props) => {
       if (!query) {
         return toast.error("Please enter a query", {
           description: "We need a query to generate a roadmap.",
-          position: "bottom-right",
           duration: 4000,
         });
       }
@@ -117,14 +119,31 @@ export const GeneratorControls = (props: Props) => {
       if (!userCredits && modelApiKey === "") {
         return toast.error("You don't have enough credits", {
           description: "To continue please enter your own api key.",
-          position: "bottom-right",
           duration: 4000,
+        });
+      }
+      console.log("title", title);
+      const titleExists = await checkIfTitleInUsersRoadmaps(
+        title as string,
+      );
+      console.log("titleExists", titleExists.state);
+
+      if (titleExists.state) {
+        return toast.info("Roadmap already exists", {
+          description: "The keyword you entered already exists.",
+          duration: 4000,
+          position: "top-center",
+          action: {
+            label: "View",
+            onClick: () => {
+              router.push(`/roadmap/${titleExists.id}`);
+            },
+          },
         });
       }
 
       toast.info("Generating roadmap", {
         description: "We are generating a roadmap for you.",
-        position: "bottom-right",
         duration: 4000,
       });
 
@@ -137,7 +156,6 @@ export const GeneratorControls = (props: Props) => {
           onSuccess: () => {
             toast.success("Success", {
               description: "Roadmap generated successfully.",
-              position: "bottom-right",
               duration: 4000,
             });
           },
@@ -146,7 +164,6 @@ export const GeneratorControls = (props: Props) => {
             toast.error("Something went wrong", {
               description:
                 error.response?.data?.message || "Unknown error occurred",
-              position: "bottom-right",
               duration: 4000,
             });
           },

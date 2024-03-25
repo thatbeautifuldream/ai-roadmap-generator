@@ -24,7 +24,6 @@ const UserAuthForm = ({ className }: UserAuthFormProps) => {
         description:
           "There was an error logging you in. Please try again later",
         duration: 4000,
-        position: "bottom-right",
       });
     } finally {
       setIsLoading(false);

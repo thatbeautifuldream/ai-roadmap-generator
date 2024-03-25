@@ -63,6 +63,7 @@ export default function Roadmap({ roadmapId }: Props) {
           roadmapId={data?.roadmapId}
           dbRoadmapId={roadmapId || ""}
           visibility={roadmap?.visibility}
+          title={query}
           key={roadmap?.visibility}
         />
       </div>

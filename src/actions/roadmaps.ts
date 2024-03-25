@@ -138,7 +138,26 @@ export const getPublicRoadmaps = async () => {
     },
     orderBy: {
       createdAt: "desc",
-    }
+    },
   });
   return roadmaps;
+};
+
+export const checkIfTitleInUsersRoadmaps = async (title: string) => {
+  const normalizedTitle = title.trim().toLowerCase().replace(/\s+/g, "");
+
+  const roadmap = await db.roadmap.findFirst({
+    where: {
+      title: {
+        contains: normalizedTitle,
+        mode: "insensitive", // This makes the search case-insensitive
+      },
+    },
+  });
+
+  if (roadmap) {
+    return { state: true, id: roadmap.id, title: roadmap.title };
+  } else {
+    return { state: false };
+  }
 };

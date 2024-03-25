@@ -71,7 +71,6 @@ export function PresetShare({ query }: { query: string }) {
               );
               toast.success("Copied", {
                 description: "Link copied to clipboard successfully.",
-                position: "bottom-right",
                 duration: 4000,
               });
             }}
