@@ -1,9 +1,8 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import MarqueeDemo from "@/components/ui/marque-wrapper";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight, Telescope, Wand } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
 
 export default function Home() {
   return (
