@@ -19,30 +19,29 @@ export const config = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-
   ],
-    cookies: {
-    csrfToken: {
-      name: 'next-auth.csrf-token',
-      options: {
-        httpOnly: true,
-        sameSite: 'none',
-        path: '/',
-        secure: true
-      }
-    },
-    pkceCodeVerifier: {
-      name: 'next-auth.pkce.code_verifier',
-      options: {
-        httpOnly: true,
-        sameSite: 'none',
-        path: '/',
-        secure: true
-      }
-    }
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-
+  // cookies: {
+  //   csrfToken: {
+  //     name: "next-auth.csrf-token",
+  //     options: {
+  //       httpOnly: true,
+  //       sameSite: "none",
+  //       path: "/",
+  //       secure: true,
+  //     },
+  //   },
+  //   pkceCodeVerifier: {
+  //     name: "next-auth.pkce.code_verifier",
+  //     options: {
+  //       httpOnly: true,
+  //       sameSite: "none",
+  //       path: "/",
+  //       secure: true,
+  //     },
+  //   },
+  // },
+  // secret: process.env.AUTH_SECRET,
+  // trustHost: true,
   session: {
     strategy: "jwt",
   },
@@ -54,7 +53,6 @@ export const config = {
       return session;
     },
   },
-  trustHost: true,
 } satisfies NextAuthConfig;
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);
