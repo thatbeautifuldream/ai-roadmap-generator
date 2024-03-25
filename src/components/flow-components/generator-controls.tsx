@@ -126,7 +126,6 @@ export const GeneratorControls = (props: Props) => {
       const titleExists = await checkIfTitleInUsersRoadmaps(
         title as string,
       );
-      console.log("titleExists", titleExists.state);
 
       if (titleExists.state) {
         return toast.info("Roadmap already exists", {
@@ -197,7 +196,6 @@ export const GeneratorControls = (props: Props) => {
       router.push(`/roadmap/${roadmapId}`);
     }
   }, [roadmapId]);
-  console.log(dbRoadmapId, showVisibilityDropdown);
 
   // Utility function to format visibility
   const formatVisibility = (visibility?: Visibility) => {
@@ -207,7 +205,7 @@ export const GeneratorControls = (props: Props) => {
       case Visibility.PRIVATE:
         return "Private";
       default:
-        return "Unknown";
+        return "Loading";
     }
   };
 

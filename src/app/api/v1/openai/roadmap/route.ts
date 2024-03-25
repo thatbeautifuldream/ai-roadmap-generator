@@ -28,15 +28,20 @@ export const POST = async (req: NextRequest, res: Response) => {
         { status: 400 },
       );
     }
-    const alreadyExists = await db.roadmap.findUnique({
+    const normalizedQuery = query.replace(/\s+/g, '').toLowerCase();
+
+    const alreadyExists = await db.roadmap.findMany({
       where: {
-        title: query,
+        title: {
+          mode: 'insensitive',
+          contains: normalizedQuery,
+        },
       },
     });
 
-    if (alreadyExists) {
-      await incrementRoadmapSearchCount(alreadyExists.id);
-      const tree = JSON.parse(alreadyExists.content);
+    if (alreadyExists.length > 0) {
+      await incrementRoadmapSearchCount(alreadyExists[0].id);
+      const tree = JSON.parse(alreadyExists[0].content);
       return NextResponse.json({ status: true, tree }, { status: 200 });
     }
 

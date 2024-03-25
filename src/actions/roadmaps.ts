@@ -155,7 +155,7 @@ export const checkIfTitleInUsersRoadmaps = async (title: string) => {
     },
   });
 
-  if (roadmap) {
+  if (roadmap && roadmap.visibility === Visibility.PUBLIC) {
     return { state: true, id: roadmap.id, title: roadmap.title };
   } else {
     return { state: false };
