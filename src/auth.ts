@@ -1,9 +1,9 @@
+import { db } from "@/lib/db";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { NextAuthConfig } from "next-auth";
 import NextAuth from "next-auth";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { db } from "@/lib/db";
 
 export const config = {
   pages: {
@@ -31,6 +31,7 @@ export const config = {
       return session;
     },
   },
+  trustHost: true,
 } satisfies NextAuthConfig;
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);
