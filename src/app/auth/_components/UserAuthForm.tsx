@@ -39,7 +39,11 @@ const UserAuthForm = ({ className }: UserAuthFormProps) => {
         disabled={isLoading}
         isLoading={isLoading}
       >
-        {isLoading ? null : <Icons.google className="h-4 w-4 mr-2" />}
+        {isLoading ? null : (
+          <div className="grayscale">
+            <Icons.google className="h-4 w-4 mr-2" />
+          </div>
+        )}
         Login using Google
       </Button>
     </div>
