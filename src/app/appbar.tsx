@@ -7,6 +7,13 @@ import { Coins, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Icons } from "./shared/Icons";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 async function AppBar() {
   const session = await auth();
   const userId = session?.user?.id;
@@ -27,13 +34,21 @@ async function AppBar() {
           {session && session.user ? (
             <div className="flex gap-2 items-center">
               <div className="hidden sm:flex gap-2">
-                <Badge
-                  variant={
-                    Math.abs(5 - user?.credits) > 0 ? "outline" : "destructive"
-                  }
-                >
-                  {Math.abs(5 - user?.credits)} <Coins size={16} />
-                </Badge>
+                <TooltipProvider>
+                  <Tooltip delayDuration={250}>
+                    <TooltipTrigger asChild>
+                      <Badge
+                        className="cursor-default"
+                        variant={user?.credits > 0 ? "outline" : "destructive"}
+                      >
+                        {user?.credits} <Coins size={16} />
+                      </Badge>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Credits Remaining</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
                 <p className="font-semibold text-sm">{session.user.name}</p>
               </div>
               <form
@@ -43,7 +58,16 @@ async function AppBar() {
                 }}
               >
                 <Button variant="link" type="submit">
-                  <LogOut size={16} />
+                  <TooltipProvider>
+                    <Tooltip delayDuration={250}>
+                      <TooltipTrigger asChild>
+                        <LogOut size={16} className="text-red-600" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Logout</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </Button>
               </form>
             </div>
