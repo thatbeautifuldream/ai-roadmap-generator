@@ -11,6 +11,8 @@ import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { NextRequest, NextResponse } from "next/server";
 
+export const runtime = "edge";
+
 export const POST = async (req: NextRequest, res: Response) => {
   const apiKey = req.nextUrl.searchParams.get("apiKey");
 

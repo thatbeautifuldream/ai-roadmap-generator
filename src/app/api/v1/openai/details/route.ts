@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { OpenAI } from "openai";
 
+export const runtime = "edge";
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || 'MY_API_KEY',
+  apiKey: process.env.OPENAI_API_KEY || "MY_API_KEY",
 });
 
 export const POST = async (req: Request, res: Response) => {
@@ -25,8 +27,7 @@ export const POST = async (req: Request, res: Response) => {
       messages: [
         {
           role: "system",
-          content:
-            `You are a helpful AI assistant that can generate career/syllabus roadmap.`,
+          content: `You are a helpful AI assistant that can generate career/syllabus roadmap.`,
         },
         {
           role: "user",
@@ -36,7 +37,7 @@ export const POST = async (req: Request, res: Response) => {
       response_format: { type: "json_object" },
     });
 
-    let json: { description: string, link: string } | null = null;
+    let json: { description: string; link: string } | null = null;
     try {
       json = JSON.parse(text?.choices?.[0]?.message?.content || "");
 

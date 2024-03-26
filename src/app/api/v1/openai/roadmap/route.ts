@@ -11,6 +11,8 @@ import { capitalize } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import { OpenAI } from "openai";
 
+export const runtime = "edge";
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || "MY_API_KEY",
 });
@@ -23,13 +25,13 @@ export const POST = async (req: NextRequest, res: Response) => {
     if (!query) {
       return NextResponse.json(
         { status: false, message: "Please send query." },
-        { status: 400 },
+        { status: 400 }
       );
     }
     if (!apiKey && !process.env.OPENAI_API_KEY) {
       return NextResponse.json(
         { status: false, message: "Please provide API key." },
-        { status: 400 },
+        { status: 400 }
       );
     }
     const normalizedQuery = query.replace(/\s+/g, "").toLowerCase();
@@ -48,7 +50,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const tree = JSON.parse(alreadyExists[0].content);
       return NextResponse.json(
         { status: true, tree, roadmapId: alreadyExists[0].id },
-        { status: 200 },
+        { status: 200 }
       );
     }
 
@@ -77,7 +79,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             status: true,
             message: "No credits remaining ",
           },
-          { status: 400 },
+          { status: 400 }
         );
       }
     }
@@ -93,7 +95,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             message:
               "An unexpected error occurred while generating roadmap. Please try again.",
           },
-          { status: 500 },
+          { status: 500 }
         );
       }
       const tree: Node[] = [
@@ -106,7 +108,7 @@ export const POST = async (req: NextRequest, res: Response) => {
                 name: moduleName,
                 moduleDescription,
                 link,
-              }),
+              })
             ),
           })),
         },
@@ -114,7 +116,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const { data } = await saveRoadmap(query, tree);
       return NextResponse.json(
         { status: true, text: json, tree, roadmapId: data?.id },
-        { status: 200 },
+        { status: 200 }
       );
     } catch (e) {
       incrementUserCredits();
@@ -126,7 +128,7 @@ export const POST = async (req: NextRequest, res: Response) => {
           message:
             "An unexpected error occurred while generating roadmap. Please try again.",
         },
-        { status: 500 },
+        { status: 500 }
       );
     }
   } catch (e) {
@@ -138,7 +140,7 @@ export const POST = async (req: NextRequest, res: Response) => {
         message:
           "An unexpected error occurred while generating roadmap. Please try again.",
       },
-      { status: 400 },
+      { status: 400 }
     );
   }
 };
