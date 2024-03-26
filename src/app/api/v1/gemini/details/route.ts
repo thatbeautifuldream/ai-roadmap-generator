@@ -3,8 +3,6 @@ import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { NextResponse } from "next/server";
 
-export const runtime = "edge";
-
 export const POST = async (req: Request, res: Response) => {
   try {
     const body = await req.json();
