@@ -11,14 +11,6 @@ import {
   Wand,
 } from "lucide-react";
 import Link from "next/link";
-import {
-  ArrowPathIcon,
-  CloudArrowUpIcon,
-  Cog6ToothIcon,
-  FingerPrintIcon,
-  LockClosedIcon,
-  ServerIcon,
-} from "@heroicons/react/20/solid";
 
 function RoadmapHero() {
   const trendyRoadmaps = [
@@ -78,7 +70,7 @@ function RoadmapHero() {
               <button
                 key={trendyTopic}
                 type="button"
-                className="flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-sm transition-colors hover:border-black hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex bg-white items-center gap-1.5 rounded-full border px-2 py-0.5 text-sm transition-colors hover:border-black hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {trendyTopic}
                 <ArrowUpRight size={16} />
