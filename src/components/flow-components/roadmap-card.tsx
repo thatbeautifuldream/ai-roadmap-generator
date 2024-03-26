@@ -6,7 +6,7 @@ import {
 import { EyeIcon } from "@/app/shared/Icons";
 import { Trash } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -21,7 +21,7 @@ function RoadmapCard({
   timeAgo?: string;
   slug?: string;
 }) {
-  const router = useRouter();
+  const pathname = usePathname();
   const [isCreator, setIsCreator] = useState<boolean>(false);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ function RoadmapCard({
   return (
     <>
       <div
-        className="flex flex-col rounded-md border transition-colors hover:bg-gray-100 group"
+        className="flex rounded-md border transition-colors hover:bg-gray-100 group relative cursor-pointer"
         style={{ maxHeight: "150px", overflow: "hidden" }}
       >
         <Link href={`/roadmap/${slug}`} className="flex-grow">
@@ -75,16 +75,16 @@ function RoadmapCard({
                 <EyeIcon />
                 {views}
               </span>
-              <span className="flex items-center gap-1.5 text-xs text-gray-400">
+              <span className="flex items-center gap-1.5 text-xs text-gray-400 absolute right-2">
                 {timeAgo}
               </span>
             </div>
           </p>
         </Link>
-        {isCreator && (
+        {isCreator && pathname.includes(`/dashboard`) && (
           <Trash
             onClick={handleDelete}
-            className="text-red-500 w-4 h-4 self-end mr-2 mb-2 cursor-pointer"
+            className="text-red-500 w-4 h-4 self-start mr-2 mt-2 cursor-pointer hidden group-hover:block"
           />
         )}
       </div>
