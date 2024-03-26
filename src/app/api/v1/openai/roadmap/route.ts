@@ -1,4 +1,8 @@
-import { incrementRoadmapSearchCount, incrementUserCredits, saveRoadmap } from "@/actions/roadmaps";
+import {
+  incrementRoadmapSearchCount,
+  incrementUserCredits,
+  saveRoadmap,
+} from "@/actions/roadmaps";
 import { decrementCreditsByUserId } from "@/actions/users";
 import { Node } from "@/app/shared/types/common";
 import { db } from "@/lib/db";
@@ -28,12 +32,12 @@ export const POST = async (req: NextRequest, res: Response) => {
         { status: 400 },
       );
     }
-    const normalizedQuery = query.replace(/\s+/g, '').toLowerCase();
+    const normalizedQuery = query.replace(/\s+/g, "").toLowerCase();
 
     const alreadyExists = await db.roadmap.findMany({
       where: {
         title: {
-          mode: 'insensitive',
+          mode: "insensitive",
           contains: normalizedQuery,
         },
       },
@@ -42,7 +46,10 @@ export const POST = async (req: NextRequest, res: Response) => {
     if (alreadyExists.length > 0) {
       await incrementRoadmapSearchCount(alreadyExists[0].id);
       const tree = JSON.parse(alreadyExists[0].content);
-      return NextResponse.json({ status: true, tree, roadmapId: alreadyExists[0].id }, { status: 200 });
+      return NextResponse.json(
+        { status: true, tree, roadmapId: alreadyExists[0].id },
+        { status: 200 },
+      );
     }
 
     const text = await openai.chat.completions.create({
@@ -79,10 +86,12 @@ export const POST = async (req: NextRequest, res: Response) => {
     try {
       json = JSON.parse(text?.choices?.[0]?.message?.content || "");
       if (!json) {
+        await incrementUserCredits();
         return NextResponse.json(
           {
             status: false,
-            message: "Error parsing roadmap data.",
+            message:
+              "An unexpected error occurred while generating roadmap. Please try again.",
           },
           { status: 500 },
         );
@@ -108,20 +117,27 @@ export const POST = async (req: NextRequest, res: Response) => {
         { status: 200 },
       );
     } catch (e) {
-      incrementUserCredits()
+      incrementUserCredits();
       console.log(e);
+      await incrementUserCredits();
       return NextResponse.json(
         {
           status: false,
-          message: "Error parsing roadmap data.",
+          message:
+            "An unexpected error occurred while generating roadmap. Please try again.",
         },
         { status: 500 },
       );
     }
   } catch (e) {
+    await incrementUserCredits();
     console.log(e);
     return NextResponse.json(
-      { status: false, message: "Something went wrong." },
+      {
+        status: false,
+        message:
+          "An unexpected error occurred while generating roadmap. Please try again.",
+      },
       { status: 400 },
     );
   }

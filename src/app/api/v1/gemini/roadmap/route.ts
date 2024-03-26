@@ -47,7 +47,10 @@ export const POST = async (req: NextRequest, res: Response) => {
     if (alreadyExists) {
       await incrementRoadmapSearchCount(alreadyExists.id); // does not return roadmapID to redirect
       const tree = JSON.parse(alreadyExists.content);
-      return NextResponse.json({ status: true, tree, roadmapId: alreadyExists.id }, { status: 200 });
+      return NextResponse.json(
+        { status: true, tree, roadmapId: alreadyExists.id },
+        { status: 200 },
+      );
     }
 
     const model = new ChatGoogleGenerativeAI({
@@ -89,11 +92,12 @@ export const POST = async (req: NextRequest, res: Response) => {
     try {
       json = JSON.parse(String(response?.content));
       if (!json) {
-        incrementUserCredits();
+        await incrementUserCredits();
         return NextResponse.json(
           {
             status: false,
-            message: "An unexpected error occurred. Please try again.",
+            message:
+              "An unexpected error occurred while generating roadmap. Please try again.",
           },
           { status: 500 },
         );
@@ -119,19 +123,26 @@ export const POST = async (req: NextRequest, res: Response) => {
         { status: 200 },
       );
     } catch (e) {
+      await incrementUserCredits();
       console.log(e);
       return NextResponse.json(
         {
           status: false,
-          message: "Error parsing roadmap data.",
+          message:
+            "An unexpected error occurred while generating roadmap. Please try again.",
         },
         { status: 500 },
       );
     }
   } catch (e) {
+    await incrementUserCredits();
     console.log(e);
     return NextResponse.json(
-      { status: false, message: "Something went wrong." },
+      {
+        status: false,
+        message:
+          "An unexpected error occurred while generating roadmap. Please try again.",
+      },
       { status: 400 },
     );
   }

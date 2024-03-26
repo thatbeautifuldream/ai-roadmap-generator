@@ -1,4 +1,8 @@
-import { incrementRoadmapSearchCount, incrementUserCredits, saveRoadmap } from "@/actions/roadmaps";
+import {
+  incrementRoadmapSearchCount,
+  incrementUserCredits,
+  saveRoadmap,
+} from "@/actions/roadmaps";
 import { decrementCreditsByUserId } from "@/actions/users";
 import { Node } from "@/app/shared/types/common";
 import { db } from "@/lib/db";
@@ -23,23 +27,30 @@ export const POST = async (req: NextRequest, res: Response) => {
 
     if (!apiKey && !process.env.COHERE_API_KEY) {
       return NextResponse.json(
-        { status: false, message: "API key not found. Please provide your api key to generate a roadmap." },
+        {
+          status: false,
+          message:
+            "API key not found. Please provide your api key to generate a roadmap.",
+        },
         { status: 400 },
       );
     }
 
-    const normalizedQuery = query.replace(/\s+/g, '').toLowerCase();
+    const normalizedQuery = query.replace(/\s+/g, "").toLowerCase();
 
     const roadmaps = await db.roadmap.findMany({
       where: {
         title: {
-          mode: 'insensitive',
+          mode: "insensitive",
           contains: normalizedQuery,
         },
       },
     });
 
-    const alreadyExists = roadmaps.find(roadmap => roadmap.title.replace(/\s+/g, '').toLowerCase() === normalizedQuery);
+    const alreadyExists = roadmaps.find(
+      (roadmap) =>
+        roadmap.title.replace(/\s+/g, "").toLowerCase() === normalizedQuery,
+    );
 
     if (alreadyExists) {
       await incrementRoadmapSearchCount(alreadyExists.id);
@@ -87,10 +98,12 @@ export const POST = async (req: NextRequest, res: Response) => {
       }
 
       if (!json) {
+        await incrementUserCredits();
         return NextResponse.json(
           {
             status: false,
-            message: "Error parsing roadmap data.",
+            message:
+              "An error occurred while generating roadmap. Please try again.",
           },
           { status: 500 },
         );
@@ -126,6 +139,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       );
     }
   } catch (e) {
+    await incrementUserCredits();
     console.log(e);
     return NextResponse.json(
       { status: false, message: "Something went wrong." },

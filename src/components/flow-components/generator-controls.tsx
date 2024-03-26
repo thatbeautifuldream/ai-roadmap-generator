@@ -2,6 +2,7 @@
 import {
   changeRoadmapVisibility,
   checkIfTitleInUsersRoadmaps,
+  deleteRoadmapById,
   isRoadmapGeneratedByUser,
 } from "@/actions/roadmaps";
 import { userHasCredits } from "@/actions/users";
@@ -35,6 +36,7 @@ import { PresetShare } from "../../app/roadmap/components/preset-share";
 import { useUIStore } from "../../app/stores/useUI";
 import GenerateButton from "./generate-button";
 import ModelSelect from "./model-select";
+import { Trash } from "lucide-react";
 
 interface Props {
   title?: string;
@@ -206,6 +208,26 @@ export const GeneratorControls = (props: Props) => {
     }
   };
 
+  const handleDelete = async () => {
+    const response = await deleteRoadmapById(dbRoadmapId);
+    // @ts-ignore
+    if (response.status === "success") {
+      toast.success("Deleted", {
+        description: "Roadmap deleted successfully ",
+        duration: 4000,
+      });
+      setTimeout(() => {
+        router.push("/roadmap");
+      }, 500);
+    } else {
+      toast.error("Error", {
+        // @ts-ignore
+        description: response.message,
+        duration: 4000,
+      });
+    }
+  };
+
   return (
     <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
       <div className="md:mx-14 flex w-full space-x-2 sm:justify-end">
@@ -234,6 +256,17 @@ export const GeneratorControls = (props: Props) => {
               ← Back to Generator
             </Link>
           </div>
+        )}
+
+        {showVisibilityDropdown && (
+          <Button
+            variant="destructive"
+            size="icon"
+            className="mx-2 cursor-pointer"
+            onClick={handleDelete}
+          >
+            <Trash className="text-white w-5 h-5 cursor-pointer" />
+          </Button>
         )}
 
         {showVisibilityDropdown && (

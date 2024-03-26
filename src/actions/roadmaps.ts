@@ -23,15 +23,6 @@ export const getRoadmapById = async (id: string) => {
   return roadmap;
 };
 
-export const deleteRoadmapById = async (id: string) => {
-  const roadmap = await db.roadmap.delete({
-    where: {
-      id,
-    },
-  });
-  return roadmap;
-};
-
 export const saveRoadmap = async (title: string, content: Node[]) => {
   try {
     const userId = (await getUserId()) as string;
@@ -174,4 +165,29 @@ export const incrementUserCredits = async () => {
       },
     },
   });
-}
+};
+
+export const deleteRoadmapById = async (id: string): Promise<{status: string, message?: string}> => {
+  const userId = await getUserId();
+  const roadmap = await db.roadmap.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!roadmap) {
+    return { status: "error", message: "Roadmap not found." };
+  }
+
+  if (roadmap.userId !== userId) {
+    return { status: "error", message: "User does not have permission to delete this roadmap." };
+  }
+
+  await db.roadmap.delete({
+    where: {
+      id,
+    },
+  });
+
+  return { status: "success", message: "Roadmap successfully deleted." };
+};;

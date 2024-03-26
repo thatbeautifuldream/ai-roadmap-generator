@@ -46,7 +46,7 @@ export function PresetShare() {
                   : ""
               }
               readOnly
-              className="h-9"
+              className="h-9 cursor-default"
             />
           </div>
           <Button
