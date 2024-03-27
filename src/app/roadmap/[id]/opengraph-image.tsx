@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 export const alt = "AI Roadmap Generator";
 export const size = {
