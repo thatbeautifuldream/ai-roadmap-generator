@@ -1,3 +1,4 @@
+'use server'
 import axios from "axios";
 // TODO: install this library and use
 // import { YoutubeTranscript } from "youtube-transcript";

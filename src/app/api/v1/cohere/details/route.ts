@@ -23,22 +23,6 @@ export const POST = async (req: Request, res: Response) => {
       model: "command",
     });
 
-    // const prompt = ChatPromptTemplate.fromMessages([
-    //   [
-    //     "ai",
-    //     `You are a helpful AI assistant that can generate career/syllabus roadmap. a roadmap in JSON format has been generated related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: [{moduleName: string, moduleDescription: string, link?: string}]}} and i'd like to request a small description and wikipedia link on moduleName: ${child} from chapterName: ${parent} in JSON format: {description: string, link: string}`,
-    //   ],
-    //   ["human", "{input}"],
-    // ]);
-
-    // const chain = prompt.pipe(model);
-
-    // let json = {};
-
-    // const response = await chain.invoke({
-    //   input: `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: string[]}}.`,
-    // });
-
     const prompt = ChatPromptTemplate.fromMessages([
       [
         "ai",

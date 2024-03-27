@@ -8,7 +8,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function SanitiseJSON(text: string) {
-  console.log("=>", text.split("```json")[1].split("```")[0]);
 
   // ugly hack to remove the first and last part of response to get the JSON
 
@@ -81,3 +80,7 @@ export const getFormattedDate = (dateString: string): string => {
     dateStyle: "long",
   }).format(new Date(dateString));
 };
+
+export const generateYouTubeLink = (videoId: string) => {
+  return `https://www.youtube.com/watch?v=${videoId}`;
+}

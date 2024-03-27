@@ -6,7 +6,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { IOrilley } from "@/lib/types";
-import { formatDuration } from "@/lib/utils";
+import { formatDuration, generateYouTubeLink } from "@/lib/utils";
 import { searchYoutube } from "@/lib/youtube";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -65,7 +65,7 @@ export const Drawer = () => {
   });
 
   // consume the youtube api to get the videos for the search query
-  const { data: youtubeData, isSuccess: youtubeSuccess } = useQuery({
+  const { data: videoId, isSuccess: youtubeSuccess } = useQuery({
     queryKey: [
       "Youtube",
       drawerDetails?.query,
@@ -73,7 +73,12 @@ export const Drawer = () => {
       drawerDetails?.child,
     ],
     queryFn: async () => {
-      return searchYoutube(drawerDetails?.query || "");
+      return searchYoutube(
+        drawerDetails?.query ||
+          "" + drawerDetails?.parent ||
+          "" + drawerDetails?.child ||
+          ""
+      );
     },
     staleTime: Infinity,
     retry: false,
@@ -97,6 +102,31 @@ export const Drawer = () => {
                       <TooltipTrigger>
                         <a
                           href={data.data.text.link}
+                          target="_blank"
+                          referrerPolicy="no-referrer"
+                        >
+                          <Image
+                            src="/images/wikipedia.png"
+                            alt="Wikipedia Logo"
+                            width={16}
+                            height={16}
+                          />
+                        </a>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Wikipedia</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                )}
+              </div>
+              <div className="flex flex-wrap mb-2">
+                {data.data.text.link && (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <a
+                          href={generateYouTubeLink(videoId)}
                           target="_blank"
                           referrerPolicy="no-referrer"
                         >
