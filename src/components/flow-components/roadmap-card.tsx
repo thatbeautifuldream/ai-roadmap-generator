@@ -62,6 +62,7 @@ function RoadmapCard({
                 <EyeIcon />
                 {views}
               </span>
+
               <span className="flex items-center gap-1.5 text-xs text-gray-400 absolute right-2">
                 {timeAgo}
               </span>

@@ -1,4 +1,4 @@
-import { getRoadmapById } from "@/actions/roadmaps";
+import { getRoadmapById, increaseViewsByRoadmapId } from "@/actions/roadmaps";
 import { ErrorAlert } from "@/components/alerts/ErrorAlert";
 import { Flow } from "@/components/flow-components/Flow";
 
@@ -12,6 +12,8 @@ const generatorById = async (props: PageProps) => {
     params: { id: roadmapId },
   } = props;
   const roadmap = await getRoadmapById(roadmapId);
+  await increaseViewsByRoadmapId(roadmapId);
+
   if (!roadmap) return <ErrorAlert />;
   return (
     <>

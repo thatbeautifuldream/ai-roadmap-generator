@@ -167,7 +167,7 @@ export const incrementUserCredits = async () => {
   });
 };
 
-export const deleteRoadmapById = async (id: string): Promise<{status: string, message?: string}> => {
+export const deleteRoadmapById = async (id: string): Promise<{ status: string, message?: string }> => {
   const userId = await getUserId();
   const roadmap = await db.roadmap.findUnique({
     where: {
@@ -190,4 +190,28 @@ export const deleteRoadmapById = async (id: string): Promise<{status: string, me
   });
 
   return { status: "success", message: "Roadmap successfully deleted." };
-};;
+};
+
+export const increaseViewsByRoadmapId = async (id: string) => {
+  const roadmap = await db.roadmap.findUnique({
+    where: {
+      id
+    }
+  });
+  console.log({ id })
+  if (!roadmap) {
+    return;
+  }
+
+  await db.roadmap.update({
+    where: {
+      id,
+    },
+    data: {
+      views: {
+        increment: 1,
+      },
+    },
+  })
+
+}
