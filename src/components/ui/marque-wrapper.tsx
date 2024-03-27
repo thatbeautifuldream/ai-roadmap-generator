@@ -60,7 +60,7 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "relative w-64 cursor-pointer overflow-hidden rounded border-2 border-[#000000a6] p-2 shadow-[6px_6px_0px_1px_#000000a6] flex flex-col justify-between h-20"
+        "relative w-48 sm:w-64 cursor-pointer overflow-hidden rounded border-2 border-[#000000a6] p-2 shadow-[6px_6px_0px_1px_#000000a6] flex flex-col justify-between h-20"
       )}
     >
       <p className="font-semibold">{title}</p>
@@ -77,13 +77,13 @@ const ReviewCard = ({
 
 const MarqueeDemo = () => {
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg  bg-background md:shadow-2xl">
-      <Marquee pauseOnHover className="[--duration:20s]">
+    <div className="relative flex flex-col items-center justify-center overflow-hidden rounded-lg bg-background md:shadow-2xl mx-auto max-w-screen-xl">
+      <Marquee pauseOnHover className="[--duration:20s] w-full">
         {firstRow.map((review) => (
           <ReviewCard key={review.time} {...review} />
         ))}
       </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:20s]">
+      <Marquee reverse pauseOnHover className="[--duration:20s] w-full">
         {secondRow.map((review) => (
           <ReviewCard key={review.time} {...review} />
         ))}

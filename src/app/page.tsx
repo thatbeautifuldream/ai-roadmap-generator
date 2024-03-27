@@ -22,8 +22,8 @@ function RoadmapHero() {
 
   return (
     <>
-      <div className="flex flex-grow flex-col items-center px-4 py-6 sm:px-6">
-        <div className="flex flex-col gap-0 text-center sm:gap-1 md:mt-6 lg:mt-32">
+      <div className="flex flex-grow flex-col items-center px-4 py-6 sm:px-6 overflow-hidden">
+        <div className="flex flex-col gap-0 text-center sm:gap-1 sm:mt-6 md:mt-8 lg:mt-12">
           <h1 className="relative text-4xl font-bold sm:text-3xl">
             <span className="hidden sm:inline">Generate roadmaps with AI</span>
             <span className="inline sm:hidden">AI Roadmap Generator</span>
@@ -78,7 +78,7 @@ function RoadmapHero() {
             ))}
           </div>
         </div>
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4 mb-6">
           <p className="flex items-center text-sm">
             <button className="rounded-xl border border-current px-2 py-0.5 text-sm text-blue-500 transition-colors hover:bg-blue-400 hover:text-white">
               By-pass all limits by{" "}
@@ -86,9 +86,12 @@ function RoadmapHero() {
             </button>
           </p>
         </div>
-        <div className="overflow-hidden max-w-6xl h-64">
-          <MarqueeDemo />
+        <div className="overflow-hidden max-w-screen-xl mx-auto h-64">
+          <div className="overflow-x-hidden">
+            <MarqueeDemo />
+          </div>
         </div>
+
         <DotPattern
           className={cn(
             "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
