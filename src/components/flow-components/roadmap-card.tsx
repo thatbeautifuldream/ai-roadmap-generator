@@ -22,18 +22,7 @@ function RoadmapCard({
   slug?: string;
 }) {
   const pathname = usePathname();
-  const [isCreator, setIsCreator] = useState<boolean>(false);
-
-  useEffect(() => {
-    const checkOwnership = async () => {
-      if (slug) {
-        const isUserCreator = await isRoadmapGeneratedByUser(slug);
-        setIsCreator(isUserCreator);
-      }
-    };
-
-    checkOwnership();
-  }, [slug]);
+  const router = useRouter();
 
   const handleDelete = async (event: React.MouseEvent) => {
     event.stopPropagation(); // Prevents the link navigation
@@ -45,9 +34,7 @@ function RoadmapCard({
         description: "Roadmap deleted successfully ",
         duration: 4000,
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
+      router.refresh();
     } else {
       toast.error("Error", {
         // @ts-ignore
@@ -81,7 +68,7 @@ function RoadmapCard({
             </div>
           </p>
         </Link>
-        {isCreator && pathname.includes(`/dashboard`) && (
+        {pathname.includes(`/dashboard`) && (
           <Trash
             onClick={handleDelete}
             className="text-red-500 w-4 h-4 self-start mr-2 mt-2 cursor-pointer hidden group-hover:block"

@@ -12,7 +12,7 @@ export default async function Dashboard() {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {roadmaps.length > 0 ? (
-          roadmaps.map((roadmap: any) => (
+          roadmaps.map((roadmap) => (
             <RoadmapCard
               key={roadmap.id}
               title={roadmap.title}
