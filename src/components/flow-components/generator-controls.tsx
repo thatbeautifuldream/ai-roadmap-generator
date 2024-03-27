@@ -216,9 +216,8 @@ export const GeneratorControls = (props: Props) => {
         description: "Roadmap deleted successfully ",
         duration: 4000,
       });
-      setTimeout(() => {
-        router.push("/roadmap");
-      }, 500);
+      router.push("/dashboard");
+      router.refresh();
     } else {
       toast.error("Error", {
         // @ts-ignore
