@@ -7,16 +7,20 @@ import ReactFlow, {
   Controls,
   Panel,
   Node as RFNode,
+  getRectOfNodes,
+  getTransformForBounds,
   useReactFlow,
 } from "reactflow";
 import { useShallow } from "zustand/react/shallow";
 import { proOptions } from "../../app/shared/constants";
 import { useUIStore } from "../../app/stores/useUI";
-import { MagicWandIcon } from "@radix-ui/react-icons";
 import { Download } from "lucide-react";
-import { toast } from "sonner";
-import Image from "next/image";
-import { Icons } from "@/app/shared/Icons";
+import { toPng } from "html-to-image";
+import {
+  DIAGRAM_IMAGE_HEIGHT,
+  DIAGRAM_IMAGE_WIDTH,
+  downloadImage,
+} from "@/lib/utils";
 
 type ProProps = {
   animationDuration?: number;
@@ -24,16 +28,17 @@ type ProProps = {
 };
 
 function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
+  const { getNodes, fitView, zoomIn, zoomOut } = useReactFlow();
   const initialElements = getElements(h);
   const [nodes, setNodes] = useState(initialElements.nodes);
   const [edges, setEdges] = useState(initialElements.edges);
-  const { fitView, zoomIn, zoomOut } = useReactFlow();
   const { toggleDrawer, setDrawerDetails } = useUIStore(
     useShallow((state) => ({
       setDrawerDetails: state.setDrawerDetails,
       toggleDrawer: state.toggleDrawer,
-    }))
+    })),
   );
+
   const handleNodeClick = (_: any, node: RFNode) => {
     const currentNode: any = h.find((_node) => {
       return node.id === _node.id;
@@ -93,17 +98,39 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
         }
         onInteractiveChange={(isInteractive) => {
           setNodes((prevNodes) =>
-            prevNodes.map((node) => ({ ...node, draggable: isInteractive }))
+            prevNodes.map((node) => ({ ...node, draggable: isInteractive })),
           );
         }}
       >
         <ControlButton
           about="Download Roadmap"
-          onClick={() =>
-            toast.info("[TODO] Impl download.", {
-              position: "top-center",
-            })
-          }
+          onClick={() => {
+            // we calculate a transform for the nodes so that all nodes are visible
+            // we then overwrite the transform of the `.react-flow__viewport` element
+            // with the style option of the html-to-image library
+            const nodesBounds = getRectOfNodes(getNodes());
+            const [x, y] = getTransformForBounds(
+              nodesBounds,
+              DIAGRAM_IMAGE_WIDTH,
+              DIAGRAM_IMAGE_HEIGHT,
+              0.5,
+              2,
+            );
+
+            toPng(
+              document.querySelector(".react-flow__viewport") as HTMLElement,
+              {
+                backgroundColor: "#ffffff",
+                width: DIAGRAM_IMAGE_WIDTH,
+                height: DIAGRAM_IMAGE_HEIGHT,
+                style: {
+                  width: String(DIAGRAM_IMAGE_WIDTH),
+                  height: String(DIAGRAM_IMAGE_HEIGHT),
+                  transform: `translate(${x - 300}px, ${y}px) scale(1)`,
+                },
+              },
+            ).then(downloadImage);
+          }}
         >
           <Download className="font-bold" />
         </ControlButton>

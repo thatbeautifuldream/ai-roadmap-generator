@@ -76,14 +76,26 @@ export const POST = async (req: NextRequest, res: Response) => {
       ],
     ]);
     if (!apiKey) {
-      const creditsRemaining = await decrementCreditsByUserId();
-      if (!creditsRemaining) {
+      try {
+        const creditsRemaining = await decrementCreditsByUserId();
+        if (!creditsRemaining) {
+          return NextResponse.json(
+            {
+              status: true,
+              message: "No credits remaining ",
+            },
+            { status: 400 }
+          );
+        }
+      } catch (e) {
+        await incrementUserCredits();
+        console.log(e);
         return NextResponse.json(
           {
-            status: true,
-            message: "No credits remaining ",
+            status: false,
+            message: "An error occurred while managing credits.",
           },
-          { status: 400 }
+          { status: 500 }
         );
       }
     }
@@ -92,7 +104,6 @@ export const POST = async (req: NextRequest, res: Response) => {
     try {
       json = JSON.parse(String(response?.content));
       if (!json) {
-        await incrementUserCredits();
         return NextResponse.json(
           {
             status: false,
@@ -123,7 +134,6 @@ export const POST = async (req: NextRequest, res: Response) => {
         { status: 200 }
       );
     } catch (e) {
-      await incrementUserCredits();
       console.log(e);
       return NextResponse.json(
         {
@@ -135,7 +145,6 @@ export const POST = async (req: NextRequest, res: Response) => {
       );
     }
   } catch (e) {
-    await incrementUserCredits();
     console.log(e);
     return NextResponse.json(
       {
