@@ -36,7 +36,7 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
     useShallow((state) => ({
       setDrawerDetails: state.setDrawerDetails,
       toggleDrawer: state.toggleDrawer,
-    })),
+    }))
   );
 
   const handleNodeClick = (_: any, node: RFNode) => {
@@ -98,7 +98,7 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
         }
         onInteractiveChange={(isInteractive) => {
           setNodes((prevNodes) =>
-            prevNodes.map((node) => ({ ...node, draggable: isInteractive })),
+            prevNodes.map((node) => ({ ...node, draggable: isInteractive }))
           );
         }}
       >
@@ -114,7 +114,7 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
               DIAGRAM_IMAGE_WIDTH,
               DIAGRAM_IMAGE_HEIGHT,
               0.5,
-              2,
+              2
             );
 
             toPng(
@@ -126,9 +126,9 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
                 style: {
                   width: String(DIAGRAM_IMAGE_WIDTH),
                   height: String(DIAGRAM_IMAGE_HEIGHT),
-                  transform: `translate(${x - 300}px, ${y}px) scale(1)`,
+                  transform: `translate(${x}px, ${y}px) scale(1)`,
                 },
-              },
+              }
             ).then(downloadImage);
           }}
         >

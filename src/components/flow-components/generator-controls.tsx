@@ -69,7 +69,7 @@ export const GeneratorControls = (props: Props) => {
       modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
-    })),
+    }))
   );
 
   useEffect(() => {
@@ -77,36 +77,11 @@ export const GeneratorControls = (props: Props) => {
     setModelApiKey(modelApiKey);
   }, [model]);
 
-  const onClick = () => {
-    // we calculate a transform for the nodes so that all nodes are visible
-    // we then overwrite the transform of the `.react-flow__viewport` element
-    // with the style option of the html-to-image library
-    const nodesBounds = getRectOfNodes(getNodes());
-    const [x, y] = getTransformForBounds(
-      nodesBounds,
-      DIAGRAM_IMAGE_WIDTH,
-      DIAGRAM_IMAGE_HEIGHT,
-      0.5,
-      2,
-    );
-
-    toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
-      backgroundColor: "#ffffff",
-      width: DIAGRAM_IMAGE_WIDTH,
-      height: DIAGRAM_IMAGE_HEIGHT,
-      style: {
-        width: String(DIAGRAM_IMAGE_WIDTH),
-        height: String(DIAGRAM_IMAGE_HEIGHT),
-        transform: `translate(${x - 300}px, ${y}px) scale(1)`,
-      },
-    }).then(downloadImage);
-  };
-
   const onSubmit = async (
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>,
+      | React.KeyboardEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
     try {
@@ -165,7 +140,7 @@ export const GeneratorControls = (props: Props) => {
               duration: 4000,
             });
           },
-        },
+        }
       );
     } catch (e: any) {
       console.error("api error", e);
@@ -295,9 +270,6 @@ export const GeneratorControls = (props: Props) => {
         {renderFlow && dbRoadmapId && (
           <div className="flex space-x-2">
             <PresetShare key={renderFlow} />
-            <Button variant="default" className="w-full" onClick={onClick}>
-              Download
-            </Button>
           </div>
         )}
       </div>
