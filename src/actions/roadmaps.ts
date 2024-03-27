@@ -198,7 +198,7 @@ export const increaseViewsByRoadmapId = async (id: string) => {
       id
     }
   });
-  console.log({ id })
+
   if (!roadmap) {
     return;
   }
