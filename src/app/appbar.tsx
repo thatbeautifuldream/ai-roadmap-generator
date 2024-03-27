@@ -49,7 +49,9 @@ async function AppBar() {
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-                <p className="font-semibold text-sm md:ml-1">{session.user.name}</p>
+                <p className="font-semibold text-sm md:ml-1">
+                  {session.user.name}
+                </p>
               </div>
               <form
                 action={async () => {
@@ -61,7 +63,7 @@ async function AppBar() {
                   <TooltipProvider>
                     <Tooltip delayDuration={250}>
                       <TooltipTrigger asChild>
-                        <LogOut className="text-red-600 h-5 w-5" />
+                        <LogOut size={16} />
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>Logout</p>

@@ -60,8 +60,8 @@ const Search = () => {
               roadmaps?.filter((roadmap) =>
                 roadmap.title
                   .toLowerCase()
-                  .includes(e.target.value.toLowerCase()),
-              ),
+                  .includes(e.target.value.toLowerCase())
+              )
             );
           }}
         />
@@ -76,7 +76,7 @@ const Search = () => {
             <RoadmapCard
               key={roadmap.id}
               title={roadmap.title}
-              views="2 views"
+              views={roadmap.views.toString()}
               timeAgo={timeFromNow(roadmap?.createdAt?.toString())}
               slug={roadmap.id}
             />

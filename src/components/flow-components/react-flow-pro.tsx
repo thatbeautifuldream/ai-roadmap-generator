@@ -3,13 +3,20 @@ import { HierarchyNode } from "d3-hierarchy";
 import { useEffect, useState } from "react";
 import ReactFlow, {
   Background,
+  ControlButton,
   Controls,
+  Panel,
   Node as RFNode,
   useReactFlow,
 } from "reactflow";
 import { useShallow } from "zustand/react/shallow";
 import { proOptions } from "../../app/shared/constants";
 import { useUIStore } from "../../app/stores/useUI";
+import { MagicWandIcon } from "@radix-ui/react-icons";
+import { Download } from "lucide-react";
+import { toast } from "sonner";
+import Image from "next/image";
+import { Icons } from "@/app/shared/Icons";
 
 type ProProps = {
   animationDuration?: number;
@@ -71,11 +78,41 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
     >
       <Background />
       <Controls
-        // Add custom UI for controls where we have our buttons invoke zoomIn, zoomOut
-        // this one causes glitches
-        onZoomIn={() => zoomIn({ duration: 800 })}
-        onZoomOut={() => zoomOut({ duration: 800 })}
-      />
+        fitViewOptions={{
+          duration: 800,
+        }}
+        onZoomIn={() =>
+          zoomIn({
+            duration: 800,
+          })
+        }
+        onZoomOut={() =>
+          zoomOut({
+            duration: 800,
+          })
+        }
+        onInteractiveChange={(isInteractive) => {
+          setNodes((prevNodes) =>
+            prevNodes.map((node) => ({ ...node, draggable: isInteractive }))
+          );
+        }}
+      >
+        <ControlButton
+          about="Download Roadmap"
+          onClick={() =>
+            toast.info("[TODO] Impl download.", {
+              position: "top-center",
+            })
+          }
+        >
+          <Download className="font-bold" />
+        </ControlButton>
+      </Controls>
+      <Panel position="bottom-right">
+        <span className="font-semibold text-gray-400">
+          AI Roadmap Generator [BETA v0.1]
+        </span>
+      </Panel>
     </ReactFlow>
   );
 }
