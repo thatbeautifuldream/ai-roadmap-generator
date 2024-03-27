@@ -14,6 +14,7 @@ import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../../app/stores/useUI";
+import { YouTubeEmbed } from "@next/third-parties/google";
 
 export const Drawer = () => {
   const { drawerOpen, toggleDrawer, drawerDetails, model } = useUIStore(
@@ -120,34 +121,14 @@ export const Drawer = () => {
                   </TooltipProvider>
                 )}
               </div>
-              <div className="flex flex-wrap mb-2">
-                {data.data.text.link && (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={generateYouTubeLink(videoId)}
-                          target="_blank"
-                          referrerPolicy="no-referrer"
-                        >
-                          <Image
-                            src="/images/wikipedia.png"
-                            alt="Wikipedia Logo"
-                            width={16}
-                            height={16}
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Wikipedia</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                )}
-              </div>
               <p className="text-sm text-slate-600">
                 {data.data.text.description}
               </p>
+              {data.data.text.link && (
+                <div className="mt-4">
+                  <YouTubeEmbed videoid={videoId} />
+                </div>
+              )}
               <div className="mt-4">
                 <p className="text-black mb-2">Recommended Books</p>
                 <div className="flex flex-col gap-3">

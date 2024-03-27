@@ -8,7 +8,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function SanitiseJSON(text: string) {
-
   // ugly hack to remove the first and last part of response to get the JSON
 
   const json = text.split("```json")[1].split("```")[0];
@@ -43,7 +42,7 @@ export const decodeFromURL = (params: URLSearchParams): Node[] => {
     const uncompressed = LZString.decompressFromEncodedURIComponent(code);
     try {
       array = JSON.parse(uncompressed);
-    } catch (e) { }
+    } catch (e) {}
   }
   return array;
 };
@@ -83,4 +82,4 @@ export const getFormattedDate = (dateString: string): string => {
 
 export const generateYouTubeLink = (videoId: string) => {
   return `https://www.youtube.com/watch?v=${videoId}`;
-}
+};
