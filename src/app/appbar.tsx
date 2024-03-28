@@ -1,18 +1,18 @@
-import Link from "next/link";
 import NavItems from "@/app/nav-items";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Coins, LogOut } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+import { SignInButton, UserButton, currentUser } from "@clerk/nextjs";
+import { Coins } from "lucide-react";
+import Link from "next/link";
 import { Icons } from "./shared/Icons";
-import { SignOutButton, currentUser } from "@clerk/nextjs";
 
+import { getUserCredits } from "@/actions/users";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { getUserCredits } from "@/actions/users";
 
 async function AppBar() {
   const user = await currentUser();
@@ -23,12 +23,12 @@ async function AppBar() {
       <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="p-2 flex gap-2 items-center">
           <Link href="/">
-            <Icons.roadmapai className="h-[50px] w-[150px]" />
+            <Icons.roadmapai className="h-[40px] w-[120px]" />
           </Link>
           <div className="ml-auto flex items-center">
-            <Link href="/dashboard" className={buttonVariants()}>
-              Login
-            </Link>
+            <div className={buttonVariants({})}>
+              <SignInButton />
+            </div>
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@ async function AppBar() {
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="p-2 flex gap-2 items-center">
         <Link href="/">
-          <Icons.roadmapai className="h-[50px] w-[150px]" />
+          <Icons.roadmapai className="h-[40px] w-[120px]" />
         </Link>
         <NavItems />
         <div className="ml-auto flex items-center">
@@ -64,24 +64,8 @@ async function AppBar() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <p className="font-semibold text-sm md:ml-1">
-                {`${user?.firstName} ${user?.lastName}`}
-              </p>
+              <UserButton />
             </div>
-            <SignOutButton>
-              <Button variant="link" size="icon" type="submit">
-                <TooltipProvider>
-                  <Tooltip delayDuration={250}>
-                    <TooltipTrigger asChild>
-                      <LogOut size={16} />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Logout</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </Button>
-            </SignOutButton>
           </div>
         </div>
       </div>
