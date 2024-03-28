@@ -150,17 +150,20 @@ export const Drawer = () => {
               <p className="text-sm text-slate-600">
                 {data.data.text.description}
               </p>
-              <div className="mt-4">
-                <ul className="list-disc list-inside">
-                  {data.data.text.bulletPoints.map(
-                    (point: string, id: number) => (
-                      <li key={id} className="text-sm text-slate-600">
-                        {point}
-                      </li>
-                    )
-                  )}
-                </ul>
-              </div>
+              {data?.data?.text?.bulletPoints &&
+              data?.data?.text?.bulletPoints?.length > 0 ? (
+                <div className="mt-4">
+                  <ul className="list-disc list-inside">
+                    {data?.data?.text?.bulletPoints?.map(
+                      (point: string, id: number) => (
+                        <li key={id} className="text-sm text-slate-600">
+                          {point}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </div>
+              ) : null}
 
               <div className="mt-4">
                 <p className="text-black mb-2">Recommended Books</p>
