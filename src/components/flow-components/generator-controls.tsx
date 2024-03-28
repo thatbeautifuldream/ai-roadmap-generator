@@ -23,10 +23,8 @@ import { Trash } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useReactFlow } from "reactflow";
 import { toast } from "sonner";
 import { useShallow } from "zustand/react/shallow";
-import { PresetActions } from "../../app/roadmap/components/preset-actions";
 import { PresetShare } from "../../app/roadmap/components/preset-share";
 import { useUIStore } from "../../app/stores/useUI";
 import GenerateButton from "./generate-button";
@@ -62,7 +60,7 @@ export const GeneratorControls = (props: Props) => {
       modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
-    })),
+    }))
   );
 
   useEffect(() => {
@@ -74,7 +72,7 @@ export const GeneratorControls = (props: Props) => {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>,
+      | React.KeyboardEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
     try {
@@ -133,7 +131,7 @@ export const GeneratorControls = (props: Props) => {
               duration: 4000,
             });
           },
-        },
+        }
       );
     } catch (e: any) {
       console.error("api error", e);
