@@ -67,7 +67,7 @@ const Search = () => {
         />
       </div>{" "}
       {isLoading ? (
-        <div className="w-[80vw] h-[70vh] flex justify-center items-center">
+        <div className="w-full h-full flex justify-center items-center mt-8">
           <Loader2 className="animate-spin w-8 h-8" />
         </div>
       ) : filteredRoadmaps && filteredRoadmaps?.length > 0 ? (
