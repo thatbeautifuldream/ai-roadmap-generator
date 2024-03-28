@@ -53,7 +53,6 @@ export const GeneratorControls = (props: Props) => {
     visibility: initialVisibility,
   } = props;
   const [visibility, setVisibility] = useState(initialVisibility); // Manage visibility state
-  const { getNodes } = useReactFlow();
   const router = useRouter();
 
   const { model, query, setModelApiKey, setQuery, modelApiKey } = useUIStore(
@@ -63,7 +62,7 @@ export const GeneratorControls = (props: Props) => {
       modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
-    }))
+    })),
   );
 
   useEffect(() => {
@@ -75,7 +74,7 @@ export const GeneratorControls = (props: Props) => {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>,
   ) => {
     e.preventDefault();
     try {
@@ -134,7 +133,7 @@ export const GeneratorControls = (props: Props) => {
               duration: 4000,
             });
           },
-        }
+        },
       );
     } catch (e: any) {
       console.error("api error", e);
@@ -214,7 +213,7 @@ export const GeneratorControls = (props: Props) => {
         )}
 
         {dbRoadmapId && (
-          <div className="flex-1">
+          <div className="flex-1 -ml-6 md:ml-0">
             <Link
               href={`/roadmap`}
               className={buttonVariants({
@@ -266,10 +265,6 @@ export const GeneratorControls = (props: Props) => {
             <PresetShare key={renderFlow} />
           </div>
         )}
-      </div>
-
-      <div className="flex space-x-2 sm:hidden">
-        <PresetActions />
       </div>
     </div>
   );

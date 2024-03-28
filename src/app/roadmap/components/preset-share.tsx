@@ -26,7 +26,7 @@ export function PresetShare() {
           Share
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-[520px]">
+      <DialogContent className="md:w-[520px] w-[380px]">
         <DialogHeader>
           <DialogTitle>Share roadmap</DialogTitle>
           <DialogDescription>
