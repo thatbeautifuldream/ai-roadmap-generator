@@ -6,15 +6,15 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { IOrilley } from "@/lib/types";
-import { formatDuration, generateYouTubeLink } from "@/lib/utils";
+import { formatDuration } from "@/lib/utils";
 import { searchYoutube } from "@/lib/youtube";
+import { YouTubeEmbed } from "@next/third-parties/google";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../../app/stores/useUI";
-import { YouTubeEmbed } from "@next/third-parties/google";
 
 export const Drawer = () => {
   const { drawerOpen, toggleDrawer, drawerDetails, model } = useUIStore(
@@ -88,7 +88,7 @@ export const Drawer = () => {
 
   return (
     <Sheet open={drawerOpen} onOpenChange={toggleDrawer}>
-      <SheetContent className="overflow-auto">
+      <SheetContent className="overflow-auto min-w-full md:min-w-[700px]">
         <div className="mb-4">
           <p className="text-xs text-slate-400">{drawerDetails?.parent}</p>
           <p className="font-light">{drawerDetails?.child}</p>
