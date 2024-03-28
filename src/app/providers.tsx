@@ -6,13 +6,21 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
 import { Toaster } from "sonner";
 import { ClerkProvider } from "@clerk/nextjs";
+import { neobrutalism } from "@clerk/themes";
 
 const queryClient = new QueryClient();
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <ClerkProvider>
+      <ClerkProvider
+        appearance={{
+          baseTheme: neobrutalism,
+          variables: {
+            colorPrimary: "black",
+          },
+        }}
+      >
         <Toaster position="bottom-right" richColors />
         {children}
         <GoogleAnalytics gaId="G-KGPW43F35B" />
