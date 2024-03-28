@@ -11,7 +11,7 @@ import { searchYoutube } from "@/lib/youtube";
 import { YouTubeEmbed } from "@next/third-parties/google";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Loader2 } from "lucide-react";
+import { Loader2, Youtube } from "lucide-react";
 import Image from "next/image";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../../app/stores/useUI";
@@ -86,6 +86,46 @@ export const Drawer = () => {
     enabled: Boolean(drawerDetails?.child),
   });
 
+  const YoutubeVideo = () => {
+    return (
+      <div className="mt-4">
+        <YouTubeEmbed videoid={videoId} />
+      </div>
+    );
+  };
+
+  const ResourceLink = ({
+    linkTitle,
+    link,
+    iconUrl,
+  }: {
+    link: string;
+    linkTitle: string;
+    iconUrl: string;
+  }) => {
+    return (
+      <>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <a href={link} target="_blank" referrerPolicy="no-referrer">
+                <Image
+                  src={iconUrl}
+                  alt="Wikipedia Logo"
+                  width={16}
+                  height={16}
+                />
+              </a>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{linkTitle}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </>
+    );
+  };
+
   return (
     <Sheet open={drawerOpen} onOpenChange={toggleDrawer}>
       <SheetContent className="overflow-auto min-w-full md:min-w-[700px]">
@@ -93,42 +133,35 @@ export const Drawer = () => {
           <p className="text-xs text-slate-400">{drawerDetails?.parent}</p>
           <p className="font-light">{drawerDetails?.child}</p>
         </div>
+
         <div>
           {isSuccess ? (
             <div>
-              <div className="flex flex-wrap mb-2">
+              {data.data.text.link && <YoutubeVideo />}
+              <div className="flex flex-wrap m-4">
                 {data.data.text.link && (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <a
-                          href={data.data.text.link}
-                          target="_blank"
-                          referrerPolicy="no-referrer"
-                        >
-                          <Image
-                            src="/images/wikipedia.png"
-                            alt="Wikipedia Logo"
-                            width={16}
-                            height={16}
-                          />
-                        </a>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Wikipedia</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <ResourceLink
+                    link={data.data.text.link}
+                    linkTitle="Wikipedia"
+                    iconUrl="/images/wikipedia.png"
+                  />
                 )}
               </div>
               <p className="text-sm text-slate-600">
                 {data.data.text.description}
               </p>
-              {data.data.text.link && (
-                <div className="mt-4">
-                  <YouTubeEmbed videoid={videoId} />
-                </div>
-              )}
+              <div className="mt-4">
+                <ul className="list-disc list-inside">
+                  {data.data.text.bulletPoints.map(
+                    (point: string, id: number) => (
+                      <li key={id} className="text-sm text-slate-600">
+                        {point}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+
               <div className="mt-4">
                 <p className="text-black mb-2">Recommended Books</p>
                 <div className="flex flex-col gap-3">

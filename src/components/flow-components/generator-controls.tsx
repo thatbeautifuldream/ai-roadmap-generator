@@ -16,19 +16,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  DIAGRAM_IMAGE_HEIGHT,
-  DIAGRAM_IMAGE_WIDTH,
-  downloadImage,
-} from "@/lib/utils";
 import { Visibility } from "@prisma/client";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { toPng } from "html-to-image";
+import { Trash } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getRectOfNodes, getTransformForBounds, useReactFlow } from "reactflow";
+import { useReactFlow } from "reactflow";
 import { toast } from "sonner";
 import { useShallow } from "zustand/react/shallow";
 import { PresetActions } from "../../app/roadmap/components/preset-actions";
@@ -36,7 +31,6 @@ import { PresetShare } from "../../app/roadmap/components/preset-share";
 import { useUIStore } from "../../app/stores/useUI";
 import GenerateButton from "./generate-button";
 import ModelSelect from "./model-select";
-import { Trash } from "lucide-react";
 
 interface Props {
   title?: string;
