@@ -14,5 +14,7 @@ export async function searchYoutube(searchQuery: string) {
     console.log("No video found");
     return null;
   }
+  // const videoIds = data.items.map((item: any) => item?.id?.videoId);
+  // console.log("https://www.youtube.com/watch?v=" + videoIds);
   return data.items[0].id.videoId;
 }

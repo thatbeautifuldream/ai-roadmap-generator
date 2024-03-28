@@ -64,6 +64,31 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
     setEdges(nextElements.edges);
   };
 
+  const downloadRoadmapPng = () => {
+    // we calculate a transform for the nodes so that all nodes are visible
+    // we then overwrite the transform of the `.react-flow__viewport` element
+    // with the style option of the html-to-image library
+    const nodesBounds = getRectOfNodes(getNodes());
+    const [x, y] = getTransformForBounds(
+      nodesBounds,
+      DIAGRAM_IMAGE_WIDTH,
+      DIAGRAM_IMAGE_HEIGHT,
+      0.5,
+      2
+    );
+
+    toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
+      backgroundColor: "#ffffff",
+      width: DIAGRAM_IMAGE_WIDTH,
+      height: DIAGRAM_IMAGE_HEIGHT,
+      style: {
+        width: String(DIAGRAM_IMAGE_WIDTH),
+        height: String(DIAGRAM_IMAGE_HEIGHT),
+        transform: `translate(${x}px, ${y}px) scale(1)`,
+      },
+    }).then(downloadImage);
+  };
+
   useEffect(() => {
     fitView({ duration: animationDuration });
   }, [nodes, fitView, animationDuration]);
@@ -104,33 +129,7 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
       >
         <ControlButton
           about="Download Roadmap"
-          onClick={() => {
-            // we calculate a transform for the nodes so that all nodes are visible
-            // we then overwrite the transform of the `.react-flow__viewport` element
-            // with the style option of the html-to-image library
-            const nodesBounds = getRectOfNodes(getNodes());
-            const [x, y] = getTransformForBounds(
-              nodesBounds,
-              DIAGRAM_IMAGE_WIDTH,
-              DIAGRAM_IMAGE_HEIGHT,
-              0.5,
-              2
-            );
-
-            toPng(
-              document.querySelector(".react-flow__viewport") as HTMLElement,
-              {
-                backgroundColor: "#ffffff",
-                width: DIAGRAM_IMAGE_WIDTH,
-                height: DIAGRAM_IMAGE_HEIGHT,
-                style: {
-                  width: String(DIAGRAM_IMAGE_WIDTH),
-                  height: String(DIAGRAM_IMAGE_HEIGHT),
-                  transform: `translate(${x}px, ${y}px) scale(1)`,
-                },
-              }
-            ).then(downloadImage);
-          }}
+          onClick={() => downloadRoadmapPng()}
         >
           <Download className="font-bold" />
         </ControlButton>

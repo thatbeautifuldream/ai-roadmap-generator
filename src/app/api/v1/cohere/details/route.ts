@@ -35,8 +35,6 @@ export const POST = async (req: Request, res: Response) => {
       input: `A roadmap in JSON format has been generated related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: [{moduleName: string, moduleDescription: string, link?: string}]}} and i'd like to request a small description in markdown format and as bullet points (minimum 5) and wikipedia link on moduleName: ${child} from chapterName: ${parent} in JSON format: {description: string, link: string, bulletPoints: string[]}`,
     });
 
-    console.log(response?.content);
-
     let json: JSONType | null = null;
 
     try {

@@ -11,7 +11,7 @@ import { searchYoutube } from "@/lib/youtube";
 import { YouTubeEmbed } from "@next/third-parties/google";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Loader2, Youtube } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../../app/stores/useUI";
