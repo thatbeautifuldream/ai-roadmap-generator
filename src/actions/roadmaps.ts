@@ -1,11 +1,16 @@
 "use server";
 import { Node } from "@/app/shared/types/common";
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { Visibility } from "@prisma/client";
+import { currentUser } from "@clerk/nextjs";
+
+export const getUserId = async () => {
+  const userId = (await currentUser())?.id;
+  return userId;
+};
 
 export const getRoadmapsByUserId = async () => {
-  const userId = (await getUserId()) as string;
+  const userId = await getUserId();
   const roadmaps = await db.roadmap.findMany({
     where: {
       userId,
@@ -25,7 +30,13 @@ export const getRoadmapById = async (id: string) => {
 
 export const saveRoadmap = async (title: string, content: Node[]) => {
   try {
-    const userId = (await getUserId()) as string;
+    const userId = await getUserId();
+    if (!userId) {
+      return {
+        status: "error",
+        error: "User not found",
+      };
+    }
     const roadmap = await db.roadmap.create({
       data: {
         userId,
@@ -44,15 +55,6 @@ export const saveRoadmap = async (title: string, content: Node[]) => {
       error,
     };
   }
-};
-
-export const getUserId = async () => {
-  const session = await auth();
-  const userId = session?.user?.id;
-  if (!userId) {
-    throw Error("UserId not found");
-  }
-  return userId;
 };
 
 export const incrementRoadmapSearchCount = async (roadmapId: string) => {
@@ -82,36 +84,8 @@ export const changeRoadmapVisibility = async (
   });
 };
 
-// export const toggleRoadmapVisibility = async (roadmapId: string) => {
-//   const roadmap = await db.roadmap.findUnique({
-//     where: {
-//       id: roadmapId,
-//     },
-//   });
-
-//   if (!roadmap) {
-//     throw Error("Roadmap not found");
-//   }
-
-//   const visibility =
-//     roadmap.visibility === Visibility.PUBLIC
-//       ? Visibility.PRIVATE
-//       : Visibility.PUBLIC;
-
-//   await db.roadmap.update({
-//     where: {
-//       id: roadmapId,
-//     },
-//     data: {
-//       visibility,
-//     },
-//   });
-
-//   return visibility;
-// };
-
 export const isRoadmapGeneratedByUser = async (roadmapId: string) => {
-  const userId = (await getUserId()) as string;
+  const userId = await getUserId();
   const roadmap = await db.roadmap.findFirst({
     where: {
       id: roadmapId,
@@ -154,7 +128,7 @@ export const checkIfTitleInUsersRoadmaps = async (title: string) => {
 };
 
 export const incrementUserCredits = async () => {
-  const userId = (await getUserId()) as string;
+  const userId = await getUserId();
   await db.user.update({
     where: {
       id: userId,
@@ -167,7 +141,9 @@ export const incrementUserCredits = async () => {
   });
 };
 
-export const deleteRoadmapById = async (id: string): Promise<{ status: string, message?: string }> => {
+export const deleteRoadmapById = async (
+  id: string,
+): Promise<{ status: string; message?: string }> => {
   const userId = await getUserId();
   const roadmap = await db.roadmap.findUnique({
     where: {
@@ -180,7 +156,10 @@ export const deleteRoadmapById = async (id: string): Promise<{ status: string, m
   }
 
   if (roadmap.userId !== userId) {
-    return { status: "error", message: "User does not have permission to delete this roadmap." };
+    return {
+      status: "error",
+      message: "User does not have permission to delete this roadmap.",
+    };
   }
 
   await db.roadmap.delete({
@@ -195,8 +174,8 @@ export const deleteRoadmapById = async (id: string): Promise<{ status: string, m
 export const increaseViewsByRoadmapId = async (id: string) => {
   const roadmap = await db.roadmap.findUnique({
     where: {
-      id
-    }
+      id,
+    },
   });
 
   if (!roadmap) {
@@ -212,6 +191,5 @@ export const increaseViewsByRoadmapId = async (id: string) => {
         increment: 1,
       },
     },
-  })
-
-}
+  });
+};

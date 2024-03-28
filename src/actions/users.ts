@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { getUserId } from "./roadmaps";
 
 export const decrementCreditsByUserId = async () => {
-  const userId = (await getUserId()) as string;
+  const userId = await getUserId();
   try {
     // Retrieve the current user's credits
     const user = await db.user.findUnique({
@@ -36,7 +36,7 @@ export const decrementCreditsByUserId = async () => {
 };
 
 export const userHasCredits = async () => {
-  const userId = (await getUserId()) as string;
+  const userId = await getUserId();
   const user = await db.user.findUnique({
     where: {
       id: userId,
@@ -50,4 +50,23 @@ export const userHasCredits = async () => {
     return true;
   }
   return false;
+};
+
+export const getUserCredits = async () => {
+  const userId = await getUserId();
+
+  if (!userId) {
+    return;
+  }
+
+  const user = await db.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      credits: true,
+    },
+  });
+
+  return user?.credits;
 };
