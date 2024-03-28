@@ -15,6 +15,13 @@ import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useShallow } from "zustand/react/shallow";
 import { useUIStore } from "../../app/stores/useUI";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export const Drawer = () => {
   const { drawerOpen, toggleDrawer, drawerDetails, model } = useUIStore(
@@ -23,7 +30,7 @@ export const Drawer = () => {
       toggleDrawer: state.toggleDrawer,
       drawerDetails: state.drawerDetails,
       model: state.model,
-    }))
+    })),
   );
 
   const { data, isSuccess } = useQuery({
@@ -41,9 +48,9 @@ export const Drawer = () => {
     },
     enabled: Boolean(
       drawerDetails &&
-        drawerDetails?.query &&
-        drawerDetails?.parent &&
-        drawerDetails?.child
+      drawerDetails?.query &&
+      drawerDetails?.parent &&
+      drawerDetails?.child,
     ),
     staleTime: Infinity,
   });
@@ -66,7 +73,7 @@ export const Drawer = () => {
   });
 
   // consume the youtube api to get the videos for the search query
-  const { data: videoId, isSuccess: youtubeSuccess } = useQuery({
+  const { data: videoIds, isSuccess: youtubeSuccess } = useQuery({
     queryKey: [
       "Youtube",
       drawerDetails?.query,
@@ -76,9 +83,9 @@ export const Drawer = () => {
     queryFn: async () => {
       return searchYoutube(
         drawerDetails?.query ||
-          "" + drawerDetails?.parent ||
-          "" + drawerDetails?.child ||
-          ""
+        "" + drawerDetails?.parent ||
+        "" + drawerDetails?.child ||
+        "",
       );
     },
     staleTime: Infinity,
@@ -86,10 +93,24 @@ export const Drawer = () => {
     enabled: Boolean(drawerDetails?.child),
   });
 
+  console.log("videoId", videoIds);
+
   const YoutubeVideo = () => {
     return (
-      <div className="mt-4">
-        <YouTubeEmbed videoid={videoId} />
+      <div className="mt-4 md:px-12 px-8">
+        <Carousel>
+          <CarouselContent>
+            {videoIds.map((videoId: string, index: number) => (
+              <CarouselItem key={index}>
+                <div className="p-1">
+                  <YouTubeEmbed videoid={videoId} />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </div>
     );
   };
@@ -151,7 +172,7 @@ export const Drawer = () => {
                 {data.data.text.description}
               </p>
               {data?.data?.text?.bulletPoints &&
-              data?.data?.text?.bulletPoints?.length > 0 ? (
+                data?.data?.text?.bulletPoints?.length > 0 ? (
                 <div className="mt-4">
                   <ul className="list-disc list-inside">
                     {data?.data?.text?.bulletPoints?.map(
@@ -159,7 +180,7 @@ export const Drawer = () => {
                         <li key={id} className="text-sm text-slate-600">
                           {point}
                         </li>
-                      )
+                      ),
                     )}
                   </ul>
                 </div>
@@ -199,7 +220,7 @@ export const Drawer = () => {
                           )}
                         </div>
                       </a>
-                    )
+                    ),
                   )}
                 </div>
               </div>
