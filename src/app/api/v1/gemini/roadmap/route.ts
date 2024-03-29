@@ -22,13 +22,13 @@ export const POST = async (req: NextRequest, res: Response) => {
     if (!query) {
       return NextResponse.json(
         { status: false, message: "Please send query." },
-        { status: 400 }
+        { status: 400 },
       );
     }
     if (!apiKey && !process.env.GEMINI_API_KEY) {
       return NextResponse.json(
         { status: false, message: "Please provide API key." },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const normalizedQuery = query.replace(/\s+/g, "").toLowerCase();
@@ -43,7 +43,7 @@ export const POST = async (req: NextRequest, res: Response) => {
     });
     const alreadyExists = roadmaps.find(
       (roadmap) =>
-        roadmap.title.replace(/\s+/g, "").toLowerCase() === normalizedQuery
+        roadmap.title.replace(/\s+/g, "").toLowerCase() === normalizedQuery,
     );
 
     if (alreadyExists) {
@@ -51,7 +51,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const tree = JSON.parse(alreadyExists.content);
       return NextResponse.json(
         { status: true, tree, roadmapId: alreadyExists.id },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -74,7 +74,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       ],
       [
         "human",
-        `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: [{moduleName: string, moduleDescription: string, link?: string}]}} not in mardown format containing backticks.`,
+        `Generate a roadmap in JSON format related to the title: ${query} which has the JSON structure: {query: ${query}, chapters: {chapterName: [{moduleName: string, moduleDescription: string, link?: string}]}} not in mardown format containing backticks. IMPORTANT: REFRAIN FROM ANSWERING ANY NSFW/DESTRUCTIVE/PROFANITY QUERY.`,
       ],
     ]);
     if (!apiKey) {
@@ -86,7 +86,7 @@ export const POST = async (req: NextRequest, res: Response) => {
               status: true,
               message: "No credits remaining ",
             },
-            { status: 400 }
+            { status: 400 },
           );
         }
       } catch (e) {
@@ -97,7 +97,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             status: false,
             message: "An error occurred while managing credits.",
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
     }
@@ -110,9 +110,9 @@ export const POST = async (req: NextRequest, res: Response) => {
           {
             status: false,
             message:
-              "An unexpected error occurred while generating roadmap. Please try again.",
+              "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
       const tree = [
@@ -125,7 +125,7 @@ export const POST = async (req: NextRequest, res: Response) => {
                 name: moduleName,
                 moduleDescription,
                 link,
-              })
+              }),
             ),
           })),
         },
@@ -133,7 +133,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const { data } = await saveRoadmap(query, tree);
       return NextResponse.json(
         { status: true, text: json, tree, roadmapId: data?.id },
-        { status: 200 }
+        { status: 200 },
       );
     } catch (e) {
       console.log(e);
@@ -141,9 +141,9 @@ export const POST = async (req: NextRequest, res: Response) => {
         {
           status: false,
           message:
-            "An unexpected error occurred while generating roadmap. Please try again.",
+            "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (e) {
@@ -152,9 +152,9 @@ export const POST = async (req: NextRequest, res: Response) => {
       {
         status: false,
         message:
-          "An unexpected error occurred while generating roadmap. Please try again.",
+          "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 };

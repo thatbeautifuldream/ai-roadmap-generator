@@ -13,7 +13,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const maxDuration = 120; // 2 minutes
 
-export const POST = async (req: NextRequest, res: Response) => {
+export const POST = async (req: NextRequest) => {
   const apiKey = req.nextUrl.searchParams.get("apiKey");
 
   try {
@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest, res: Response) => {
     if (!query) {
       return NextResponse.json(
         { status: false, message: "Please send query." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -34,7 +34,7 @@ export const POST = async (req: NextRequest, res: Response) => {
           message:
             "API key not found. Please provide your api key to generate a roadmap.",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -51,7 +51,7 @@ export const POST = async (req: NextRequest, res: Response) => {
 
     const alreadyExists = roadmaps.find(
       (roadmap) =>
-        roadmap.title.replace(/\s+/g, "").toLowerCase() === normalizedQuery
+        roadmap.title.replace(/\s+/g, "").toLowerCase() === normalizedQuery,
     );
 
     if (alreadyExists) {
@@ -59,7 +59,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const tree = JSON.parse(alreadyExists.content);
       return NextResponse.json(
         { status: true, tree, roadmapId: alreadyExists.id },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -71,7 +71,7 @@ export const POST = async (req: NextRequest, res: Response) => {
     const prompt = ChatPromptTemplate.fromMessages([
       [
         "ai",
-        `You are a helpful AI assistant that can generate career/syllabus roadmaps. You can arrange it in a way so that the order of the chapters is always from beginner to advanced. Always generate a minimum of 4 modules inside a chapter. PLEASE REFRAIN FROM GENERATING ANY OBSCENE CONTENT AS THIS PLATFORM IS AN LEANING PLATFORM.
+        `You are a helpful AI assistant that can generate career/syllabus roadmaps. You can arrange it in a way so that the order of the chapters is always from beginner to advanced. Always generate a minimum of 4 modules inside a chapter. IMPORTANT: REFRAIN FROM ANSWERING ANY NSFW/DESTRUCTIVE/PROFANITY QUERY.
         `,
       ],
       ["human", "{input}"],
@@ -96,7 +96,7 @@ export const POST = async (req: NextRequest, res: Response) => {
                 status: true,
                 message: "No credits remaining ",
               },
-              { status: 400 }
+              { status: 400 },
             );
           }
         } catch (e) {
@@ -107,7 +107,7 @@ export const POST = async (req: NextRequest, res: Response) => {
               status: false,
               message: "An error occurred while managing credits.",
             },
-            { status: 500 }
+            { status: 500 },
           );
         }
       }
@@ -117,9 +117,9 @@ export const POST = async (req: NextRequest, res: Response) => {
           {
             status: false,
             message:
-              "An error occurred while generating roadmap. Please try again.",
+              "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -131,7 +131,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             children: json?.chapters?.[sectionName]?.map(
               (moduleName: string) => ({
                 name: moduleName,
-              })
+              }),
             ),
           })),
         },
@@ -139,7 +139,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const { data } = await saveRoadmap(query, tree);
       return NextResponse.json(
         { status: true, text: json, tree: tree, roadmapId: data?.id },
-        { status: 200 }
+        { status: 200 },
       );
     } catch (e) {
       console.log(e);
@@ -147,9 +147,9 @@ export const POST = async (req: NextRequest, res: Response) => {
         {
           status: false,
           message:
-            "An error occurred while generating roadmap. Please try again.",
+            "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (e) {
@@ -158,9 +158,9 @@ export const POST = async (req: NextRequest, res: Response) => {
       {
         status: false,
         message:
-          "An error occurred while generating roadmap. Please try again.",
+          "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 };

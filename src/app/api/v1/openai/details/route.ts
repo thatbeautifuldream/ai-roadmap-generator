@@ -1,14 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { OpenAI } from "openai";
 
 export const maxDuration = 120; // 2 minutes
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || "MY_API_KEY",
-});
-
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req: NextRequest) => {
   try {
+    const apiKey = req.nextUrl.searchParams.get("apiKey");
+    const openai = new OpenAI({
+      apiKey: apiKey || process.env.OPENAI_API_KEY,
+    });
+
     const body = await req.json();
     const query = body.query;
     const child = body.child;
@@ -17,7 +18,7 @@ export const POST = async (req: Request, res: Response) => {
     if (!query || !child || !parent) {
       return NextResponse.json(
         { status: false, message: "Please send required params." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -38,9 +39,9 @@ export const POST = async (req: Request, res: Response) => {
     });
 
     let json: { description: string; link: string } | null = null;
+
     try {
       json = JSON.parse(text?.choices?.[0]?.message?.content || "");
-
       return NextResponse.json({ status: true, text: json }, { status: 200 });
     } catch (e) {
       console.log(e);
@@ -49,14 +50,14 @@ export const POST = async (req: Request, res: Response) => {
           status: false,
           message: "Error parsing roadmap data.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (e) {
     console.log(e);
     return NextResponse.json(
       { status: false, message: "Something went wrong." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 };

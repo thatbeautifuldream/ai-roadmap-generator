@@ -17,21 +17,22 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || "MY_API_KEY",
 });
 
-export const POST = async (req: NextRequest, res: Response) => {
+export const POST = async (req: NextRequest) => {
   try {
     const apiKey = req.nextUrl.searchParams.get("apiKey");
     const body = await req.json();
     const query = body.query;
+
     if (!query) {
       return NextResponse.json(
         { status: false, message: "Please send query." },
-        { status: 400 }
+        { status: 400 },
       );
     }
     if (!apiKey && !process.env.OPENAI_API_KEY) {
       return NextResponse.json(
         { status: false, message: "Please provide API key." },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const normalizedQuery = query.replace(/\s+/g, "").toLowerCase();
@@ -50,7 +51,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const tree = JSON.parse(alreadyExists[0].content);
       return NextResponse.json(
         { status: true, tree, roadmapId: alreadyExists[0].id },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -61,7 +62,7 @@ export const POST = async (req: NextRequest, res: Response) => {
         {
           role: "system",
           content:
-            "You are a helpful AI assistant that can generate career/syllabus roadmap. you can arrange it in a way so that the order of the chapters is always from beginner to advanced. always generate a minimum of 4 modules inside a chapter, link to wikipedia if possible",
+            "You are a helpful AI assistant that can generate career/syllabus roadmap. you can arrange it in a way so that the order of the chapters is always from beginner to advanced. always generate a minimum of 4 modules inside a chapter, link to wikipedia if possible. PLEASE REFRAIN FROM GENERATING ANY OBSCENE CONTENT AS THIS PLATFORM IS A LEANING PLATFORM.",
         },
         {
           role: "user",
@@ -77,9 +78,9 @@ export const POST = async (req: NextRequest, res: Response) => {
           return NextResponse.json(
             {
               status: true,
-              message: "No credits remaining ",
+              message: "No credits remaining",
             },
-            { status: 400 }
+            { status: 400 },
           );
         }
       } catch (e) {
@@ -90,7 +91,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             status: false,
             message: "An error occurred while managing credits.",
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
     }
@@ -103,9 +104,9 @@ export const POST = async (req: NextRequest, res: Response) => {
           {
             status: false,
             message:
-              "An unexpected error occurred while generating roadmap. Please try again.",
+              "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
       const tree: Node[] = [
@@ -118,7 +119,7 @@ export const POST = async (req: NextRequest, res: Response) => {
                 name: moduleName,
                 moduleDescription,
                 link,
-              })
+              }),
             ),
           })),
         },
@@ -126,7 +127,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const { data } = await saveRoadmap(query, tree);
       return NextResponse.json(
         { status: true, text: json, tree, roadmapId: data?.id },
-        { status: 200 }
+        { status: 200 },
       );
     } catch (e) {
       console.log(e);
@@ -134,9 +135,9 @@ export const POST = async (req: NextRequest, res: Response) => {
         {
           status: false,
           message:
-            "An unexpected error occurred while generating roadmap. Please try again.",
+            "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (e) {
@@ -145,9 +146,9 @@ export const POST = async (req: NextRequest, res: Response) => {
       {
         status: false,
         message:
-          "An unexpected error occurred while generating roadmap. Please try again.",
+          "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 };

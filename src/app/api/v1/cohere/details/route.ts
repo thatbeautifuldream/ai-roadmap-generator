@@ -2,12 +2,13 @@ import { JSONType } from "@/lib/types";
 import { SanitiseJSON } from "@/lib/utils";
 import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const maxDuration = 120; // 2 minutes
 
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req: NextRequest, res: Response) => {
   try {
+    const apiKey = req.nextUrl.searchParams.get("apiKey");
     const body = await req.json();
     const query = body.query;
     const child = body.child;
@@ -16,12 +17,12 @@ export const POST = async (req: Request, res: Response) => {
     if (!query || !child || !parent) {
       return NextResponse.json(
         { status: false, message: "Please send required params." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const model = new ChatCohere({
-      apiKey: process.env.COHERE_API_KEY,
+      apiKey: apiKey || process.env.COHERE_API_KEY,
       model: "command",
     });
 
@@ -48,7 +49,7 @@ export const POST = async (req: Request, res: Response) => {
             status: false,
             message: "Error parsing roadmap data.",
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -60,14 +61,14 @@ export const POST = async (req: Request, res: Response) => {
           status: false,
           message: "Error parsing roadmap data.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (e) {
     console.log(e);
     return NextResponse.json(
       { status: false, message: "Something went wrong." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 };
