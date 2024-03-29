@@ -50,4 +50,14 @@ COHERE_API_KEY=
 - You can generate Docker image by first installing `pnpm i @flydotio/dockerfile`
 - Run `pnpx dockerfile` to generate the Dockerfile automatically.
 
-## Change URL in google auth credentials
+## By pass serverless limits by adding `vercel.json` to the root of the project [only on pro plan]
+
+```json
+{
+  "functions": {
+    "api": {
+      "maxDuration": 120
+    }
+  }
+}
+```

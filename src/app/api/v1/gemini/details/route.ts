@@ -3,8 +3,6 @@ import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { NextRequest, NextResponse } from "next/server";
 
-export const maxDuration = 120; // 2 minutes
-
 export const POST = async (req: NextRequest) => {
   try {
     const apiKey = req.nextUrl.searchParams.get("apiKey");
@@ -16,7 +14,7 @@ export const POST = async (req: NextRequest) => {
     if (!query || !child || !parent) {
       return NextResponse.json(
         { status: false, message: "Please send required params." },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -54,14 +52,14 @@ export const POST = async (req: NextRequest) => {
           status: false,
           message: "Error parsing roadmap data.",
         },
-        { status: 500 },
+        { status: 500 }
       );
     }
   } catch (e) {
     console.log(e);
     return NextResponse.json(
       { status: false, message: "Something went wrong." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 };

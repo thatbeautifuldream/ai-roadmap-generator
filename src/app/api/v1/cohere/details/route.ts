@@ -4,8 +4,6 @@ import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { NextRequest, NextResponse } from "next/server";
 
-export const maxDuration = 120; // 2 minutes
-
 export const POST = async (req: NextRequest, res: Response) => {
   try {
     const apiKey = req.nextUrl.searchParams.get("apiKey");
@@ -17,7 +15,7 @@ export const POST = async (req: NextRequest, res: Response) => {
     if (!query || !child || !parent) {
       return NextResponse.json(
         { status: false, message: "Please send required params." },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -49,7 +47,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             status: false,
             message: "Error parsing roadmap data.",
           },
-          { status: 500 },
+          { status: 500 }
         );
       }
 
@@ -61,14 +59,14 @@ export const POST = async (req: NextRequest, res: Response) => {
           status: false,
           message: "Error parsing roadmap data.",
         },
-        { status: 500 },
+        { status: 500 }
       );
     }
   } catch (e) {
     console.log(e);
     return NextResponse.json(
       { status: false, message: "Something went wrong." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 };

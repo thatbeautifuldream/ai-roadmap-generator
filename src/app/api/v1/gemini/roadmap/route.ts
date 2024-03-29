@@ -11,8 +11,6 @@ import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { NextRequest, NextResponse } from "next/server";
 
-export const maxDuration = 120; // 2 minutes
-
 export const POST = async (req: NextRequest, res: Response) => {
   try {
     const apiKey = req.nextUrl.searchParams.get("apiKey");
@@ -22,13 +20,13 @@ export const POST = async (req: NextRequest, res: Response) => {
     if (!query) {
       return NextResponse.json(
         { status: false, message: "Please send query." },
-        { status: 400 },
+        { status: 400 }
       );
     }
     if (!apiKey && !process.env.GEMINI_API_KEY) {
       return NextResponse.json(
         { status: false, message: "Please provide API key." },
-        { status: 400 },
+        { status: 400 }
       );
     }
     const normalizedQuery = query.replace(/\s+/g, "").toLowerCase();
@@ -43,7 +41,7 @@ export const POST = async (req: NextRequest, res: Response) => {
     });
     const alreadyExists = roadmaps.find(
       (roadmap) =>
-        roadmap.title.replace(/\s+/g, "").toLowerCase() === normalizedQuery,
+        roadmap.title.replace(/\s+/g, "").toLowerCase() === normalizedQuery
     );
 
     if (alreadyExists) {
@@ -51,7 +49,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const tree = JSON.parse(alreadyExists.content);
       return NextResponse.json(
         { status: true, tree, roadmapId: alreadyExists.id },
-        { status: 200 },
+        { status: 200 }
       );
     }
 
@@ -86,7 +84,7 @@ export const POST = async (req: NextRequest, res: Response) => {
               status: true,
               message: "No credits remaining ",
             },
-            { status: 400 },
+            { status: 400 }
           );
         }
       } catch (e) {
@@ -97,7 +95,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             status: false,
             message: "An error occurred while managing credits.",
           },
-          { status: 500 },
+          { status: 500 }
         );
       }
     }
@@ -112,7 +110,7 @@ export const POST = async (req: NextRequest, res: Response) => {
             message:
               "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
           },
-          { status: 500 },
+          { status: 500 }
         );
       }
       const tree = [
@@ -125,7 +123,7 @@ export const POST = async (req: NextRequest, res: Response) => {
                 name: moduleName,
                 moduleDescription,
                 link,
-              }),
+              })
             ),
           })),
         },
@@ -133,7 +131,7 @@ export const POST = async (req: NextRequest, res: Response) => {
       const { data } = await saveRoadmap(query, tree);
       return NextResponse.json(
         { status: true, text: json, tree, roadmapId: data?.id },
-        { status: 200 },
+        { status: 200 }
       );
     } catch (e) {
       console.log(e);
@@ -143,7 +141,7 @@ export const POST = async (req: NextRequest, res: Response) => {
           message:
             "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
         },
-        { status: 500 },
+        { status: 500 }
       );
     }
   } catch (e) {
@@ -154,7 +152,7 @@ export const POST = async (req: NextRequest, res: Response) => {
         message:
           "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
       },
-      { status: 400 },
+      { status: 400 }
     );
   }
 };
