@@ -18,20 +18,31 @@ const ApiKeyDialog = () => {
   const [geminiKey, setGeminiKey] = useState("");
   const [cohereKey, setCohereKey] = useState("");
 
-  const { modelApiKey, setModelApiKey, model } = useUIStore((state) => ({
+  const { setModelApiKey, model } = useUIStore((state) => ({
     setModelApiKey: state.setModelApiKey,
     modelApiKey: state.modelApiKey,
     model: state.model,
   }));
 
-  const setApiKeys = () => {
-    localStorage.setItem("OPENAI_API_KEY", openAIKey);
-    localStorage.setItem("GEMINI_API_KEY", geminiKey);
-    localStorage.setItem("COHERE_API_KEY", cohereKey);
-  }
-
   useEffect(() => {
-    setApiKeys();
+    const initializeApiKeys = () => {
+      const existingOpenAIKey = localStorage.getItem("OPENAI_API_KEY");
+      const existingGeminiKey = localStorage.getItem("GEMINI_API_KEY");
+      const existingCohereKey = localStorage.getItem("COHERE_API_KEY");
+
+      if (!existingOpenAIKey) {
+        localStorage.setItem("OPENAI_API_KEY", "");
+      }
+      if (!existingGeminiKey) {
+        localStorage.setItem("GEMINI_API_KEY", "");
+      }
+      if (!existingCohereKey) {
+        localStorage.setItem("COHERE_API_KEY", "");
+      }
+    };
+
+    initializeApiKeys();
+
     const openAIKey = localStorage.getItem("OPENAI_API_KEY");
     const geminiKey = localStorage.getItem("GEMINI_API_KEY");
     const cohereKey = localStorage.getItem("COHERE_API_KEY");
@@ -39,7 +50,13 @@ const ApiKeyDialog = () => {
     setOpenAIKey(openAIKey || "");
     setGeminiKey(geminiKey || "");
     setCohereKey(cohereKey || "");
-  }, []);
+  }, []); // This useEffect runs only once on initial render
+
+  const setApiKeys = () => {
+    localStorage.setItem("OPENAI_API_KEY", openAIKey);
+    localStorage.setItem("GEMINI_API_KEY", geminiKey);
+    localStorage.setItem("COHERE_API_KEY", cohereKey);
+  };
 
   const onSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
