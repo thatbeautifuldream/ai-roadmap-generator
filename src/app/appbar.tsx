@@ -64,10 +64,10 @@ async function AppBar() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <UserButton />
             </div>
           </div>
         </div>
+        <UserButton />
       </div>
     </div>
   );
