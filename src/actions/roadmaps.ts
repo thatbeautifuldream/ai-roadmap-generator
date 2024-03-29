@@ -19,6 +19,16 @@ export const getRoadmapsByUserId = async () => {
   return roadmaps;
 };
 
+export const getSavedRoadmapsByUserId = async () => {
+  const userId = await getUserId();
+  const roadmaps = await db.savedRoadmap.findMany({
+    where: {
+      userId,
+    },
+  });
+  return roadmaps;
+};
+
 export const getRoadmapById = async (id: string) => {
   const roadmap = await db.roadmap.findUnique({
     where: {
@@ -92,8 +102,18 @@ export const isRoadmapGeneratedByUser = async (roadmapId: string) => {
     },
   });
 
-  if (roadmap?.userId === userId) return true;
-  return false;
+  const savedRoadmap = await db.savedRoadmap.findFirst({
+    where: {
+      userId,
+      roadmapId,
+    },
+  });
+
+  return {
+    isGeneratedByUser: roadmap?.userId === userId,
+    isSavedByUser: !!savedRoadmap,
+    isAuthor : roadmap?.userId === userId
+  };
 };
 
 export const getPublicRoadmaps = async () => {
@@ -201,11 +221,22 @@ export const saveToUserDashboard = async (roadmapId: string) => {
     return;
   }
 
+  const roadmap = await db.roadmap.findUnique({
+    where: {
+      id: roadmapId,
+    },
+  });
+
+  if (!roadmap) {
+    return;
+  }
+
   try {
     await db.savedRoadmap.create({
       data: {
         userId,
         roadmapId,
+        title: roadmap.title,
       },
     });
     return {

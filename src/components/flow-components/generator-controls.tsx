@@ -51,8 +51,11 @@ export const GeneratorControls = (props: Props) => {
     dbRoadmapId,
     visibility: initialVisibility,
   } = props;
-  const [visibility, setVisibility] = useState(initialVisibility); // Manage visibility state
+  const [visibility, setVisibility] = useState(initialVisibility);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [canSaveToDashboard, setCanSaveToDashboard] = useState(false);
+  const [showVisibilityDropdown, setShowVisibilityDropdown] = useState(false);
+  const [isAuthor, setIsAuthor] = useState(false);
   const router = useRouter();
 
   const { model, query, setModelApiKey, setQuery, modelApiKey } = useUIStore(
@@ -66,9 +69,25 @@ export const GeneratorControls = (props: Props) => {
   );
 
   useEffect(() => {
+    // Set model API key from local storage
     const modelApiKey = localStorage.getItem(`${model.toUpperCase()}_API_KEY`);
     setModelApiKey(modelApiKey);
-  }, [model]);
+
+    const checkRoadmapStatus = async () => {
+      if (dbRoadmapId) {
+        const { isGeneratedByUser, isSavedByUser, isAuthor } = await isRoadmapGeneratedByUser(dbRoadmapId);
+        setCanSaveToDashboard(!isGeneratedByUser && !isSavedByUser);
+        setShowVisibilityDropdown(isGeneratedByUser);
+        setIsAuthor(isAuthor);
+      }
+    };
+    checkRoadmapStatus();
+
+    // Redirect if roadmapId changes
+    if (roadmapId) {
+      router.push(`/roadmap/${roadmapId}`);
+    }
+  }, [model, dbRoadmapId, roadmapId, setModelApiKey]);
 
   const onSubmit = async (
     e:
@@ -114,7 +133,6 @@ export const GeneratorControls = (props: Props) => {
         duration: 4000,
       });
 
-      // [TODO] : Check if title query is present in db if yes return data from db
       mutate(
         {
           body: { query },
@@ -147,25 +165,6 @@ export const GeneratorControls = (props: Props) => {
     setVisibility(value); // Update visibility state
   };
 
-  const [showVisibilityDropdown, setShowVisibilityDropdown] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (dbRoadmapId !== undefined) {
-        const visibility = await isRoadmapGeneratedByUser(dbRoadmapId);
-        setShowVisibilityDropdown(visibility);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (roadmapId) {
-      router.push(`/roadmap/${roadmapId}`);
-    }
-  }, [roadmapId]);
-
   // Utility function to format visibility
   const formatVisibility = (visibility?: Visibility) => {
     switch (visibility) {
@@ -179,18 +178,25 @@ export const GeneratorControls = (props: Props) => {
   };
 
   const handleDelete = async () => {
-    const response = await deleteRoadmapById(dbRoadmapId);
+    if (isAuthor) {
+      const response = await deleteRoadmapById(dbRoadmapId);
 
-    if (response.status === "success") {
-      toast.success("Deleted", {
-        description: "Roadmap deleted successfully ",
-        duration: 4000,
-      });
-      router.push("/dashboard");
-      router.refresh();
+      if (response.status === "success") {
+        toast.success("Deleted", {
+          description: "Roadmap deleted successfully ",
+          duration: 4000,
+        });
+        router.push("/dashboard");
+        router.refresh();
+      } else {
+        toast.error("Error", {
+          description: response.message,
+          duration: 4000,
+        });
+      }
     } else {
-      toast.error("Error", {
-        description: response.message,
+      toast.error("Unauthorized", {
+        description: "You are not authorized to delete this roadmap.",
         duration: 4000,
       });
     }
@@ -226,7 +232,7 @@ export const GeneratorControls = (props: Props) => {
           </div>
         )}
 
-        {showVisibilityDropdown && (
+        {isAuthor && (
           <Button
             variant="destructive"
             size="icon"
@@ -237,7 +243,7 @@ export const GeneratorControls = (props: Props) => {
           </Button>
         )}
 
-        {!showVisibilityDropdown && dbRoadmapId && (
+        {!showVisibilityDropdown && dbRoadmapId && canSaveToDashboard && (
           <Button onClick={async () => saveToUserDashboard(dbRoadmapId)}>
             <Save />
             Save to Dashboard
