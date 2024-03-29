@@ -8,11 +8,12 @@ datasource db {
 }
 
 model User {
-  id       String    @id @unique
-  name     String
-  email    String
-  credits  Int       @default(5)
-  roadmaps Roadmap[]
+  id            String         @id @unique
+  name          String
+  email         String
+  credits       Int            @default(5)
+  roadmaps      Roadmap[]
+  savedRoadmaps SavedRoadmap[]
 }
 
 enum Visibility {
@@ -32,4 +33,11 @@ model Roadmap {
   visibility  Visibility @default(PUBLIC)
 
   @@index([title])
+}
+
+model SavedRoadmap {
+  id        String @id @default(cuid())
+  roadmapId String
+  userId    String
+  owner     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -193,3 +193,28 @@ export const increaseViewsByRoadmapId = async (id: string) => {
     },
   });
 };
+
+export const saveToUserDashboard = async (roadmapId: string) => {
+  const userId = await getUserId();
+
+  if (!userId) {
+    return;
+  }
+
+  try {
+    await db.savedRoadmap.create({
+      data: {
+        userId,
+        roadmapId,
+      },
+    });
+    return {
+      status: "success",
+    };
+  } catch (error: any) {
+    console.log(error);
+    return {
+      status: "error",
+    };
+  }
+};

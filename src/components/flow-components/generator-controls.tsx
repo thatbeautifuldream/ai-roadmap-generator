@@ -4,6 +4,7 @@ import {
   checkIfTitleInUsersRoadmaps,
   deleteRoadmapById,
   isRoadmapGeneratedByUser,
+  saveToUserDashboard,
 } from "@/actions/roadmaps";
 import { userHasCredits } from "@/actions/users";
 import ApiKeyDialog from "@/components/ApiKeyDialog";
@@ -19,7 +20,7 @@ import {
 import { Visibility } from "@prisma/client";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { Trash } from "lucide-react";
+import { Save, Trash } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -51,6 +52,7 @@ export const GeneratorControls = (props: Props) => {
     visibility: initialVisibility,
   } = props;
   const [visibility, setVisibility] = useState(initialVisibility); // Manage visibility state
+  const [isGenerating, setIsGenerating] = useState(false);
   const router = useRouter();
 
   const { model, query, setModelApiKey, setQuery, modelApiKey } = useUIStore(
@@ -60,7 +62,7 @@ export const GeneratorControls = (props: Props) => {
       modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
-    }))
+    })),
   );
 
   useEffect(() => {
@@ -72,10 +74,11 @@ export const GeneratorControls = (props: Props) => {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>,
   ) => {
     e.preventDefault();
     try {
+      setIsGenerating(true);
       if (!query) {
         return toast.error("Please enter a query", {
           description: "We need a query to generate a roadmap.",
@@ -90,7 +93,6 @@ export const GeneratorControls = (props: Props) => {
           duration: 4000,
         });
       }
-      console.log("title", title);
       const titleExists = await checkIfTitleInUsersRoadmaps(title as string);
 
       if (titleExists.state) {
@@ -131,10 +133,12 @@ export const GeneratorControls = (props: Props) => {
               duration: 4000,
             });
           },
-        }
+        },
       );
     } catch (e: any) {
       console.error("api error", e);
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -154,7 +158,7 @@ export const GeneratorControls = (props: Props) => {
     };
 
     fetchData();
-  }, [roadmapId]);
+  }, []);
 
   useEffect(() => {
     if (roadmapId) {
@@ -176,7 +180,7 @@ export const GeneratorControls = (props: Props) => {
 
   const handleDelete = async () => {
     const response = await deleteRoadmapById(dbRoadmapId);
-    // @ts-ignore
+
     if (response.status === "success") {
       toast.success("Deleted", {
         description: "Roadmap deleted successfully ",
@@ -186,7 +190,6 @@ export const GeneratorControls = (props: Props) => {
       router.refresh();
     } else {
       toast.error("Error", {
-        // @ts-ignore
         description: response.message,
         duration: 4000,
       });
@@ -234,6 +237,13 @@ export const GeneratorControls = (props: Props) => {
           </Button>
         )}
 
+        {!showVisibilityDropdown && dbRoadmapId && (
+          <Button onClick={async () => saveToUserDashboard(dbRoadmapId)}>
+            <Save />
+            Save to Dashboard
+          </Button>
+        )}
+
         {showVisibilityDropdown && (
           <Select onValueChange={onValueChange} value={visibility}>
             <SelectTrigger className="md:w-[140px] w-fit">
@@ -253,7 +263,10 @@ export const GeneratorControls = (props: Props) => {
         )}
 
         {!dbRoadmapId && (
-          <GenerateButton onClick={onSubmit} disabled={isPending} />
+          <GenerateButton
+            onClick={onSubmit}
+            disabled={isGenerating || isPending}
+          />
         )}
 
         {!dbRoadmapId && <ApiKeyDialog />}
