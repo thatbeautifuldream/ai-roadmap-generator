@@ -37,10 +37,8 @@ model Roadmap {
 
 model SavedRoadmap {
   id        String @id @default(cuid())
+  title     String
   roadmapId String
   userId    String
-  owner     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  title     String
-  views     Int    @default(0)
-  createdAt DateTime @default(now())
+  author     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

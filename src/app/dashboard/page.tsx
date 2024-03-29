@@ -9,16 +9,6 @@ import { timeFromNow } from "@/lib/utils";
 export default async function Dashboard() {
   const roadmaps = await getRoadmapsByUserId();
   const savedRoadmaps = await getSavedRoadmapsByUserId();
-  const combinedRoadmaps = [...roadmaps, ...savedRoadmaps];
-
-  combinedRoadmaps.sort((a, b) => {
-    return (
-      new Date(b?.createdAt?.toString()).getTime() -
-      new Date(a?.createdAt?.toString()).getTime()
-    );
-  });
-
-  console.log("combinedRoadmaps", combinedRoadmaps);
 
   return (
     <div className="flex flex-col gap-4">
@@ -26,19 +16,40 @@ export default async function Dashboard() {
         Your Roadmaps
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {combinedRoadmaps.length > 0 ? (
-          combinedRoadmaps.map((roadmap) => (
+        {roadmaps.length > 0 ? (
+          roadmaps.map((roadmap) => (
             <RoadmapCard
               key={roadmap.id}
               title={roadmap.title}
               views={roadmap.views.toString()}
               timeAgo={timeFromNow(roadmap?.createdAt?.toString())}
               slug={roadmap.id}
+              savedRoadmapId=""
             />
           ))
         ) : (
           <EmptyAlert description="You haven't created any roadmaps yet. Please create one to get started." />
         )}
+      </div>
+      <div>
+        <h2 className="text-center text-lg font-semibold leading-8 text-gray-900">
+          Saved Roadmaps
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {savedRoadmaps.length > 0 ? (
+            savedRoadmaps.map((roadmap) => (
+              <RoadmapCard
+                key={roadmap.id}
+                title={roadmap.title}
+                slug={roadmap.roadmapId}
+                savedRoadmapId={roadmap.id}
+                savedRoadmapCard
+              />
+            ))
+          ) : (
+            <EmptyAlert description="You haven't saved any roadmaps yet. Please save one to get started." />
+          )}
+        </div>
       </div>
     </div>
   );

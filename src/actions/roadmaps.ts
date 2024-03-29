@@ -100,6 +100,9 @@ export const isRoadmapGeneratedByUser = async (roadmapId: string) => {
     where: {
       id: roadmapId,
     },
+    include: {
+      author: true,
+    },
   });
 
   const savedRoadmap = await db.savedRoadmap.findFirst({
@@ -107,12 +110,15 @@ export const isRoadmapGeneratedByUser = async (roadmapId: string) => {
       userId,
       roadmapId,
     },
+    include: {
+      author: true,
+    },
   });
 
   return {
     isGeneratedByUser: roadmap?.userId === userId,
     isSavedByUser: !!savedRoadmap,
-    isAuthor : roadmap?.userId === userId
+    isAuthor: roadmap?.author.id === userId,
   };
 };
 
@@ -191,6 +197,35 @@ export const deleteRoadmapById = async (
   return { status: "success", message: "Roadmap successfully deleted." };
 };
 
+export const deleteSavedRoadmapById = async (
+  id: string,
+): Promise<{ status: string; message?: string }> => {
+  const userId = await getUserId();
+  const roadmap = await db.savedRoadmap.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!roadmap) {
+    return { status: "error", message: "Roadmap not found." };
+  }
+
+  if (roadmap.userId !== userId) {
+    return {
+      status: "error",
+      message: "User does not have permission to delete this roadmap.",
+    };
+  }
+
+  await db.savedRoadmap.delete({
+    where: {
+      id,
+    },
+  });
+  return { status: "success", message: "Roadmap successfully deleted." };
+};
+
 export const increaseViewsByRoadmapId = async (id: string) => {
   const roadmap = await db.roadmap.findUnique({
     where: {
@@ -221,6 +256,17 @@ export const saveToUserDashboard = async (roadmapId: string) => {
     return;
   }
 
+  const existingSavedRoadmap = await db.savedRoadmap.findFirst({
+    where: {
+      userId,
+      roadmapId,
+    },
+  });
+
+  if (existingSavedRoadmap) {
+    return { status: "error", message: "Already saved." };
+  }
+
   const roadmap = await db.roadmap.findUnique({
     where: {
       id: roadmapId,
@@ -241,6 +287,7 @@ export const saveToUserDashboard = async (roadmapId: string) => {
     });
     return {
       status: "success",
+      message: "Roadmap saved successfully.",
     };
   } catch (error: any) {
     console.log(error);

@@ -20,7 +20,7 @@ import {
 import { Visibility } from "@prisma/client";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { Save, Trash } from "lucide-react";
+import { CircleCheckBig, Save, Trash } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -75,7 +75,8 @@ export const GeneratorControls = (props: Props) => {
 
     const checkRoadmapStatus = async () => {
       if (dbRoadmapId) {
-        const { isGeneratedByUser, isSavedByUser, isAuthor } = await isRoadmapGeneratedByUser(dbRoadmapId);
+        const { isGeneratedByUser, isSavedByUser, isAuthor } =
+          await isRoadmapGeneratedByUser(dbRoadmapId);
         setCanSaveToDashboard(!isGeneratedByUser && !isSavedByUser);
         setShowVisibilityDropdown(isGeneratedByUser);
         setIsAuthor(isAuthor);
@@ -202,6 +203,24 @@ export const GeneratorControls = (props: Props) => {
     }
   };
 
+  const handleSaveToDashboard = async () => {
+    if (canSaveToDashboard) {
+      const response = await saveToUserDashboard(dbRoadmapId);
+      if (response?.status === "success") {
+        toast.success("Saved", {
+          description: "",
+          duration: 4000,
+        });
+        setCanSaveToDashboard(false);
+      } else {
+        toast.error("Error", {
+          description: response?.message,
+          duration: 4000,
+        });
+      }
+    }
+  };
+
   return (
     <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
       <div className="md:mx-14 flex w-full space-x-2 sm:justify-end">
@@ -244,7 +263,7 @@ export const GeneratorControls = (props: Props) => {
         )}
 
         {!showVisibilityDropdown && dbRoadmapId && canSaveToDashboard && (
-          <Button onClick={async () => saveToUserDashboard(dbRoadmapId)}>
+          <Button onClick={handleSaveToDashboard}>
             <Save />
             Save to Dashboard
           </Button>

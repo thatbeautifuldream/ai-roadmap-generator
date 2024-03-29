@@ -1,6 +1,7 @@
 "use client";
 import {
   deleteRoadmapById,
+  deleteSavedRoadmapById,
   isRoadmapGeneratedByUser,
 } from "@/actions/roadmaps";
 import { EyeIcon } from "@/app/shared/Icons";
@@ -15,32 +16,51 @@ function RoadmapCard({
   views,
   timeAgo,
   slug,
+  savedRoadmapCard,
+  savedRoadmapId,
 }: {
   title?: string;
   views?: string;
   timeAgo?: string;
   slug?: string;
+  savedRoadmapCard?: boolean;
+  savedRoadmapId : string;
 }) {
   const pathname = usePathname();
   const router = useRouter();
 
   const handleDelete = async (event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevents the link navigation
+    event.stopPropagation();
+    // Prevents the link navigation
     if (!slug) return;
-    const response = await deleteRoadmapById(slug);
-    // @ts-ignore
-    if (response.status === "success") {
-      toast.success("Deleted", {
-        description: "Roadmap deleted successfully ",
-        duration: 4000,
-      });
-      router.refresh();
-    } else {
-      toast.error("Error", {
+
+    if (savedRoadmapCard) {
+      const response = await deleteSavedRoadmapById(savedRoadmapId);
+      // @ts-ignore
+      if (response.status === "success") {
+        toast.success("Deleted", {
+          description: "Roadmap deleted successfully ",
+          duration: 4000,
+        });
+        router.refresh();
+      } else {
+        const response = await deleteRoadmapById(slug);
         // @ts-ignore
-        description: response.message,
-        duration: 4000,
-      });
+        if (response.status === "success") {
+          toast.success("Deleted", {
+            description: "Roadmap deleted successfully ",
+            duration: 4000,
+          });
+          router.refresh();
+        } else {
+          toast.error("Error", {
+            // @ts-ignore
+            description: response.message,
+            duration: 4000,
+          });
+        }
+      }
+      return;
     }
   };
 
