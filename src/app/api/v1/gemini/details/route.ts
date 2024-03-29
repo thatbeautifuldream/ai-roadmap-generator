@@ -3,6 +3,8 @@ import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { NextResponse } from "next/server";
 
+export const maxDuration = 120; // 2 minutes
+
 export const POST = async (req: Request, res: Response) => {
   try {
     const body = await req.json();

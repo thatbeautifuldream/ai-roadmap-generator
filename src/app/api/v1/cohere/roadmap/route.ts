@@ -11,6 +11,8 @@ import { ChatCohere } from "@langchain/cohere";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { NextRequest, NextResponse } from "next/server";
 
+export const maxDuration = 120; // 2 minutes
+
 export const POST = async (req: NextRequest, res: Response) => {
   const apiKey = req.nextUrl.searchParams.get("apiKey");
 
@@ -144,7 +146,8 @@ export const POST = async (req: NextRequest, res: Response) => {
       return NextResponse.json(
         {
           status: false,
-          message: "An error occurred while generating roadmap. Please try again.",
+          message:
+            "An error occurred while generating roadmap. Please try again.",
         },
         { status: 500 }
       );
@@ -152,7 +155,11 @@ export const POST = async (req: NextRequest, res: Response) => {
   } catch (e) {
     console.log(e);
     return NextResponse.json(
-      { status: false, message: "An error occurred while generating roadmap. Please try again." },
+      {
+        status: false,
+        message:
+          "An error occurred while generating roadmap. Please try again.",
+      },
       { status: 400 }
     );
   }
