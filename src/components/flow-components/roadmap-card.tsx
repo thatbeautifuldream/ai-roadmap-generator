@@ -1,14 +1,9 @@
 "use client";
-import {
-  deleteRoadmapById,
-  deleteSavedRoadmapById,
-  isRoadmapGeneratedByUser,
-} from "@/actions/roadmaps";
+import { deleteRoadmapById, deleteSavedRoadmapById } from "@/actions/roadmaps";
 import { EyeIcon } from "@/app/shared/Icons";
 import { Trash } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 function RoadmapCard({
@@ -24,7 +19,7 @@ function RoadmapCard({
   timeAgo?: string;
   slug?: string;
   savedRoadmapCard?: boolean;
-  savedRoadmapId : string;
+  savedRoadmapId: string;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -71,7 +66,7 @@ function RoadmapCard({
         style={{ maxHeight: "150px", overflow: "hidden" }}
       >
         <Link href={`/roadmap/${slug}`} className="flex-grow">
-          <p className="flex flex-col">
+          <div className="flex flex-col">
             <div className="flex items-center justify-between px-2.5 py-2.5">
               <h2 className="flex-grow text-base font-medium leading-tight">
                 {title}
@@ -87,7 +82,7 @@ function RoadmapCard({
                 {timeAgo}
               </span>
             </div>
-          </p>
+          </div>
         </Link>
         {pathname.includes(`/dashboard`) && (
           <Trash

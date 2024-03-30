@@ -63,9 +63,7 @@ async function AppBar() {
                       {userCredits} <Coins size={16} />
                     </Badge>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Credits Remaining</p>
-                  </TooltipContent>
+                  <TooltipContent>Credits Remaining</TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </div>
