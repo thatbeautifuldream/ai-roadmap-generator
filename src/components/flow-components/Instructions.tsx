@@ -16,7 +16,10 @@ const Instructions = () => {
           <li>If an error occurs, please try again a few times.</li>
           <li>
             Look out for previously generated roadmaps in the{" "}
-            <Link href="/explorer">Explorer</Link> section.
+            <Link className="underline underline-offset-4" href="/explorer">
+              Explorer
+            </Link>{" "}
+            section.
           </li>
           <li>If you finish your credits, please add your own api key.</li>
           <li>
@@ -25,7 +28,10 @@ const Instructions = () => {
           </li>
           <li>
             If you like this tool, please give it a star on{" "}
-            <Link href="https://github.com/vishwajeetraj11/ai-roadmap-generator">
+            <Link
+              className="underline underline-offset-4"
+              href="https://github.com/vishwajeetraj11/ai-roadmap-generator"
+            >
               GitHub
             </Link>
             .

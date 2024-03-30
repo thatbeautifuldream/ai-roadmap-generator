@@ -20,7 +20,7 @@ import {
 import { Visibility } from "@prisma/client";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { CircleCheckBig, Save, Trash } from "lucide-react";
+import { Save, Trash } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -30,6 +30,8 @@ import { PresetShare } from "../../app/roadmap/components/preset-share";
 import { useUIStore } from "../../app/stores/useUI";
 import GenerateButton from "./generate-button";
 import ModelSelect from "./model-select";
+import { Tooltip } from "@radix-ui/react-tooltip";
+import { TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 interface Props {
   title?: string;
@@ -208,7 +210,7 @@ export const GeneratorControls = (props: Props) => {
       const response = await saveToUserDashboard(dbRoadmapId);
       if (response?.status === "success") {
         toast.success("Saved", {
-          description: "",
+          description: "Roadmap has been saved to your dashboard",
           duration: 4000,
         });
         setCanSaveToDashboard(false);
@@ -263,9 +265,17 @@ export const GeneratorControls = (props: Props) => {
         )}
 
         {!showVisibilityDropdown && dbRoadmapId && canSaveToDashboard && (
-          <Button onClick={handleSaveToDashboard}>
-            <Save />
-            Save to Dashboard
+          <Button onClick={handleSaveToDashboard} size="icon">
+            <TooltipProvider>
+              <Tooltip delayDuration={400}>
+                <TooltipTrigger>
+                  <Save />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Save to Dashboard</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </Button>
         )}
 

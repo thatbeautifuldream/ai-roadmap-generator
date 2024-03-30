@@ -13,6 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import MobileNavbarDrawer from "@/components/MobileNavbarDrawer";
 
 async function AppBar() {
   const user = await currentUser();
@@ -25,7 +26,7 @@ async function AppBar() {
           <Link href="/">
             <Icons.roadmapai className="h-[40px] w-[120px]" />
           </Link>
-          <div className="ml-auto flex items-center">
+          <div className="ml-auto items-center">
             <div className={buttonVariants({})}>
               <SignInButton />
             </div>
@@ -67,7 +68,12 @@ async function AppBar() {
             </div>
           </div>
         </div>
-        <UserButton />
+        <span>
+          <UserButton />
+        </span>
+        <span className="md:hidden">
+          <MobileNavbarDrawer />
+        </span>
       </div>
     </div>
   );
