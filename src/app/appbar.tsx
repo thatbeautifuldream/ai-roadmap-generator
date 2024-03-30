@@ -45,7 +45,7 @@ async function AppBar() {
         <NavItems />
         <div className="ml-auto flex items-center">
           <div className="flex gap-2 items-center">
-            <div className="hidden sm:flex gap-2">
+            <div className="gap-2">
               <TooltipProvider>
                 <Tooltip delayDuration={250}>
                   <TooltipTrigger asChild>

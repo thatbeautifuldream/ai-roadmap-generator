@@ -2,6 +2,7 @@ import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import { SheetClose } from "./ui/sheet";
 
 const MobileNavbarDrawer = async () => {
   return (
@@ -13,9 +14,15 @@ const MobileNavbarDrawer = async () => {
         side="left"
         className=" h-full flex flex-col items-center justify-center gap-4"
       >
-        <Link href="/explore">Explore</Link>
-        <Link href="/dashboard">Dashboard</Link>
-        <Link href="/roadmap">Roadmap</Link>
+        <SheetClose>
+          <Link href="/explore">Explore</Link>
+        </SheetClose>
+        <SheetClose>
+          <Link href="/dashboard">Dashboard</Link>
+        </SheetClose>
+        <SheetClose>
+          <Link href="/roadmap">Roadmap</Link>
+        </SheetClose>
       </SheetContent>
     </Sheet>
   );

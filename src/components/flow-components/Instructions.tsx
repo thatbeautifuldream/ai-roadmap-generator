@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Instructions = () => {
   return (
-    <div className="mx-auto max-w-7xl w-full h-[75vh] flex flex-col items-center justify-center">
+    <div className="mx-auto max-w-7xl w-full md:h-[75vh] flex flex-col items-center justify-center">
       <Card className="md:p-14 p-10">
         <h1 className="text-3xl font-bold my-4">
           Some Instructions before you proceed
