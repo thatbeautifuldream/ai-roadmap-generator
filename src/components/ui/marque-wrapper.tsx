@@ -88,8 +88,8 @@ const MarqueeDemo = () => {
           <ReviewCard key={review.time} {...review} />
         ))}
       </Marquee>
-      <div className="pointer-events-none absolute inset-y-0 left-0 md:w-1/3 w-1/12 bg-gradient-to-r from-white dark:from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 md:w-1/3 w-1/12 bg-gradient-to-l from-white dark:from-background"></div>
+      <div className="pointer-events-none absolute inset-y-0 left-0 md:w-1/3 w-[60px] bg-gradient-to-r from-white dark:from-background"></div>
+      <div className="pointer-events-none absolute inset-y-0 right-0 md:w-1/3 w-[60px] bg-gradient-to-l from-white dark:from-background"></div>
     </div>
   );
 };
