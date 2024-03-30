@@ -39,6 +39,9 @@ async function AppBar() {
   return (
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="p-2 flex gap-2 items-center">
+        <span className="md:hidden ml-2">
+          <MobileNavbarDrawer />
+        </span>
         <Link href="/">
           <Icons.roadmapai className="h-[40px] w-[120px]" />
         </Link>
@@ -70,9 +73,6 @@ async function AppBar() {
         </div>
         <span>
           <UserButton />
-        </span>
-        <span className="md:hidden">
-          <MobileNavbarDrawer />
         </span>
       </div>
     </div>

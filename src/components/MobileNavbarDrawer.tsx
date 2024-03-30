@@ -4,7 +4,12 @@ import { Menu } from "lucide-react";
 import Link from "next/link";
 import { SheetClose } from "./ui/sheet";
 
-const MobileNavbarDrawer = async () => {
+const MobileNavbarDrawer = () => {
+  const handleCloseSidebar = () => {
+    // Close the sidebar here
+    console.log("Closing sidebar...");
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -14,13 +19,13 @@ const MobileNavbarDrawer = async () => {
         side="left"
         className=" h-full flex flex-col items-center justify-center gap-4"
       >
-        <SheetClose>
+        <SheetClose onClick={handleCloseSidebar}>
           <Link href="/explore">Explore</Link>
         </SheetClose>
-        <SheetClose>
+        <SheetClose onClick={handleCloseSidebar}>
           <Link href="/dashboard">Dashboard</Link>
         </SheetClose>
-        <SheetClose>
+        <SheetClose onClick={handleCloseSidebar}>
           <Link href="/roadmap">Roadmap</Link>
         </SheetClose>
       </SheetContent>

@@ -45,7 +45,7 @@ function RoadmapHero() {
             href="/roadmap"
             className={cn(
               buttonVariants(),
-              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50",
+              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
             )}
           >
             <span className="flex items-center gap-x-2 text-base">
@@ -57,7 +57,7 @@ function RoadmapHero() {
             href="/explore"
             className={cn(
               buttonVariants({}),
-              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50",
+              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
             )}
           >
             <span className="flex items-center gap-x-2 text-base">
@@ -82,7 +82,7 @@ function RoadmapHero() {
       </div>
       <div className="flex flex-col items-center gap-4 mb-6">
         <p className="flex items-center text-sm">
-          <button className="rounded-xl border border-current px-2 py-0.5 text-sm text-blue-500 transition-colors hover:bg-blue-400 hover:text-white">
+          <button className="rounded-xl border border-current px-2 py-0.5 text-sm text-gray-500 transition-colors hover:bg-gray-400 hover:text-white">
             Override all restrictions by{" "}
             <span className="font-semibold">inserting your own API key</span>
           </button>
@@ -97,7 +97,7 @@ function RoadmapHero() {
       <DotPattern
         className={cn(
           "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
-          "-z-10",
+          "-z-10"
         )}
       />
     </div>

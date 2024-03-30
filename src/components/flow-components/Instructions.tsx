@@ -1,7 +1,19 @@
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
+import { Network } from "lucide-react";
 import Link from "next/link";
 
-const Instructions = () => {
+function RoadmapEmptyState() {
+  return (
+    <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center ">
+      <Network className="mx-auto h-12 w-12 text-gray-300" />
+      <span className="mt-2 block text-sm font-semibold text-gray-900">
+        Generate a new roadmap
+      </span>
+    </div>
+  );
+}
+
+const AppInstructions = () => {
   return (
     <div className="mx-auto max-w-7xl w-full md:h-[75vh] flex flex-col items-center justify-center">
       <Card className="md:p-14 p-10">
@@ -38,6 +50,16 @@ const Instructions = () => {
           </li>
         </ol>
       </Card>
+    </div>
+  );
+};
+
+const Instructions = () => {
+  return (
+    <div className="min-h-[85vh] flex items-center justify-center bg-gray-50">
+      <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <RoadmapEmptyState />
+      </div>
     </div>
   );
 };
