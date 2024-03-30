@@ -5,11 +5,6 @@ import Link from "next/link";
 import { SheetClose } from "./ui/sheet";
 
 const MobileNavbarDrawer = () => {
-  const handleCloseSidebar = () => {
-    // Close the sidebar here
-    console.log("Closing sidebar...");
-  };
-
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -19,13 +14,13 @@ const MobileNavbarDrawer = () => {
         side="left"
         className=" h-full flex flex-col items-center justify-center gap-4"
       >
-        <SheetClose onClick={handleCloseSidebar}>
+        <SheetClose>
           <Link href="/explore">Explore</Link>
         </SheetClose>
-        <SheetClose onClick={handleCloseSidebar}>
+        <SheetClose>
           <Link href="/dashboard">Dashboard</Link>
         </SheetClose>
-        <SheetClose onClick={handleCloseSidebar}>
+        <SheetClose>
           <Link href="/roadmap">Roadmap</Link>
         </SheetClose>
       </SheetContent>
