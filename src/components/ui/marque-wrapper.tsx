@@ -60,7 +60,7 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "relative w-48 sm:w-64 cursor-pointer overflow-hidden rounded border-2 border-[#000000a6] p-2 shadow-[6px_6px_0px_1px_#000000a6] flex flex-col justify-between h-20"
+        "relative w-48 sm:w-64 cursor-pointer overflow-hidden rounded border-2 border-[#000000a6] p-2 shadow-[6px_6px_0px_1px_#000000a6] flex flex-col justify-between h-20",
       )}
     >
       <p className="font-semibold">{title}</p>
@@ -88,8 +88,8 @@ const MarqueeDemo = () => {
           <ReviewCard key={review.time} {...review} />
         ))}
       </Marquee>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
+      <div className="pointer-events-none absolute inset-y-0 left-0 md:w-1/3 w-1/12 bg-gradient-to-r from-white dark:from-background"></div>
+      <div className="pointer-events-none absolute inset-y-0 right-0 md:w-1/3 w-1/12 bg-gradient-to-l from-white dark:from-background"></div>
     </div>
   );
 };
