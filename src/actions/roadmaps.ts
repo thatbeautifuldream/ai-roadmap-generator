@@ -110,9 +110,6 @@ export const isRoadmapGeneratedByUser = async (roadmapId: string) => {
       userId,
       roadmapId,
     },
-    include: {
-      author: true,
-    },
   });
 
   return {
