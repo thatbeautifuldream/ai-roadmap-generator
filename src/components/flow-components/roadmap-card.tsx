@@ -24,38 +24,35 @@ function RoadmapCard({
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleDelete = async (event: React.MouseEvent) => {
-    event.stopPropagation();
+  const handleDelete = async () => {
     // Prevents the link navigation
     if (!slug) return;
 
     if (savedRoadmapCard) {
-      const response = await deleteSavedRoadmapById(savedRoadmapId);
-      // @ts-ignore
-      if (response.status === "success") {
+      const res = await deleteSavedRoadmapById(savedRoadmapId);
+      if (res.status === "success") {
         toast.success("Deleted", {
           description: "Roadmap deleted successfully ",
           duration: 4000,
         });
         router.refresh();
-      } else {
-        const response = await deleteRoadmapById(slug);
-        // @ts-ignore
-        if (response.status === "success") {
-          toast.success("Deleted", {
-            description: "Roadmap deleted successfully ",
-            duration: 4000,
-          });
-          router.refresh();
-        } else {
-          toast.error("Error", {
-            // @ts-ignore
-            description: response.message,
-            duration: 4000,
-          });
-        }
+        return; // Exit the function after deleting saved roadmap
       }
-      return;
+    }
+
+    const response = await deleteRoadmapById(slug);
+    if (response.status === "success") {
+      toast.success("Deleted", {
+        description: "Roadmap deleted successfully ",
+        duration: 4000,
+      });
+      router.refresh();
+    } else {
+      toast.error("Error", {
+        // @ts-ignore
+        description: response.message,
+        duration: 4000,
+      });
     }
   };
 
