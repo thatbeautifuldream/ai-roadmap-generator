@@ -250,7 +250,7 @@ export const saveToUserDashboard = async (roadmapId: string) => {
   const userId = await getUserId();
 
   if (!userId) {
-    return;
+    return { status: "error", message: "Please sign in to save." };
   }
 
   const existingSavedRoadmap = await db.savedRoadmap.findFirst({

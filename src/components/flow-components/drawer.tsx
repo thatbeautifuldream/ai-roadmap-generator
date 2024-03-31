@@ -93,8 +93,6 @@ export const Drawer = () => {
     enabled: Boolean(drawerDetails?.child),
   });
 
-  console.log("videoId", videoIds);
-
   const YoutubeVideo = () => {
     return (
       <div className="mt-4 md:px-12 px-8">
