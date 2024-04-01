@@ -1,4 +1,3 @@
-import { saveNodeDetails } from "@/actions/roadmaps";
 import { JSONType } from "@/lib/types";
 import { SanitiseJSON } from "@/lib/utils";
 import { ChatCohere } from "@langchain/cohere";
@@ -60,9 +59,6 @@ export const POST = async (req: NextRequest) => {
           { status: 500 },
         );
       }
-
-      const nodeName = `${query}_${parent}_${child}`;
-      await saveNodeDetails(roadmapId, nodeName, JSON.stringify(json));
 
       return NextResponse.json({ status: true, text: json }, { status: 200 });
     } catch (e) {

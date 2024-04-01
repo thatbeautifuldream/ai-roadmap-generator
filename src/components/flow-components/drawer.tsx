@@ -1,3 +1,4 @@
+"use client";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import {
   Tooltip,
@@ -9,12 +10,10 @@ import { IOrilley } from "@/lib/types";
 import { formatDuration } from "@/lib/utils";
 import { searchYoutube } from "@/lib/youtube";
 import { YouTubeEmbed } from "@next/third-parties/google";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useShallow } from "zustand/react/shallow";
-import { useUIStore } from "../../app/stores/useUI";
+import { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -22,16 +21,17 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { useEffect, useState } from "react";
-import { saveNodeDetails } from "@/actions/roadmaps";
-import { DrawerDetail } from "@prisma/client";
+import { useUIStore } from "../../app/stores/useUI";
+import { useShallow } from "zustand/react/shallow";
+import { saveNodeDetails, findSavedNodeDetails } from "@/actions/roadmaps";
 
 interface DrawerProps {
   roadmapId?: string;
 }
 
 export const Drawer = ({ roadmapId }: DrawerProps) => {
-  const [drawerData, setDrawerData] = useState<DrawerDetail>();
+  const [drawerData, setDrawerData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { drawerOpen, toggleDrawer, drawerDetails, model, modelApiKey } =
     useUIStore(
@@ -44,14 +44,67 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
       })),
     );
 
-  const { data, isSuccess } = useQuery({
-    queryKey: [
-      drawerDetails?.query,
-      drawerDetails?.parent,
-      drawerDetails?.child,
-    ],
-    queryFn: async () => {
-      return await axios.post(
+  const nodeName = `${drawerDetails?.query}_${drawerDetails?.parent}_${drawerDetails?.child}`;
+
+  useEffect(() => {
+    const fetchAndSaveData = async () => {
+      setIsLoading(true);
+
+      try {
+        const existingDetails = await findSavedNodeDetails(
+          roadmapId!,
+          nodeName,
+        );
+
+        if (existingDetails) {
+          setDrawerData(existingDetails);
+        } else {
+          const { detailsData, videoIds, booksData } =
+            await fetchDataFromAPIs();
+          await saveNodeDetails(
+            roadmapId!,
+            nodeName,
+            detailsData.text,
+            videoIds,
+            booksData?.results || [],
+          );
+          setDrawerData({ detailsData, videoIds, booksData, isSuccess: true });
+        }
+      } catch (error) {
+        console.error("Error fetching or saving data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (
+      roadmapId &&
+      drawerDetails?.query &&
+      drawerDetails?.parent &&
+      drawerDetails?.child
+    ) {
+      fetchAndSaveData();
+    }
+  }, [
+    roadmapId,
+    drawerDetails?.query,
+    drawerDetails?.parent,
+    drawerDetails?.child,
+  ]);
+
+  const fetchDataFromAPIs = async () => {
+    const detailsData = await fetchDetailsData();
+    const videoIds = await searchYoutube(
+      `${drawerDetails?.query} ${drawerDetails?.parent} ${drawerDetails?.child}`,
+    );
+    const booksData = await fetchBooksData();
+
+    return { detailsData, videoIds, booksData };
+  };
+
+  const fetchDetailsData = async () => {
+    try {
+      const response = await axios.post(
         `/api/v1/${model}/details?apiKey=${modelApiKey}&roadmapId=${roadmapId}`,
         {
           query: drawerDetails?.query,
@@ -59,86 +112,41 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           parent: drawerDetails?.parent,
         },
       );
-    },
-    enabled: Boolean(
-      drawerDetails &&
-        drawerDetails?.query &&
-        drawerDetails?.parent &&
-        drawerDetails?.child,
-    ),
-    staleTime: Infinity,
-  });
-
-  const { data: booksData } = useQuery({
-    queryKey: [
-      "Books",
-      drawerDetails?.query,
-      drawerDetails?.parent,
-      drawerDetails?.child,
-    ],
-    queryFn: async () => {
-      return await axios.post(`/api/v1/orilley`, {
-        data: { query: drawerDetails?.child },
-      });
-    },
-    staleTime: Infinity,
-    retry: false,
-    enabled: Boolean(drawerDetails?.child),
-  });
-
-  // consume the youtube api to get the videos for the search query
-  const { data: videoIds } = useQuery({
-    queryKey: [
-      "Youtube",
-      drawerDetails?.query,
-      drawerDetails?.parent,
-      drawerDetails?.child,
-    ],
-    queryFn: async () => {
-      return searchYoutube(
-        drawerDetails?.query ||
-          "" + drawerDetails?.parent ||
-          "" + drawerDetails?.child ||
-          "",
-      );
-    },
-    staleTime: Infinity,
-    retry: false,
-    enabled: Boolean(drawerDetails?.child),
-  });
-
-  const nodeName = `${drawerDetails?.query}_${drawerDetails?.parent}_${drawerDetails?.child}`;
-  const books = booksData?.data?.data?.results;
-
-  const saveNodeDetailsFunction = async () => {
-    if (!roadmapId) {
-      throw new Error("Missing required parameters");
+      console.log("response.data.data", response.data.data);
+      return response.data.data;
+    } catch (error) {
+      console.error("Error fetching details data:", error);
+      return null;
     }
-    const nodeDetails = await saveNodeDetails(
-      roadmapId,
-      nodeName,
-      data?.data?.text as string,
-      videoIds as string[],
-      books as string,
-    );
-
-    setDrawerData(nodeDetails?.data);
   };
 
-  useEffect(() => {}, [data]);
+  const fetchBooksData = async () => {
+    try {
+      const response = await axios.post(`/api/v1/orilley`, {
+        data: { query: drawerDetails?.child },
+      });
+      return response.data.data;
+    } catch (error) {
+      console.error("Error fetching books data:", error);
+      return null;
+    }
+  };
+
+  console.log("drawerData", drawerData);
 
   const YoutubeVideo = () => {
     return (
       <div className="mt-4 md:px-12 px-8">
         <Carousel>
           <CarouselContent>
-            {videoIds.map((videoId: string, index: number) => (
-              <CarouselItem key={index}>
-                <div className="p-1">
-                  <YouTubeEmbed videoid={videoId} />
-                </div>
-              </CarouselItem>
-            ))}
+            {drawerData.videoIds &&
+              drawerData.videoIds.map((videoId: string, index: number) => (
+                <CarouselItem key={index}>
+                  <div className="p-1">
+                    <YouTubeEmbed videoid={videoId} />
+                  </div>
+                </CarouselItem>
+              ))}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
@@ -186,28 +194,31 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           <p className="text-xs text-slate-400">{drawerDetails?.parent}</p>
           <p className="font-light">{drawerDetails?.child}</p>
         </div>
-
         <div>
-          {isSuccess ? (
+          {isLoading ? (
+            <div className="flex justify-center items-center w-full h-[500px]">
+              <Loader2 className="w-6 h-6 animate-spin" />
+            </div>
+          ) : drawerData?.isSuccess && drawerData.detailsData ? (
             <div>
-              {data.data.text.link && <YoutubeVideo />}
+              {drawerData.detailsData?.link && <YoutubeVideo />}
               <div className="flex flex-wrap m-4">
-                {data.data.text.link && (
+                {drawerData.detailsData?.link && (
                   <ResourceLink
-                    link={data.data.text.link}
+                    link={drawerData.detailsData.link}
                     linkTitle="Wikipedia"
                     iconUrl="/images/wikipedia.png"
                   />
                 )}
               </div>
               <p className="text-sm text-slate-600">
-                {data.data.text.description}
+                {drawerData.detailsData.description}
               </p>
-              {data?.data?.text?.bulletPoints &&
-              data?.data?.text?.bulletPoints?.length > 0 ? (
+              {drawerData.detailsData.bulletPoints &&
+                drawerData?.detailsData.bulletPoints?.length > 0 ? (
                 <div className="mt-4">
                   <ul className="list-disc list-inside">
-                    {data?.data?.text?.bulletPoints?.map(
+                    {drawerData?.detailsData.bulletPoints?.map(
                       (point: string, id: number) => (
                         <li key={id} className="text-sm text-slate-600">
                           {point}
@@ -221,7 +232,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
               <div className="mt-4">
                 <p className="text-black mb-2">Recommended Books</p>
                 <div className="flex flex-col gap-3">
-                  {booksData?.data?.data?.results?.map(
+                  {drawerData.booksData?.results?.map(
                     (book: IOrilley["data"][number], id: number) => (
                       <a
                         className="flex items-start bg-white rounded-md overflow-hidden cursor-pointer"
@@ -257,11 +268,9 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
               </div>
             </div>
           ) : (
-            <div className="flex justify-center items-center w-full h-[500px]">
-              <Loader2 className="w-6 h-6 animate-spin" />
-            </div>
+            <div>No data available</div>
           )}
-        </div>
+        </div>{" "}
       </SheetContent>
     </Sheet>
   );

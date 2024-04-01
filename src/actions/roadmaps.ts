@@ -297,46 +297,53 @@ export const saveToUserDashboard = async (roadmapId: string) => {
 export const saveNodeDetails = async (
   roadmapId: string,
   nodeName: string,
-  details: string,
+  content: string,
   youtubeVideoIds?: string[],
   books?: string,
 ) => {
-  if (!roadmapId || !nodeName || !details) {
-    throw new Error("Missing required parameters");
-  }
-
-  const existingNodeDetails = await db.drawerDetail.findUnique({
-    where: {
-      nodeName: nodeName,
-    },
-  });
-
-  if (existingNodeDetails) {
-    return {
-      status: "success",
-      data: existingNodeDetails,
-    };
-  }
-
   try {
-    const nodeDetails = await db.drawerDetail.create({
+    const savedDetails = await db.roadmap.update({
+      where: { id: roadmapId },
       data: {
-        roadmapId,
-        nodeName,
-        details,
-        youtubeVideoIds,
-        books,
+        drawerDetails: {
+          create: {
+            nodeName,
+            details: content,
+            youtubeVideoIds,
+            books,
+          },
+        },
       },
     });
-
-    return {
-      status: "success",
-      data: nodeDetails,
-    };
+    return savedDetails;
   } catch (error) {
-    return {
-      status: "error",
-      error,
-    };
+    console.error("Error saving node details:", error);
+    throw new Error("Failed to save node details");
+  }
+};
+
+export const findSavedNodeDetails = async (
+  roadmapId: string,
+  nodeName: string,
+) => {
+  if (!roadmapId || !nodeName) {
+    throw new Error("Missing required parameters");
+  }
+  try {
+    const savedNodeDetails = await db.roadmap.findUnique({
+      where: { id: roadmapId },
+      include: {
+        drawerDetails: {
+          where: { nodeName },
+        },
+      },
+    });
+    if (savedNodeDetails) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error("Error finding saved node details:", error);
+    throw new Error("Failed to find saved node details");
   }
 };
