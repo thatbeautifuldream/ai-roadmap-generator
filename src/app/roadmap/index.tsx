@@ -79,6 +79,7 @@ export default function Roadmap({ roadmapId }: Props) {
               key={renderFlow}
               data={roadmap?.content || data?.tree || decodeFromURL(params)}
               isPending={isRoadmapPending || isPending}
+              roadmapId={roadmapId}
             />
           ) : (
             <Instructions />

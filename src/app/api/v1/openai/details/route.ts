@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
+import { saveNodeDetails } from "@/actions/roadmaps";
 import { OpenAI } from "openai";
 
 export const POST = async (req: NextRequest) => {
   try {
     const apiKey = req.nextUrl.searchParams.get("apiKey");
+    const roadmapId = req.nextUrl.searchParams.get("roadmapId");
+
+    if (!roadmapId) {
+      return NextResponse.json(
+        { status: false, message: "Please send required params." },
+        { status: 400 },
+      );
+    }
+
     const openai = new OpenAI({
       apiKey: apiKey || process.env.OPENAI_API_KEY,
     });
@@ -16,7 +26,7 @@ export const POST = async (req: NextRequest) => {
     if (!query || !child || !parent) {
       return NextResponse.json(
         { status: false, message: "Please send required params." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -40,6 +50,20 @@ export const POST = async (req: NextRequest) => {
 
     try {
       json = JSON.parse(text?.choices?.[0]?.message?.content || "");
+
+      if (!json) {
+        return NextResponse.json(
+          {
+            status: false,
+            message: "Error parsing roadmap data.",
+          },
+          { status: 500 },
+        );
+      }
+
+      const nodeName = `${query}_${parent}_${child}`;
+      await saveNodeDetails(roadmapId, nodeName, JSON.stringify(json));
+
       return NextResponse.json({ status: true, text: json }, { status: 200 });
     } catch (e) {
       console.log(e);
@@ -48,14 +72,14 @@ export const POST = async (req: NextRequest) => {
           status: false,
           message: "Error parsing roadmap data.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (e) {
     console.log(e);
     return NextResponse.json(
       { status: false, message: "Something went wrong." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 };

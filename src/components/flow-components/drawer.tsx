@@ -22,16 +22,27 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useEffect, useState } from "react";
+import { saveNodeDetails } from "@/actions/roadmaps";
+import { DrawerDetail } from "@prisma/client";
 
-export const Drawer = () => {
-  const { drawerOpen, toggleDrawer, drawerDetails, model } = useUIStore(
-    useShallow((state) => ({
-      drawerOpen: state.drawerOpen,
-      toggleDrawer: state.toggleDrawer,
-      drawerDetails: state.drawerDetails,
-      model: state.model,
-    })),
-  );
+interface DrawerProps {
+  roadmapId?: string;
+}
+
+export const Drawer = ({ roadmapId }: DrawerProps) => {
+  const [drawerData, setDrawerData] = useState<DrawerDetail>();
+
+  const { drawerOpen, toggleDrawer, drawerDetails, model, modelApiKey } =
+    useUIStore(
+      useShallow((state) => ({
+        drawerOpen: state.drawerOpen,
+        toggleDrawer: state.toggleDrawer,
+        drawerDetails: state.drawerDetails,
+        modelApiKey: state.modelApiKey,
+        model: state.model,
+      })),
+    );
 
   const { data, isSuccess } = useQuery({
     queryKey: [
@@ -40,22 +51,25 @@ export const Drawer = () => {
       drawerDetails?.child,
     ],
     queryFn: async () => {
-      return await axios.post(`/api/v1/${model}/details`, {
-        query: drawerDetails?.query,
-        child: drawerDetails?.child,
-        parent: drawerDetails?.parent,
-      });
+      return await axios.post(
+        `/api/v1/${model}/details?apiKey=${modelApiKey}&roadmapId=${roadmapId}`,
+        {
+          query: drawerDetails?.query,
+          child: drawerDetails?.child,
+          parent: drawerDetails?.parent,
+        },
+      );
     },
     enabled: Boolean(
       drawerDetails &&
-      drawerDetails?.query &&
-      drawerDetails?.parent &&
-      drawerDetails?.child,
+        drawerDetails?.query &&
+        drawerDetails?.parent &&
+        drawerDetails?.child,
     ),
     staleTime: Infinity,
   });
 
-  const { data: booksData, isSuccess: booksSuccess } = useQuery({
+  const { data: booksData } = useQuery({
     queryKey: [
       "Books",
       drawerDetails?.query,
@@ -73,7 +87,7 @@ export const Drawer = () => {
   });
 
   // consume the youtube api to get the videos for the search query
-  const { data: videoIds, isSuccess: youtubeSuccess } = useQuery({
+  const { data: videoIds } = useQuery({
     queryKey: [
       "Youtube",
       drawerDetails?.query,
@@ -83,15 +97,35 @@ export const Drawer = () => {
     queryFn: async () => {
       return searchYoutube(
         drawerDetails?.query ||
-        "" + drawerDetails?.parent ||
-        "" + drawerDetails?.child ||
-        "",
+          "" + drawerDetails?.parent ||
+          "" + drawerDetails?.child ||
+          "",
       );
     },
     staleTime: Infinity,
     retry: false,
     enabled: Boolean(drawerDetails?.child),
   });
+
+  const nodeName = `${drawerDetails?.query}_${drawerDetails?.parent}_${drawerDetails?.child}`;
+  const books = booksData?.data?.data?.results;
+
+  const saveNodeDetailsFunction = async () => {
+    if (!roadmapId) {
+      throw new Error("Missing required parameters");
+    }
+    const nodeDetails = await saveNodeDetails(
+      roadmapId,
+      nodeName,
+      data?.data?.text as string,
+      videoIds as string[],
+      books as string,
+    );
+
+    setDrawerData(nodeDetails?.data);
+  };
+
+  useEffect(() => {}, [data]);
 
   const YoutubeVideo = () => {
     return (
@@ -170,7 +204,7 @@ export const Drawer = () => {
                 {data.data.text.description}
               </p>
               {data?.data?.text?.bulletPoints &&
-                data?.data?.text?.bulletPoints?.length > 0 ? (
+              data?.data?.text?.bulletPoints?.length > 0 ? (
                 <div className="mt-4">
                   <ul className="list-disc list-inside">
                     {data?.data?.text?.bulletPoints?.map(

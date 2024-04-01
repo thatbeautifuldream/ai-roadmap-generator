@@ -10,10 +10,11 @@ import ReactFlowPro from "./react-flow-pro";
 type Props = {
   data: Node[];
   isPending: boolean;
+  roadmapId?: string;
 };
 
 function ExpandCollapse(props: Props) {
-  const { data, isPending } = props;
+  const { data, isPending, roadmapId } = props;
 
   const h: HierarchyNode<unknown> = hierarchy<unknown>(data[0]);
   h.descendants().forEach((d: any, i: number) => {
@@ -32,7 +33,7 @@ function ExpandCollapse(props: Props) {
   return (
     <div className="w-full h-[84vh]">
       <ReactFlowProvider>
-        <Drawer />
+        <Drawer roadmapId={roadmapId} />
         <ReactFlowPro {...props} h={h} />
       </ReactFlowProvider>
     </div>
