@@ -58,17 +58,24 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
 
         if (existingDetails) {
           setDrawerData(existingDetails);
+          console.log("existingDetails", existingDetails);
         } else {
           const { detailsData, videoIds, booksData } =
             await fetchDataFromAPIs();
+
           await saveNodeDetails(
             roadmapId!,
             nodeName,
-            detailsData.text,
+            JSON.stringify(detailsData),
             videoIds,
             booksData?.results || [],
           );
-          setDrawerData({ detailsData, videoIds, booksData, isSuccess: true });
+          setDrawerData({
+            detailsData,
+            videoIds: videoIds as string,
+            booksData,
+            isSuccess: true,
+          });
         }
       } catch (error) {
         console.error("Error fetching or saving data:", error);
@@ -112,8 +119,8 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           parent: drawerDetails?.parent,
         },
       );
-      console.log("response.data.data", response.data.data);
-      return response.data.data;
+      console.log("details data", response.data.text);
+      return response.data.text;
     } catch (error) {
       console.error("Error fetching details data:", error);
       return null;
@@ -125,7 +132,8 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
       const response = await axios.post(`/api/v1/orilley`, {
         data: { query: drawerDetails?.child },
       });
-      return response.data.data;
+      console.log("books data", response.data.data.results);
+      return response.data.data.results;
     } catch (error) {
       console.error("Error fetching books data:", error);
       return null;
@@ -232,7 +240,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
               <div className="mt-4">
                 <p className="text-black mb-2">Recommended Books</p>
                 <div className="flex flex-col gap-3">
-                  {drawerData.booksData?.results?.map(
+                  {drawerData.booksData?.map(
                     (book: IOrilley["data"][number], id: number) => (
                       <a
                         className="flex items-start bg-white rounded-md overflow-hidden cursor-pointer"

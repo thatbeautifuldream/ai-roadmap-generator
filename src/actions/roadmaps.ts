@@ -298,10 +298,11 @@ export const saveNodeDetails = async (
   roadmapId: string,
   nodeName: string,
   content: string,
-  youtubeVideoIds?: string[],
-  books?: string,
+  books: string[],
+  youtubeVideoIds: string[],
 ) => {
   try {
+    console.log(roadmapId, nodeName, content, books, youtubeVideoIds);
     const savedDetails = await db.roadmap.update({
       where: { id: roadmapId },
       data: {
@@ -338,8 +339,8 @@ export const findSavedNodeDetails = async (
         },
       },
     });
-    if (savedNodeDetails) {
-      return true;
+    if (savedNodeDetails!.drawerDetails.length > 0) {
+      return savedNodeDetails!.drawerDetails[0];
     }
     return false;
   } catch (error) {
