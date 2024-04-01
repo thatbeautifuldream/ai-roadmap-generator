@@ -22,15 +22,16 @@ enum Visibility {
 }
 
 model Roadmap {
-  id          String     @id @default(cuid())
-  title       String     @unique
-  content     String
-  userId      String
-  author      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime   @default(now())
-  views       Int        @default(0)
-  searchCount Int        @default(0)
-  visibility  Visibility @default(PUBLIC)
+  id            String         @id @default(cuid())
+  title         String         @unique
+  content       String
+  userId        String
+  author        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime       @default(now())
+  views         Int            @default(0)
+  searchCount   Int            @default(0)
+  visibility    Visibility     @default(PUBLIC)
+  drawerDetails DrawerDetail[]
 
   @@index([title])
 }
@@ -40,5 +41,13 @@ model SavedRoadmap {
   title     String
   roadmapId String
   userId    String
-  author     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  author    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model DrawerDetail {
+  id        String  @id @default(cuid())
+  details   String
+  nodeName  String
+  roadmapId String
+  roadmap   Roadmap @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { getRoadmapById } from "@/actions/roadmaps";
-import { EmptyAlert } from "@/components/alerts/EmptyAlert";
 import ExpandCollapse from "@/components/flow-components/expand-collapse";
 import { Separator } from "@/components/ui/separator";
 import { useGenerateRoadmap } from "@/lib/queries";

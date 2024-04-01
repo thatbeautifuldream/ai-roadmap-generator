@@ -48,9 +48,9 @@ export const Drawer = () => {
     },
     enabled: Boolean(
       drawerDetails &&
-        drawerDetails?.query &&
-        drawerDetails?.parent &&
-        drawerDetails?.child,
+      drawerDetails?.query &&
+      drawerDetails?.parent &&
+      drawerDetails?.child,
     ),
     staleTime: Infinity,
   });
@@ -83,9 +83,9 @@ export const Drawer = () => {
     queryFn: async () => {
       return searchYoutube(
         drawerDetails?.query ||
-          "" + drawerDetails?.parent ||
-          "" + drawerDetails?.child ||
-          "",
+        "" + drawerDetails?.parent ||
+        "" + drawerDetails?.child ||
+        "",
       );
     },
     staleTime: Infinity,
@@ -170,7 +170,7 @@ export const Drawer = () => {
                 {data.data.text.description}
               </p>
               {data?.data?.text?.bulletPoints &&
-              data?.data?.text?.bulletPoints?.length > 0 ? (
+                data?.data?.text?.bulletPoints?.length > 0 ? (
                 <div className="mt-4">
                   <ul className="list-disc list-inside">
                     {data?.data?.text?.bulletPoints?.map(
