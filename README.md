@@ -22,8 +22,8 @@ This project generates learning roadmaps for given search queries. For example, 
 
 ## Local Database setup
 
-- We use `PostgreSQL` for the database. You can use the provided `docker-compose.yml` file to start a `PostgreSQL` server. Run `docker-compose up` to start the server.
-- The compose file automatically sets up the database and an adminer instance to manage the database.
+- We use `PostgreSQL` for the database.
+- You can use this compose file to setup the database locally.
 
 ## Setting up Environment Variables
 
@@ -31,33 +31,32 @@ This project generates learning roadmaps for given search queries. For example, 
 - Add the following environment variables to the `.env` file:
 
 ```env
-// for local development
-DATABASE_URL=postgres://<username>:<password>@localhost:5432/<database_name>
+# Database
+DATABASE_URL=
 
-// for authentication
-AUTH_SECRET=
-AUTH_GOOGLE_ID=
-AUTH_GOOGLE_SECRET=
-
-// for APIs you can choose to add any one or all of them but then you need to call the respective API from the dropdown selection
+# API Keys
 OPENAI_API_KEY=
-GOOGLE_API_KEY=
+GEMINI_API_KEY=
 COHERE_API_KEY=
+
+# Cloud Console API Keys
+KNOWLEDGE_GRAPH_SEARCH_KEY=
+YOUTUBE_API_KEY=
+
+# Clerk (Production)
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 ```
 
-## Setting up Docker for `fly.io`
+## Setting up Docker Image and pusing it to Github Container Registry
 
-- You can generate Docker image by first installing `pnpm i @flydotio/dockerfile`
-- Run `pnpx dockerfile` to generate the Dockerfile automatically.
-
-## By pass serverless limits by adding `vercel.json` to the root of the project [only on pro plan]
-
-```json
-{
-  "functions": {
-    "api": {
-      "maxDuration": 120
-    }
-  }
-}
+```bash
+docker login ghcr.io
+docker build . --platform linux/amd64 -t ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
+docker push ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
+docker run -p 3000:3000 ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 ```

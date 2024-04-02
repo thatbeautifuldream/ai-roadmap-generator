@@ -28,7 +28,7 @@ const AppInstructions = () => {
           <li>If an error occurs, please try again a few times.</li>
           <li>
             Look out for previously generated roadmaps in the{" "}
-            <Link className="underline underline-offset-4" href="/explorer">
+            <Link className="underline underline-offset-4" href="/explore">
               Explorer
             </Link>{" "}
             section.
