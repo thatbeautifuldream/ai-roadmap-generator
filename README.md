@@ -32,5 +32,5 @@ docker push ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 
 ```bash
 docker pull ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
-docker run -d -p 3000:3000 ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
+docker run -d -p 3000:3000 --name ai-roadmap-generator ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 ```
