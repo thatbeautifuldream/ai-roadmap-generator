@@ -20,43 +20,17 @@ This project generates learning roadmaps for given search queries. For example, 
 - Share roadmap via public URL.
 - Recommended Orilley Books.
 
-## Local Database setup
-
-- We use `PostgreSQL` for the database.
-- You can use this compose file to setup the database locally.
-
-## Setting up Environment Variables
-
-- Create a `.env` file in the root directory of the project.
-- Add the following environment variables to the `.env` file:
-
-```env
-# Database
-DATABASE_URL=
-
-# API Keys
-OPENAI_API_KEY=
-GEMINI_API_KEY=
-COHERE_API_KEY=
-
-# Cloud Console API Keys
-KNOWLEDGE_GRAPH_SEARCH_KEY=
-YOUTUBE_API_KEY=
-
-# Clerk (Production)
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
-```
-
-## Setting up Docker Image and pusing it to Github Container Registry
+## Building and pusing the docker image to `ghcr.io` from the local machine
 
 ```bash
 docker login ghcr.io
 docker build . --platform linux/amd64 -t ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 docker push ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
+```
+
+## Pulling and running docker image on the server
+
+```bash
+docker pull ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 docker run -p 3000:3000 ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 ```
