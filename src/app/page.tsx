@@ -22,7 +22,7 @@ function RoadmapHero() {
   ];
 
   return (
-    <div className="flex flex-grow flex-col items-center px-4 py-6 sm:px-6 overflow-hidden">
+    <div className="flex flex-grow flex-col items-center px-8 py-14 sm:px-6 overflow-hidden">
       <div className="flex flex-col gap-0 text-center sm:gap-1 sm:mt-6 md:mt-8 lg:mt-12">
         <h1 className="relative text-4xl font-bold sm:text-3xl">
           <span className="hidden sm:inline">
@@ -127,7 +127,7 @@ const features = [
 
 function RoadmapFeatures() {
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="bg-white py-4 sm:py-8">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl sm:text-center">
           <h2 className="text-base font-semibold leading-7 text-gray-600">
