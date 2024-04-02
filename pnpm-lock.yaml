@@ -146,6 +146,9 @@ dependencies:
   cmdk:
     specifier: ^1.0.0
     version: 1.0.0(@types/react-dom@18.2.22)(@types/react@18.2.66)(react-dom@18.2.0)(react@18.2.0)
+  crisp-sdk-web:
+    specifier: ^1.0.22
+    version: 1.0.22
   d3:
     specifier: ^7.9.0
     version: 7.9.0
@@ -3120,6 +3123,10 @@ packages:
   /cookie@0.6.0:
     resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /crisp-sdk-web@1.0.22:
+    resolution: {integrity: sha512-5LakqSr638Cv1J/FuM/RhCGVEaHmrbPpEY14h9GdoEUeNF+jzDhV2KwTVVL5hDwTo5Vhc1J+hprUzgqUv9xH4Q==}
     dev: false
 
   /cross-spawn@7.0.3:

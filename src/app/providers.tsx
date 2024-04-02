@@ -7,7 +7,9 @@ import * as React from "react";
 import { Toaster } from "sonner";
 import { ClerkProvider } from "@clerk/nextjs";
 import { neobrutalism } from "@clerk/themes";
+import dynamic from "next/dynamic";
 
+const CrispWithNoSSR = dynamic(() => import("@/lib/crisp"));
 const queryClient = new QueryClient();
 
 function Providers({ children }: { children: React.ReactNode }) {
@@ -21,6 +23,7 @@ function Providers({ children }: { children: React.ReactNode }) {
           },
         }}
       >
+        <CrispWithNoSSR />
         <Toaster position="bottom-right" richColors />
         {children}
         <GoogleAnalytics gaId="G-KGPW43F35B" />
