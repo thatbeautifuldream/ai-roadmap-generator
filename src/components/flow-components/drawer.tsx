@@ -24,6 +24,7 @@ import {
 import { useUIStore } from "../../app/stores/useUI";
 import { useShallow } from "zustand/react/shallow";
 import { saveNodeDetails, findSavedNodeDetails } from "@/actions/roadmaps";
+import { useQuery } from "@tanstack/react-query";
 
 interface DrawerProps {
   roadmapId?: string;
@@ -31,7 +32,6 @@ interface DrawerProps {
 
 export const Drawer = ({ roadmapId }: DrawerProps) => {
   const [drawerData, setDrawerData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const { drawerOpen, toggleDrawer, drawerDetails, model, modelApiKey } =
     useUIStore(
@@ -46,10 +46,9 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
 
   const nodeName = `${drawerDetails?.query}_${drawerDetails?.parent}_${drawerDetails?.child}`;
 
-  useEffect(() => {
-    const fetchAndSaveData = async () => {
-      setIsLoading(true);
-
+  const { isLoading: queryIsLoading, data: queryData } = useQuery({
+    queryKey: ["fetchAndSaveData", roadmapId, nodeName],
+    queryFn: async () => {
       try {
         const existingDetails = await findSavedNodeDetails(
           roadmapId!,
@@ -63,13 +62,12 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           console.log("details", JSON.parse(details));
           console.log("youtubeVideoIds", youtubeVideoIds);
 
-          setDrawerData({
+          return {
             detailsData: JSON.parse(details),
             videoIds: youtubeVideoIds as string[],
             booksData: JSON.parse(books),
             isSuccess: true,
-          });
-          console.log("existingDetails", existingDetails);
+          };
         } else {
           const { detailsData, videoIds, booksData } =
             await fetchDataFromAPIs();
@@ -81,34 +79,26 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
             JSON.stringify(booksData),
             videoIds,
           );
-          setDrawerData({
+
+          return {
             detailsData,
             videoIds: videoIds as string[],
             booksData: booksData,
             isSuccess: true,
-          });
+          };
         }
       } catch (error) {
         console.error("Error fetching or saving data:", error);
-      } finally {
-        setIsLoading(false);
+        return null;
       }
-    };
+    },
+  });
 
-    if (
-      roadmapId &&
-      drawerDetails?.query &&
-      drawerDetails?.parent &&
-      drawerDetails?.child
-    ) {
-      fetchAndSaveData();
+  useEffect(() => {
+    if (queryData) {
+      setDrawerData(queryData);
     }
-  }, [
-    roadmapId,
-    drawerDetails?.query,
-    drawerDetails?.parent,
-    drawerDetails?.child,
-  ]);
+  }, [queryData]);
 
   const fetchDataFromAPIs = async () => {
     const detailsData = await fetchDetailsData();
@@ -203,7 +193,6 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
       </>
     );
   };
-
   return (
     <Sheet open={drawerOpen} onOpenChange={toggleDrawer}>
       <SheetContent className="overflow-auto min-w-full md:min-w-[700px]">
@@ -212,7 +201,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           <p className="font-light">{drawerDetails?.child}</p>
         </div>
         <div>
-          {isLoading ? (
+          {queryIsLoading ? (
             <div className="flex justify-center items-center w-full h-[500px]">
               <Loader2 className="w-6 h-6 animate-spin" />
             </div>
@@ -232,7 +221,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
                 {drawerData.detailsData.description}
               </p>
               {drawerData.detailsData.bulletPoints &&
-                drawerData?.detailsData.bulletPoints?.length > 0 ? (
+              drawerData?.detailsData.bulletPoints?.length > 0 ? (
                 <div className="mt-4">
                   <ul className="list-disc list-inside">
                     {drawerData?.detailsData.bulletPoints?.map(
@@ -288,8 +277,8 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           ) : (
             <div>No data available</div>
           )}
-        </div>{" "}
-      </SheetContent>
+        </div>
+      </SheetContent>{" "}
     </Sheet>
   );
 };
