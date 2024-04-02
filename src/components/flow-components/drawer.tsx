@@ -57,7 +57,18 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
         );
 
         if (existingDetails) {
-          setDrawerData(existingDetails);
+          const { roadmapId, nodeName, youtubeVideoIds, details, books } =
+            existingDetails;
+          console.log("books", books);
+          console.log("details", JSON.parse(details));
+          console.log("youtubeVideoIds", youtubeVideoIds);
+
+          setDrawerData({
+            detailsData: JSON.parse(details),
+            videoIds: youtubeVideoIds as string[],
+            booksData: JSON.parse(books),
+            isSuccess: true,
+          });
           console.log("existingDetails", existingDetails);
         } else {
           const { detailsData, videoIds, booksData } =
@@ -67,13 +78,13 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
             roadmapId!,
             nodeName,
             JSON.stringify(detailsData),
+            JSON.stringify(booksData),
             videoIds,
-            booksData?.results || [],
           );
           setDrawerData({
             detailsData,
-            videoIds: videoIds as string,
-            booksData,
+            videoIds: videoIds as string[],
+            booksData: booksData,
             isSuccess: true,
           });
         }
@@ -119,7 +130,6 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           parent: drawerDetails?.parent,
         },
       );
-      console.log("details data", response.data.text);
       return response.data.text;
     } catch (error) {
       console.error("Error fetching details data:", error);
@@ -132,7 +142,6 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
       const response = await axios.post(`/api/v1/orilley`, {
         data: { query: drawerDetails?.child },
       });
-      console.log("books data", response.data.data.results);
       return response.data.data.results;
     } catch (error) {
       console.error("Error fetching books data:", error);
@@ -240,38 +249,39 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
               <div className="mt-4">
                 <p className="text-black mb-2">Recommended Books</p>
                 <div className="flex flex-col gap-3">
-                  {drawerData.booksData?.map(
-                    (book: IOrilley["data"][number], id: number) => (
-                      <a
-                        className="flex items-start bg-white rounded-md overflow-hidden cursor-pointer"
-                        href={"https://learning.oreilly.com" + book.web_url}
-                        target="_blank"
-                        key={book.id}
-                      >
-                        <div className="w-[80px] h-[80px] flex-shrink-0">
-                          <img
-                            className="w-full h-full object-cover"
-                            src={book.cover_url}
-                            alt={book.title}
-                          />
-                        </div>
-                        <div className="px-4">
-                          <p className="text-base font-regular mb-1">
-                            {book.title}
-                          </p>
-                          <p className="text-gray-700 text-sm">
-                            By {book.authors[0]}
-                          </p>
-                          {book.duration_seconds > 0 && (
-                            <p className="text-gray-600 text-xs">
-                              Complete in{" "}
-                              {formatDuration(book.duration_seconds)}
+                  {drawerData.booksData.length > 0 &&
+                    drawerData.booksData?.map(
+                      (book: IOrilley["data"][number], id: number) => (
+                        <a
+                          className="flex items-start bg-white rounded-md overflow-hidden cursor-pointer"
+                          href={"https://learning.oreilly.com" + book.web_url}
+                          target="_blank"
+                          key={book?.id}
+                        >
+                          <div className="w-[80px] h-[80px] flex-shrink-0">
+                            <img
+                              className="w-full h-full object-cover"
+                              src={book?.cover_url}
+                              alt={book?.title}
+                            />
+                          </div>
+                          <div className="px-4">
+                            <p className="text-base font-regular mb-1">
+                              {book?.title}
                             </p>
-                          )}
-                        </div>
-                      </a>
-                    ),
-                  )}
+                            <p className="text-gray-700 text-sm">
+                              By {book?.authors[0]}
+                            </p>
+                            {book.duration_seconds > 0 && (
+                              <p className="text-gray-600 text-xs">
+                                Complete in{" "}
+                                {formatDuration(book.duration_seconds)}
+                              </p>
+                            )}
+                          </div>
+                        </a>
+                      ),
+                    )}
                 </div>
               </div>
             </div>

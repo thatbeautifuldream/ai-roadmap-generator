@@ -298,11 +298,10 @@ export const saveNodeDetails = async (
   roadmapId: string,
   nodeName: string,
   content: string,
-  books: string[],
+  books: string,
   youtubeVideoIds: string[],
 ) => {
   try {
-    console.log(roadmapId, nodeName, content, books, youtubeVideoIds);
     const savedDetails = await db.roadmap.update({
       where: { id: roadmapId },
       data: {
