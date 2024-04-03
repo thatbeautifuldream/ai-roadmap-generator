@@ -10,7 +10,7 @@ services:
     image: ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 
   stop:
-    container_name: ai-roadmap-generator
+    image: ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 
   deploy:
     container_name: ai-roadmap-generator
