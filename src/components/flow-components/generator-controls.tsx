@@ -67,7 +67,7 @@ export const GeneratorControls = (props: Props) => {
       modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
-    })),
+    }))
   );
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export const GeneratorControls = (props: Props) => {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>,
+      | React.KeyboardEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
     try {
@@ -154,7 +154,7 @@ export const GeneratorControls = (props: Props) => {
               duration: 4000,
             });
           },
-        },
+        }
       );
     } catch (e: any) {
       console.error("api error", e);
@@ -255,21 +255,21 @@ export const GeneratorControls = (props: Props) => {
 
         {isAuthor && (
           <Button
-            variant="destructive"
+            variant="outline"
             size="icon"
             className="mx-2 cursor-pointer"
             onClick={handleDelete}
           >
-            <Trash className="text-white w-5 h-5 cursor-pointer" />
+            <Trash className="cursor-pointer" size="16px" />
           </Button>
         )}
 
         {!showVisibilityDropdown && dbRoadmapId && canSaveToDashboard && (
-          <Button onClick={handleSaveToDashboard} size="icon">
+          <Button onClick={handleSaveToDashboard} size="icon" variant="outline">
             <TooltipProvider>
               <Tooltip delayDuration={400}>
                 <TooltipTrigger>
-                  <Save />
+                  <Save size="16px" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Save to Dashboard</p>
