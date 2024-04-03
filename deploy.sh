@@ -10,7 +10,7 @@ docker compose push
 
 # Stop and remove the existing Docker container
 echo "Stopping and removing existing Docker container..."
-docker compose down -d stop
+docker stop ai-roadmap-generator
 docker rm ai-roadmap-generator
 
 # Deploy the Docker container
