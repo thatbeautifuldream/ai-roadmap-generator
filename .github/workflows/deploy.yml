@@ -20,7 +20,7 @@ jobs:
           VPS_USER: ${{ secrets.VPS_USER }}
           VPS_PASS: ${{ secrets.VPS_PASS }}
         run: |
-          ssh $VPS_USER@$VPS_HOST "
+          ssh $VPS_USER@$VPS_HOST -p 22 --pw $VPS_PASS"
             cd code/ai-roadmap-generator
             git pull
             chmod +x deploy.sh
