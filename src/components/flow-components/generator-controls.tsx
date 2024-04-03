@@ -223,12 +223,15 @@ export const GeneratorControls = (props: Props) => {
     }
   };
 
+  const disableUI = isGenerating || isPending;
+
   return (
     <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
       <div className="md:mx-14 flex w-full space-x-2 sm:justify-end">
         {!dbRoadmapId && (
           <Input
             type="text"
+            disabled={disableUI}
             placeholder="e.g. Try searching for Frontend or Backend"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -293,18 +296,15 @@ export const GeneratorControls = (props: Props) => {
 
         {!dbRoadmapId && (
           <div className="hidden sm:flex">
-            <ModelSelect />
+            <ModelSelect disabled={disableUI} />
           </div>
         )}
 
         {!dbRoadmapId && (
-          <GenerateButton
-            onClick={onSubmit}
-            disabled={isGenerating || isPending}
-          />
+          <GenerateButton onClick={onSubmit} disabled={disableUI} />
         )}
 
-        {!dbRoadmapId && <ApiKeyDialog />}
+        {!dbRoadmapId && <ApiKeyDialog disabled={disableUI} />}
 
         {renderFlow && dbRoadmapId && (
           <div className="flex space-x-2">

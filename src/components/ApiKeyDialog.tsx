@@ -13,7 +13,11 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useUIStore } from "@/app/stores/useUI";
 
-const ApiKeyDialog = () => {
+interface Props {
+  disabled: boolean;
+}
+
+const ApiKeyDialog = ({ disabled }: Props) => {
   const [openAIKey, setOpenAIKey] = useState("");
   const [geminiKey, setGeminiKey] = useState("");
   const [cohereKey, setCohereKey] = useState("");
@@ -76,7 +80,7 @@ const ApiKeyDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Add Key</Button>
+        <Button disabled={disabled}>Add Key</Button>
       </DialogTrigger>
       <DialogPortal>
         <DialogContent>
