@@ -6,23 +6,16 @@ on:
       - main
 
 jobs:
-  deploy:
-    name: Deploy to VPS
+  build_and_deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Log into VPS and deploy
-        env:
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASS: ${{ secrets.VPS_PASS }}
-        run: |
-          ssh $VPS_USER@$VPS_HOST -p 22 --pw $VPS_PASS"
-            cd code/ai-roadmap-generator
+      - name: DEPLOY USING SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/code/ai-roadmap-generator
             git pull
-            chmod +x deploy.sh
-            ./deploy.sh
-          "
+            bash deploy.sh
