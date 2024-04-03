@@ -59,9 +59,6 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
         if (existingDetails) {
           const { roadmapId, nodeName, youtubeVideoIds, details, books } =
             existingDetails;
-          console.log("books", books);
-          console.log("details", JSON.parse(details));
-          console.log("youtubeVideoIds", youtubeVideoIds);
 
           setDrawerData({
             detailsData: JSON.parse(details),
@@ -69,7 +66,6 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
             booksData: JSON.parse(books),
             isSuccess: true,
           });
-          console.log("existingDetails", existingDetails);
         } else {
           const { detailsData, videoIds, booksData } =
             await fetchDataFromAPIs();
@@ -149,7 +145,6 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
     }
   };
 
-  console.log("drawerData", drawerData);
 
   const YoutubeVideo = () => {
     return (
