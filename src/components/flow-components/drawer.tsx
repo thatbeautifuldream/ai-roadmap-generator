@@ -24,7 +24,6 @@ import {
 import { useUIStore } from "../../app/stores/useUI";
 import { useShallow } from "zustand/react/shallow";
 import { saveNodeDetails, findSavedNodeDetails } from "@/actions/roadmaps";
-import { useQuery } from "@tanstack/react-query";
 
 interface DrawerProps {
   roadmapId?: string;
@@ -32,6 +31,7 @@ interface DrawerProps {
 
 export const Drawer = ({ roadmapId }: DrawerProps) => {
   const [drawerData, setDrawerData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { drawerOpen, toggleDrawer, drawerDetails, model, modelApiKey } =
     useUIStore(
@@ -46,9 +46,10 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
 
   const nodeName = `${drawerDetails?.query}_${drawerDetails?.parent}_${drawerDetails?.child}`;
 
-  const { isLoading: queryIsLoading, data: queryData } = useQuery({
-    queryKey: ["fetchAndSaveData", roadmapId, nodeName],
-    queryFn: async () => {
+  useEffect(() => {
+    const fetchAndSaveData = async () => {
+      setIsLoading(true);
+
       try {
         const existingDetails = await findSavedNodeDetails(
           roadmapId!,
@@ -58,12 +59,17 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
         if (existingDetails) {
           const { roadmapId, nodeName, youtubeVideoIds, details, books } =
             existingDetails;
-          return {
+          console.log("books", books);
+          console.log("details", JSON.parse(details));
+          console.log("youtubeVideoIds", youtubeVideoIds);
+
+          setDrawerData({
             detailsData: JSON.parse(details),
             videoIds: youtubeVideoIds as string[],
             booksData: JSON.parse(books),
             isSuccess: true,
-          };
+          });
+          console.log("existingDetails", existingDetails);
         } else {
           const { detailsData, videoIds, booksData } =
             await fetchDataFromAPIs();
@@ -71,30 +77,38 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           await saveNodeDetails(
             roadmapId!,
             nodeName,
-            JSON.stringify(detailsData) || " ",
-            JSON.stringify(booksData) || " ",
-            videoIds || " ",
+            JSON.stringify(detailsData),
+            JSON.stringify(booksData),
+            videoIds,
           );
-
-          return {
+          setDrawerData({
             detailsData,
             videoIds: videoIds as string[],
             booksData: booksData,
             isSuccess: true,
-          };
+          });
         }
       } catch (error) {
         console.error("Error fetching or saving data:", error);
-        return null;
+      } finally {
+        setIsLoading(false);
       }
-    },
-  });
+    };
 
-  useEffect(() => {
-    if (queryData) {
-      setDrawerData(queryData);
+    if (
+      roadmapId &&
+      drawerDetails?.query &&
+      drawerDetails?.parent &&
+      drawerDetails?.child
+    ) {
+      fetchAndSaveData();
     }
-  }, [queryData]);
+  }, [
+    roadmapId,
+    drawerDetails?.query,
+    drawerDetails?.parent,
+    drawerDetails?.child,
+  ]);
 
   const fetchDataFromAPIs = async () => {
     const detailsData = await fetchDetailsData();
@@ -134,6 +148,8 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
       return null;
     }
   };
+
+  console.log("drawerData", drawerData);
 
   const YoutubeVideo = () => {
     return (
@@ -187,6 +203,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
       </>
     );
   };
+
   return (
     <Sheet open={drawerOpen} onOpenChange={toggleDrawer}>
       <SheetContent className="overflow-auto min-w-full md:min-w-[700px]">
@@ -197,7 +214,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           <p className="font-light">{drawerDetails?.child ?? ""}</p>
         </div>
         <div>
-          {queryIsLoading ? (
+          {isLoading ? (
             <div className="flex justify-center items-center w-full h-[500px]">
               <Loader2 className="w-6 h-6 animate-spin" />
             </div>
@@ -217,7 +234,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
                 {drawerData?.detailsData?.description ?? ""}
               </p>
               {drawerData?.detailsData?.bulletPoints &&
-                drawerData?.detailsData?.bulletPoints?.length > 0 ? (
+              drawerData?.detailsData?.bulletPoints?.length > 0 ? (
                 <div className="mt-4">
                   <ul className="list-disc list-inside">
                     {drawerData?.detailsData.bulletPoints?.map(
