@@ -1,0 +1,28 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log into VPS and deploy
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASS: ${{ secrets.VPS_PASS }}
+        run: |
+          ssh $VPS_USER@$VPS_HOST "
+            cd code/ai-roadmap-generator
+            git pull
+            chmod +x deploy.sh
+            ./deploy.sh
+          "
