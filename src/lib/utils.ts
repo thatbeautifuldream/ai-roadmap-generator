@@ -8,10 +8,15 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function SanitiseJSON(text: string) {
-  // ugly hack to remove the first and last part of response to get the JSON
+  const re = /```json\n(.*?)\n```/;
 
-  const json = text.split("```json")[1].split("```")[0];
-  return json;
+  const match = text.match(re);
+  if (match) {
+    const json = match[1];
+
+    return json;
+  }
+  return "{}"
 }
 
 export function capitalize(str: string) {
@@ -42,7 +47,7 @@ export const decodeFromURL = (params: URLSearchParams): Node[] => {
     const uncompressed = LZString.decompressFromEncodedURIComponent(code);
     try {
       array = JSON.parse(uncompressed);
-    } catch (e) {}
+    } catch (e) { }
   }
   return array;
 };
