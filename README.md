@@ -24,7 +24,7 @@ This project generates learning roadmaps for given search queries. For example, 
 
 ```bash
 docker login ghcr.io
-docker build . --platform linux/amd64 -t ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
+docker build . -t ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 docker push ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 ```
 
