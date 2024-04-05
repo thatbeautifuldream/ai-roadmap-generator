@@ -24,7 +24,6 @@ export function capitalize(str: string) {
 export function formatDuration(seconds: number) {
   // Convert seconds to hours
   const hours = Math.floor(seconds / 3600);
-
   if (hours >= 1) {
     // If duration is 1 hour or more, return in hours
     return `${hours} hour${hours > 1 ? "s" : ""}`;
@@ -83,3 +82,33 @@ export const getFormattedDate = (dateString: string): string => {
 export const generateYouTubeLink = (videoId: string) => {
   return `https://www.youtube.com/watch?v=${videoId}`;
 };
+
+export function createTree(data: {
+  query: string;
+  chapters: Record<
+    string,
+    { moduleName: string; moduleDescription: string; link?: string }[]
+  >;
+}) {
+  return [
+    {
+      name: capitalize(data.query),
+      children: Object.keys(data.chapters).map((sectionName) => ({
+        name: sectionName,
+        children: data.chapters[sectionName].map(
+          ({ moduleName, link, moduleDescription }) => ({
+            name: moduleName,
+            moduleDescription,
+            link,
+          })
+        ),
+      })),
+    },
+  ];
+}
+
+export function toProperCase(str: string) {
+  return str.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}

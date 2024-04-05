@@ -6,7 +6,7 @@ type drawerDetails = {
   child: string;
 };
 
-export type UModel = "openai" | "cohere" | "gemini";
+export type UModel = "openai" | "cohere" | "gemini" | "groq";
 
 interface UIState {
   drawerOpen: boolean;
@@ -28,7 +28,7 @@ export const useUIStore = create<UIState>((set) => ({
   toggleDrawer: () => set((state) => ({ drawerOpen: !state.drawerOpen })),
   drawerDetails: null,
   setDrawerDetails: (data) => set(() => ({ drawerDetails: data })),
-  model: "gemini",
+  model: "groq",
   setModel: (model) => set(() => ({ model })),
   query: "",
   setQuery: (query) => set(() => ({ query })),
