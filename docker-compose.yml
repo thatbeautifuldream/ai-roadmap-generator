@@ -4,8 +4,8 @@ services:
       context: .
     image: ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 
-  # push:
-  #   image: ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
+  push:
+    image: ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 
   deploy:
     container_name: ai-roadmap-generator

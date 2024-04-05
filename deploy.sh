@@ -5,8 +5,8 @@ echo "Building Docker image..."
 docker compose build
 
 # Push the Docker image to the registry
-# echo "Pushing Docker image to registry..."
-# docker compose push
+echo "Pushing Docker image to registry..."
+docker compose push
 
 # Stop and remove the existing Docker container
 echo "Stopping and removing existing Docker container..."
