@@ -7,16 +7,26 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+function checkIfJSONIsValid(json: string) {
+  try {
+    JSON.parse(json);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 export function SanitiseJSON(text: string) {
   const re = /```json\n(.*?)\n```/;
 
   const match = text.match(re);
   if (match) {
     const json = match[1];
-
-    return json;
+    if (checkIfJSONIsValid(json)) {
+      return json;
+    }
   }
-  return "{}"
+  return "";
 }
 
 export function capitalize(str: string) {
@@ -47,7 +57,7 @@ export const decodeFromURL = (params: URLSearchParams): Node[] => {
     const uncompressed = LZString.decompressFromEncodedURIComponent(code);
     try {
       array = JSON.parse(uncompressed);
-    } catch (e) { }
+    } catch (e) {}
   }
   return array;
 };
