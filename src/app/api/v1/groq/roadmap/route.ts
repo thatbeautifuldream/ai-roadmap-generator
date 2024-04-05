@@ -12,13 +12,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { OpenAI } from "openai";
 
 export const POST = async (req: NextRequest) => {
+  var openai;
   try {
     const apiKey = req.nextUrl.searchParams.get("apiKey");
     const body = await req.json();
     const query = body.query;
-
-    const openai = new OpenAI({
-      apiKey: apiKey || process.env.OPENAI_API_KEY,
+    openai = new OpenAI({
+      apiKey: process.env.GROQ_API_KEY || "",
+      baseURL: "https://api.groq.com/openai/v1",
     });
 
     if (!query) {
@@ -27,7 +28,7 @@ export const POST = async (req: NextRequest) => {
         { status: 400 }
       );
     }
-    if (!apiKey && !process.env.OPENAI_API_KEY) {
+    if (!apiKey && !process.env.GROQ_API_KEY) {
       return NextResponse.json(
         { status: false, message: "Please provide API key." },
         { status: 400 }
@@ -54,7 +55,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const text = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo-1106",
+      model: "mixtral-8x7b-32768",
       temperature: 1,
       messages: [
         {

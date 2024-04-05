@@ -1,26 +1,26 @@
-"use client";
+import { useUIStore } from "@/app/stores/useUI";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogTrigger,
-  DialogHeader,
   DialogClose,
-  DialogTitle,
-  DialogPortal,
   DialogContent,
+  DialogHeader,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { useUIStore } from "@/app/stores/useUI";
+import { Select, SelectContent, SelectItem } from "@/components/ui/select";
+import { toProperCase } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface Props {
   disabled: boolean;
 }
 
 const ApiKeyDialog = ({ disabled }: Props) => {
-  const [openAIKey, setOpenAIKey] = useState("");
-  const [geminiKey, setGeminiKey] = useState("");
-  const [cohereKey, setCohereKey] = useState("");
+  const [apiKey, setApiKey] = useState("");
+  const [apiKeyType, setApiKeyType] = useState("groq");
 
   const { setModelApiKey, model } = useUIStore((state) => ({
     setModelApiKey: state.setModelApiKey,
@@ -30,10 +30,14 @@ const ApiKeyDialog = ({ disabled }: Props) => {
 
   useEffect(() => {
     const initializeApiKeys = () => {
+      const existingGroqKey = localStorage.getItem("GROQ_API_KEY");
       const existingOpenAIKey = localStorage.getItem("OPENAI_API_KEY");
       const existingGeminiKey = localStorage.getItem("GEMINI_API_KEY");
       const existingCohereKey = localStorage.getItem("COHERE_API_KEY");
 
+      if (!existingGroqKey) {
+        localStorage.setItem("GROQ_API_KEY", "");
+      }
       if (!existingOpenAIKey) {
         localStorage.setItem("OPENAI_API_KEY", "");
       }
@@ -47,34 +51,38 @@ const ApiKeyDialog = ({ disabled }: Props) => {
 
     initializeApiKeys();
 
+    const groqKey = localStorage.getItem("GROQ_API_KEY");
     const openAIKey = localStorage.getItem("OPENAI_API_KEY");
     const geminiKey = localStorage.getItem("GEMINI_API_KEY");
     const cohereKey = localStorage.getItem("COHERE_API_KEY");
 
-    setOpenAIKey(openAIKey || "");
-    setGeminiKey(geminiKey || "");
-    setCohereKey(cohereKey || "");
-  }, []); // This useEffect runs only once on initial render
+    if (model === "groq") {
+      setApiKey(groqKey || "");
+    } else if (model === "openai") {
+      setApiKey(openAIKey || "");
+    } else if (model === "gemini") {
+      setApiKey(geminiKey || "");
+    } else if (model === "cohere") {
+      setApiKey(cohereKey || "");
+    }
+  }, [model]); // This useEffect runs when the model changes
 
   const setApiKeys = () => {
-    localStorage.setItem("OPENAI_API_KEY", openAIKey);
-    localStorage.setItem("GEMINI_API_KEY", geminiKey);
-    localStorage.setItem("COHERE_API_KEY", cohereKey);
+    if (apiKeyType === "groq") {
+      localStorage.setItem("GROQ_API_KEY", apiKey);
+    } else if (apiKeyType === "openai") {
+      localStorage.setItem("OPENAI_API_KEY", apiKey);
+    } else if (apiKeyType === "gemini") {
+      localStorage.setItem("GEMINI_API_KEY", apiKey);
+    } else if (apiKeyType === "cohere") {
+      localStorage.setItem("COHERE_API_KEY", apiKey);
+    }
   };
 
   const onSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setApiKeys();
-
-    if (model === "openai") {
-      setModelApiKey(openAIKey);
-    }
-    if (model === "gemini") {
-      setModelApiKey(geminiKey);
-    }
-    if (model === "cohere") {
-      setModelApiKey(cohereKey);
-    }
+    setModelApiKey(apiKey);
   };
 
   return (
@@ -85,33 +93,28 @@ const ApiKeyDialog = ({ disabled }: Props) => {
       <DialogPortal>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="text-xl">
-              Add your own API Keys.
-            </DialogTitle>
+            <DialogTitle className="text-xl">Add your own API Key.</DialogTitle>
           </DialogHeader>
           <form onSubmit={onSave}>
             <div className="grid gap-4">
               <div>
-                <span className="font-semibold">OpenAI API Key</span>
+                <span className="font-semibold">
+                  {toProperCase(model)} API Key
+                </span>
+                <Select
+                  value={apiKeyType}
+                  onValueChange={(value) => setApiKeyType(value)}
+                >
+                  <SelectContent>
+                    <SelectItem value="groq">Groq</SelectItem>
+                    <SelectItem value="openai">OpenAI</SelectItem>
+                    <SelectItem value="gemini">Gemini</SelectItem>
+                    <SelectItem value="cohere">Cohere</SelectItem>
+                  </SelectContent>
+                </Select>
                 <Input
-                  onChange={(e) => setOpenAIKey(e.target.value)}
-                  value={openAIKey}
-                  className="mt-2"
-                />
-              </div>
-              <div>
-                <span className="font-semibold">Gemini API Key</span>
-                <Input
-                  onChange={(e) => setGeminiKey(e.target.value)}
-                  value={geminiKey}
-                  className="mt-2"
-                />
-              </div>
-              <div>
-                <span className="font-semibold">Cohere API Key</span>
-                <Input
-                  onChange={(e) => setCohereKey(e.target.value)}
-                  value={cohereKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  value={apiKey}
                   className="mt-2"
                 />
               </div>
