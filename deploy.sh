@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Pull latest changes from the Git repository
+echo "Pulling latest changes from the Git repository..."
+git pull
+
 # Build the Docker image
 echo "Building Docker image..."
 docker compose build
