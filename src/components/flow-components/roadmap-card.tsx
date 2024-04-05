@@ -1,6 +1,7 @@
 "use client";
 import { deleteRoadmapById, deleteSavedRoadmapById } from "@/actions/roadmaps";
 import { EyeIcon } from "@/app/shared/Icons";
+import { Badge } from "@/components/ui/badge";
 import { Trash } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -81,11 +82,22 @@ function RoadmapCard({
             </div>
           </div>
         </Link>
+
         {pathname.includes(`/dashboard`) && (
-          <Trash
+          <button
+            type="button"
+            className="group relative m-1 h-3.5 w-3.5 rounded-sm hover:bg-gray-600/20"
             onClick={handleDelete}
-            className="text-red-500 w-4 h-4 self-start mr-2 mt-2 cursor-pointer hidden group-hover:block"
-          />
+          >
+            <span className="sr-only">Remove</span>
+            <svg
+              viewBox="0 0 14 14"
+              className="h-3.5 w-3.5 stroke-gray-600/50 group-hover:stroke-gray-600/75"
+            >
+              <path d="M4 4l6 6m0-6l-6 6" />
+            </svg>
+            <span className="absolute -inset-1" />
+          </button>
         )}
       </div>
     </>
