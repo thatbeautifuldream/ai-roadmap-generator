@@ -23,7 +23,7 @@ export default function Roadmap({ roadmapId }: Props) {
       model: state.model,
       query: state.query,
       modelApiKey: state.modelApiKey,
-    }))
+    })),
   );
 
   const { data: roadmap, isPending: isRoadmapPending } = useQuery({
@@ -43,7 +43,7 @@ export default function Roadmap({ roadmapId }: Props) {
   const { data, mutate, isPending } = useGenerateRoadmap(
     query,
     model,
-    modelApiKey
+    modelApiKey,
   );
 
   const params = useSearchParams();
@@ -71,6 +71,12 @@ export default function Roadmap({ roadmapId }: Props) {
       {isPending ? (
         <div className="h-[75vh] grid place-content-center">
           <Loader2 className="animate-spin w-8 h-8" />
+        </div>
+      ) : isRoadmapPending && roadmapId ? (
+        <div>
+          <div className="h-[75vh] grid place-content-center">
+            <Loader2 className="animate-spin w-8 h-8" />
+          </div>
         </div>
       ) : (
         <>
