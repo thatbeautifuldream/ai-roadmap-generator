@@ -13,7 +13,7 @@ import ReactFlow, {
 } from "reactflow";
 import { useShallow } from "zustand/react/shallow";
 import { proOptions } from "../../app/shared/constants";
-import { useUIStore } from "../../app/stores/useUI";
+import { useUIStore } from "@/lib/stores";
 import { Download } from "lucide-react";
 import { toPng } from "html-to-image";
 import {
@@ -36,7 +36,7 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
     useShallow((state) => ({
       setDrawerDetails: state.setDrawerDetails,
       toggleDrawer: state.toggleDrawer,
-    })),
+    }))
   );
 
   const handleNodeClick = (_: any, node: RFNode) => {
@@ -74,7 +74,7 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
       DIAGRAM_IMAGE_WIDTH,
       DIAGRAM_IMAGE_HEIGHT,
       0.5,
-      2,
+      2
     );
 
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
@@ -123,7 +123,7 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
         }
         onInteractiveChange={(isInteractive) => {
           setNodes((prevNodes) =>
-            prevNodes.map((node) => ({ ...node, draggable: isInteractive })),
+            prevNodes.map((node) => ({ ...node, draggable: isInteractive }))
           );
         }}
       >

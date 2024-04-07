@@ -1,22 +1,13 @@
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
-
 interface EmptyAlertProps {
   description?: string;
   title?: string;
 }
 
-export function EmptyAlert({
-  title = "No items found",
-  description = `There is nothing here! Try clicking the "Generate" button to add some items.`,
-}: EmptyAlertProps) {
+export function EmptyAlert({ title, description }: EmptyAlertProps) {
   return (
-    <Alert className="min-w-[55vw] mx-auto">
-      <AlertCircle className="h-4 w-4" />
-      <AlertDescription>
-        <AlertTitle>{title}</AlertTitle>
-        {description}
-      </AlertDescription>
-    </Alert>
+    <div className="text-center ">
+      <h3 className="mt-2 text-md font-semibold text-red-600">{title}</h3>
+      <p className="mt-1 text-sm text-red-400">{description}</p>
+    </div>
   );
 }

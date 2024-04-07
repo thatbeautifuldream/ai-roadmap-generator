@@ -1,4 +1,4 @@
-import { useUIStore } from "@/app/stores/useUI";
+import { useUIStore } from "@/lib/stores";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
