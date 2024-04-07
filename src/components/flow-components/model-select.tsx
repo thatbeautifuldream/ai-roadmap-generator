@@ -37,8 +37,8 @@ const ModelSelect = ({ disabled }: ModalSelectProps) => {
 
   return (
     <Select disabled={disabled} value={model} onValueChange={onValueChange}>
-      <SelectTrigger className="w-[110px]">
-        <SelectValue placeholder="Model" />
+      <SelectTrigger className="w-[100px]">
+        <SelectValue />
       </SelectTrigger>
       <SelectContent>
         {availableModels.map((model) => (

@@ -2,6 +2,7 @@ import { Node } from "@/app/shared/types/common";
 import { clsx, type ClassValue } from "clsx";
 import LZString from "lz-string";
 import { twMerge } from "tailwind-merge";
+import md5 from "md5";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -9,7 +10,6 @@ export function cn(...inputs: ClassValue[]) {
 
 export function SanitiseJSON(text: string) {
   // ugly hack to remove the first and last part of response to get the JSON
-
   const json = text.split("```json")[1].split("```")[0];
   return json;
 }
@@ -111,4 +111,10 @@ export function toProperCase(str: string) {
   return str.replace(/\w\S*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
+}
+
+export function getGravatarHash(email: string) {
+  const normalizedEmail = email.toLowerCase().trim();
+  const md5Hash = md5(normalizedEmail);
+  return md5Hash;
 }

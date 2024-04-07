@@ -12,13 +12,14 @@ import {
   Wand,
 } from "lucide-react";
 import Link from "next/link";
+import RoadmapFooter from "@/components/landing/roadmap-footer";
 
 function RoadmapHero() {
   const trendyRoadmaps = {
     Backend: "cluijunp1000lye79eiths1za",
-    Frontend: "cluik00",
-    Fullstack: " ",
-    "Machine Learning": "",
+    Frontend: "cluik00o6001lye79osk1301z",
+    Fullstack: "",
+    "Machine Learning": "clupklkxg0012ej06fsx0gxui",
   };
 
   return (
@@ -183,6 +184,7 @@ export default function Home() {
       <RoadmapHero />
       <RoadmapFeatures />
       <RoadmapPricing />
+      <RoadmapFooter />
     </>
   );
 }

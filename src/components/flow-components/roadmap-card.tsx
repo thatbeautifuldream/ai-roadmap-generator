@@ -1,8 +1,6 @@
 "use client";
 import { deleteRoadmapById, deleteSavedRoadmapById } from "@/actions/roadmaps";
 import { EyeIcon } from "@/app/shared/Icons";
-import { Badge } from "@/components/ui/badge";
-import { Trash } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -24,6 +22,8 @@ function RoadmapCard({
 }) {
   const pathname = usePathname();
   const router = useRouter();
+
+  // getGravatarHash(email);
 
   const handleDelete = async () => {
     // Prevents the link navigation
@@ -98,6 +98,19 @@ function RoadmapCard({
             </svg>
             <span className="absolute -inset-1" />
           </button>
+        )}
+        {pathname.includes(`/explore`) && (
+          <div className="group relative m-2 rounded-sm flex justify-end items-start">
+            <span className="inline-block h-4 w-4 overflow-hidden rounded-full bg-gray-100">
+              <svg
+                className="h-full w-full text-gray-300"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </span>
+          </div>
         )}
       </div>
     </>

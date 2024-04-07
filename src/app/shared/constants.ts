@@ -1,6 +1,6 @@
 export const availableModels = [
   { key: "groq", label: "Groq" },
-  { key: "openai", label: "Open AI" },
+  { key: "openai", label: "OpenAI" },
   { key: "gemini", label: "Gemini" },
   { key: "cohere", label: "Cohere" },
 ];

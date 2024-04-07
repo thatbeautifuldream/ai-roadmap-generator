@@ -128,6 +128,9 @@ dependencies:
   '@tanstack/react-query-devtools':
     specifier: 5.0.0-alpha.91
     version: 5.0.0-alpha.91(@tanstack/react-query@5.28.4)(react-dom@18.2.0)(react@18.2.0)
+  '@types/md5':
+    specifier: ^2.3.5
+    version: 2.3.5
   '@vercel/og':
     specifier: ^0.6.2
     version: 0.6.2
@@ -179,6 +182,9 @@ dependencies:
   lz-string:
     specifier: ^1.5.0
     version: 1.5.0
+  md5:
+    specifier: ^2.3.0
+    version: 2.3.0
   next:
     specifier: 14.1.3
     version: 14.1.3(react-dom@18.2.0)(react@18.2.0)
@@ -2422,6 +2428,10 @@ packages:
 
   /@types/keygrip@1.0.6:
     resolution: {integrity: sha512-lZuNAY9xeJt7Bx4t4dx0rYCDqGPW8RXhQZK1td7d4H6E9zYbLoOtjBvfwdTKpsyxQI/2jv+armjX/RW+ZNpXOQ==}
+    dev: false
+
+  /@types/md5@2.3.5:
+    resolution: {integrity: sha512-/i42wjYNgE6wf0j2bcTX6kuowmdL/6PE4IVitMpm2eYKBUuYCprdcWVK+xEF0gcV6ufMCRhtxmReGfc6hIK7Jw==}
     dev: false
 
   /@types/mime@1.3.5:

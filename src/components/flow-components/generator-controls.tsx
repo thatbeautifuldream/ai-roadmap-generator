@@ -295,7 +295,7 @@ export const GeneratorControls = (props: Props) => {
         )}
 
         {!dbRoadmapId && (
-          <div className="hidden sm:flex">
+          <div className="">
             <ModelSelect disabled={disableUI} />
           </div>
         )}

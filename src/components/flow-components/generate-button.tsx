@@ -23,7 +23,7 @@ const GenerateButton = ({ disabled, onClick }: Props) => {
       ) : (
         <>
           <Wand size={20} />
-          <span className="ml-2 hidden sm:inline">Generate</span>
+          <span className="ml-2 hidden md:inline">Generate</span>
         </>
       )}
     </Button>

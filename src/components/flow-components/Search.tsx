@@ -60,8 +60,8 @@ const Search = () => {
               roadmaps?.filter((roadmap) =>
                 roadmap.title
                   .toLowerCase()
-                  .includes(e.target.value.toLowerCase()),
-              ),
+                  .includes(e.target.value.toLowerCase())
+              )
             );
           }}
         />

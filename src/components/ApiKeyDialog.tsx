@@ -1,4 +1,4 @@
-import { useUIStore } from "@/lib/stores";
+import ModelSelect from "@/components/flow-components/model-select";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem } from "@/components/ui/select";
+import { useUIStore } from "@/lib/stores";
 import { toProperCase } from "@/lib/utils";
+import { KeyRound } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -88,36 +90,48 @@ const ApiKeyDialog = ({ disabled }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button disabled={disabled}>Add Key</Button>
+        <Button disabled={disabled}>
+          <KeyRound size={16} />
+          <span className="ml-2 hidden md:inline">Add Key</span>
+        </Button>
       </DialogTrigger>
       <DialogPortal>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="text-xl">Add your own API Key.</DialogTitle>
+            <DialogTitle className="text-xl">
+              Add your{" "}
+              <span className="relative inline-block">
+                <span
+                  className="bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent blur-md"
+                  aria-hidden="true"
+                >
+                  {model.toUpperCase()}
+                </span>
+                <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
+                  {model.toUpperCase()}
+                </span>
+              </span>{" "}
+              API Key.
+            </DialogTitle>
           </DialogHeader>
           <form onSubmit={onSave}>
-            <div className="grid gap-4">
-              <div>
-                <span className="font-semibold">
-                  {toProperCase(model)} API Key
-                </span>
-                <Select
-                  value={apiKeyType}
-                  onValueChange={(value) => setApiKeyType(value)}
-                >
-                  <SelectContent>
-                    <SelectItem value="groq">Groq</SelectItem>
-                    <SelectItem value="openai">OpenAI</SelectItem>
-                    <SelectItem value="gemini">Gemini</SelectItem>
-                    <SelectItem value="cohere">Cohere</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Input
-                  onChange={(e) => setApiKey(e.target.value)}
-                  value={apiKey}
-                  className="mt-2"
-                />
-              </div>
+            <div className="flex flex-row gap-x-2">
+              <ModelSelect disabled={false} />
+              <Select
+                value={apiKeyType}
+                onValueChange={(value) => setApiKeyType(value)}
+              >
+                <SelectContent>
+                  <SelectItem value="groq">Groq</SelectItem>
+                  <SelectItem value="openai">OpenAI</SelectItem>
+                  <SelectItem value="gemini">Gemini</SelectItem>
+                  <SelectItem value="cohere">Cohere</SelectItem>
+                </SelectContent>
+              </Select>
+              <Input
+                onChange={(e) => setApiKey(e.target.value)}
+                value={apiKey}
+              />
             </div>
             <div className="mt-4 flex justify-end space-x-2">
               <DialogClose asChild>
