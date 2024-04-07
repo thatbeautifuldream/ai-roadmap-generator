@@ -21,7 +21,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { useUIStore } from "../../app/stores/useUI";
+import { useUIStore } from "@/lib/stores";
 import { useShallow } from "zustand/react/shallow";
 import { saveNodeDetails, findSavedNodeDetails } from "@/actions/roadmaps";
 
@@ -41,7 +41,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
         drawerDetails: state.drawerDetails,
         modelApiKey: state.modelApiKey,
         model: state.model,
-      })),
+      }))
     );
 
   const nodeName = `${drawerDetails?.query}_${drawerDetails?.parent}_${drawerDetails?.child}`;
@@ -53,7 +53,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
       try {
         const existingDetails = await findSavedNodeDetails(
           roadmapId!,
-          nodeName,
+          nodeName
         );
 
         if (existingDetails) {
@@ -75,7 +75,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
             nodeName,
             JSON.stringify(detailsData),
             JSON.stringify(booksData),
-            videoIds,
+            videoIds
           );
           setDrawerData({
             detailsData,
@@ -109,7 +109,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
   const fetchDataFromAPIs = async () => {
     const detailsData = await fetchDetailsData();
     const videoIds = await searchYoutube(
-      `${drawerDetails?.query} ${drawerDetails?.parent} ${drawerDetails?.child}`,
+      `${drawerDetails?.query} ${drawerDetails?.parent} ${drawerDetails?.child}`
     );
     const booksData = await fetchBooksData();
 
@@ -124,7 +124,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           query: drawerDetails?.query,
           child: drawerDetails?.child,
           parent: drawerDetails?.parent,
-        },
+        }
       );
       return response.data.text;
     } catch (error) {
@@ -144,7 +144,6 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
       return null;
     }
   };
-
 
   const YoutubeVideo = () => {
     return (
@@ -237,7 +236,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
                         <li key={id} className="text-sm text-slate-600">
                           {point ?? ""}
                         </li>
-                      ),
+                      )
                     )}
                   </ul>
                 </div>
@@ -276,7 +275,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
                             )}
                           </div>
                         </a>
-                      ),
+                      )
                     )}
                 </div>
               </div>

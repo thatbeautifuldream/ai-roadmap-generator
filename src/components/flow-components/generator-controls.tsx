@@ -27,7 +27,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useShallow } from "zustand/react/shallow";
 import { PresetShare } from "../../app/roadmap/components/preset-share";
-import { useUIStore } from "../../app/stores/useUI";
+import { useUIStore } from "@/lib/stores";
 import GenerateButton from "./generate-button";
 import ModelSelect from "./model-select";
 import { Tooltip } from "@radix-ui/react-tooltip";

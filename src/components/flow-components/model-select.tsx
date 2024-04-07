@@ -8,7 +8,7 @@ import {
 import { useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { availableModels, modelKeys } from "../../app/shared/constants";
-import { UModel, useUIStore } from "../../app/stores/useUI";
+import { UModel, useUIStore } from "@/lib/stores";
 
 interface ModalSelectProps {
   disabled: boolean;

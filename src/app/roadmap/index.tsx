@@ -10,7 +10,7 @@ import { Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useShallow } from "zustand/react/shallow";
 import { GeneratorControls } from "../../components/flow-components/generator-controls";
-import { useUIStore } from "../stores/useUI";
+import { useUIStore } from "../../lib/stores/useUI";
 import Instructions from "@/components/flow-components/Instructions";
 
 interface Props {
@@ -23,7 +23,7 @@ export default function Roadmap({ roadmapId }: Props) {
       model: state.model,
       query: state.query,
       modelApiKey: state.modelApiKey,
-    })),
+    }))
   );
 
   const { data: roadmap, isPending: isRoadmapPending } = useQuery({
@@ -43,7 +43,7 @@ export default function Roadmap({ roadmapId }: Props) {
   const { data, mutate, isPending } = useGenerateRoadmap(
     query,
     model,
-    modelApiKey,
+    modelApiKey
   );
 
   const params = useSearchParams();
