@@ -33,7 +33,6 @@ export default async function Image({ params }: { params: { id: string } }) {
           letterSpacing: "-.02em",
           fontWeight: 700,
           background: "white",
-          fontFamily: "Nunito, sans-serif",
         }}
       >
         <div

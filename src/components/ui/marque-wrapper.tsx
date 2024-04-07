@@ -1,77 +1,87 @@
 import { cn } from "@/lib/utils";
 import { Eye } from "lucide-react";
 import Marquee from "./marquee";
+import Link from "next/link";
 
-const roadmaps = [
+type Roadmap = {
+  title: string;
+  views: string;
+  time: string;
+  id: string;
+};
+
+const roadmaps: Roadmap[] = [
   {
     title: "Frontend",
     views: "1300",
     time: "15m ago",
+    id: "cluik00o6001lye79osk1301z",
   },
   {
     title: "Backend",
     views: "1750",
     time: "20m ago",
+    id: "cluijunp1000lye79eiths1za",
   },
   {
     title: "DevOps",
     views: "1425",
     time: "25m ago",
+    id: "cluk5chyp001y14ic095xp3nz",
   },
   {
     title: "Machine Learning",
     views: "1885",
     time: "10m ago",
+    id: "clupklkxg0012ej06fsx0gxui",
   },
   {
     title: "Data Science",
     views: "1555",
     time: "30m ago",
+    id: "clupkmei70015ej06rdjxgpg9",
   },
   {
     title: "Mobile Development",
     views: "1670",
     time: "40m ago",
+    id: "clupknaun0018ej06vtruin2o",
   },
   {
     title: "Web Development",
     views: "1950",
     time: "5m ago",
+    id: "clupkrst2001bej06xmpjlbs2",
   },
   {
     title: "UI/UX Design",
     views: "1450",
     time: "35m ago",
+    id: "clupksg88001eej06cd7eci6d",
   },
 ];
 
 const firstRow = roadmaps.slice(0, roadmaps.length / 2);
 const secondRow = roadmaps.slice(roadmaps.length / 2);
 
-const ReviewCard = ({
-  title,
-  views,
-  time,
-}: {
-  title: string;
-  views: string;
-  time: string;
-}) => {
+const ReviewCard = ({ title, views, time, id }: Roadmap) => {
   return (
-    <figure
-      className={cn(
-        "relative w-48 sm:w-64 cursor-pointer overflow-hidden rounded border-2 border-[#000000a6] p-2 shadow-[6px_6px_0px_1px_#000000a6] flex flex-col justify-between h-20",
-      )}
-    >
-      <p className="font-semibold">{title}</p>
-      <div className="flex justify-between text-xs text-slate-500">
-        <div className="flex gap-1 items-center">
-          <Eye size={14} />
-          {views}
+    <Link href={`/roadmap/${id}`} prefetch={false}>
+      <figure
+        className={cn(
+          "relative w-48 sm:w-64 cursor-pointer overflow-hidden rounded border-2 border-[#000000a6] p-2 shadow-[6px_6px_0px_1px_#000000a6] flex flex-col justify-between h-20"
+        )}
+      >
+        <p className="font-semibold">{title}</p>
+        <div className="flex justify-between text-xs text-slate-500">
+          <div className="flex gap-1 items-center">
+            <Eye size={14} />
+            {views}
+          </div>
+          <span>{time}</span>
         </div>
-        <span>{time}</span>
-      </div>
-    </figure>
+      </figure>
+    </Link>
   );
 };
 

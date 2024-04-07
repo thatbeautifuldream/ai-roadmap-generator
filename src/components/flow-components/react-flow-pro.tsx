@@ -78,7 +78,7 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
     );
 
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
-      backgroundColor: "#ffffff",
+      backgroundColor: "transparent",
       width: DIAGRAM_IMAGE_WIDTH,
       height: DIAGRAM_IMAGE_HEIGHT,
       style: {
@@ -135,11 +135,11 @@ function ReactFlowPro({ animationDuration = 200, h }: ProProps) {
           <Download className="font-bold" />
         </ControlButton>
       </Controls>
-      <Panel position="bottom-right">
+      {/* <Panel position="bottom-right">
         <span className="font-semibold text-gray-400">
-          AI Roadmap Generator [BETA v0.1]
+          AI Roadmap Generator
         </span>
-      </Panel>
+      </Panel> */}
     </ReactFlow>
   );
 }

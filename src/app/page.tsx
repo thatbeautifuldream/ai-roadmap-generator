@@ -14,12 +14,12 @@ import {
 import Link from "next/link";
 
 function RoadmapHero() {
-  const trendyRoadmaps = [
-    "Backend",
-    "Frontend",
-    "Fullstack",
-    "Machine Learning",
-  ];
+  const trendyRoadmaps = {
+    Backend: "cluijunp1000lye79eiths1za",
+    Frontend: "cluik00",
+    Fullstack: " ",
+    "Machine Learning": "",
+  };
 
   return (
     <div className="flex flex-grow flex-col items-center px-8 py-14 sm:px-6 overflow-hidden">
@@ -68,15 +68,16 @@ function RoadmapHero() {
         </div>
         <div className="flex flex-row flex-wrap items-center justify-center gap-2">
           {/* TODO : Incorporate popular subjects from the database */}
-          {trendyRoadmaps.map((trendyTopic) => (
-            <button
-              key={trendyTopic}
+          {Object.entries(trendyRoadmaps).map(([name, id]) => (
+            <Link
+              key={id}
+              href={`/roadmap/${id}`}
               type="button"
               className="flex bg-white items-center gap-1.5 rounded-full border px-2 py-0.5 text-sm transition-colors hover:border-black hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {trendyTopic}
+              {name}
               <ArrowUpRight size={16} />
-            </button>
+            </Link>
           ))}
         </div>
       </div>
