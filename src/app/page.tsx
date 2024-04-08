@@ -13,18 +13,31 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import RoadmapFooter from "@/components/landing/roadmap-footer";
+import Image from "next/image";
 
 function RoadmapHero() {
   const trendyRoadmaps = {
     Backend: "cluijunp1000lye79eiths1za",
     Frontend: "cluik00o6001lye79osk1301z",
-    Fullstack: "",
+    "Web 3": "cluik0y12001oye79i3mq6s0q",
     "Machine Learning": "clupklkxg0012ej06fsx0gxui",
   };
 
   return (
     <div className="flex flex-grow flex-col items-center px-8 py-14 sm:px-6 overflow-hidden">
       <div className="flex flex-col gap-0 text-center sm:gap-1 sm:mt-6 md:mt-8 lg:mt-12">
+        <Link
+          href="https://peerlist.io/milind/project/ai-roadmap-generator"
+          target="_blank"
+        >
+          <Image
+            src="./images/launch-badge.svg"
+            alt="Launch Badge"
+            className="mx-auto w-[150px] h-[100px] md:w-[200px] md:h-[150px]"
+            width={200}
+            height={200}
+          />
+        </Link>
         <h1 className="relative text-4xl font-bold sm:text-3xl">
           <span className="hidden sm:inline">
             Curate Learning Roadmaps with AI
@@ -68,7 +81,6 @@ function RoadmapHero() {
           </Link>
         </div>
         <div className="flex flex-row flex-wrap items-center justify-center gap-2">
-          {/* TODO : Incorporate popular subjects from the database */}
           {Object.entries(trendyRoadmaps).map(([name, id]) => (
             <Link
               key={id}
@@ -90,6 +102,7 @@ function RoadmapHero() {
           </button>
         </p>
       </div>
+
       <div className="overflow-hidden max-w-screen-xl mx-auto h-64">
         <div className="overflow-x-hidden">
           <MarqueeDemo />

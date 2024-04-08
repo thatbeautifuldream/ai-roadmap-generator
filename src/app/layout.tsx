@@ -3,6 +3,7 @@ import Providers from "@/app/providers";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
+import Banner from "@/components/marketing/banner";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={nunito.className}>
         <Providers>
+          <Banner />
           <AppBar />
           {children}
         </Providers>
