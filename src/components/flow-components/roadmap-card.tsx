@@ -66,7 +66,7 @@ function RoadmapCard({
         <Link href={`/roadmap/${slug}`} className="flex-grow">
           <div className="flex flex-col">
             <div className="flex items-center justify-between px-2.5 py-2.5">
-              <h2 className="flex-grow text-base font-medium leading-tight">
+              <h2 className="flex-grow text-base font-medium leading-tight truncate w-[20ch]">
                 {title}
               </h2>
             </div>

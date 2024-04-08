@@ -17,14 +17,14 @@ import Image from "next/image";
 
 function RoadmapHero() {
   const trendyRoadmaps = {
-    Backend: "cluijunp1000lye79eiths1za",
+    Backend: "cluqobxvs003shc0agvoh0f50",
     Frontend: "cluik00o6001lye79osk1301z",
     "Web 3": "cluik0y12001oye79i3mq6s0q",
     "Machine Learning": "clupklkxg0012ej06fsx0gxui",
   };
 
   return (
-    <div className="flex flex-grow flex-col items-center px-8 py-14 sm:px-6 overflow-hidden">
+    <div className="flex flex-grow flex-col items-center px-8 py-3 sm:px-5 overflow-hidden">
       <div className="flex flex-col gap-0 text-center sm:gap-1 sm:mt-6 md:mt-8 lg:mt-12">
         <Link
           href="https://peerlist.io/milind/project/ai-roadmap-generator"
@@ -33,9 +33,9 @@ function RoadmapHero() {
           <Image
             src="./images/launch-badge.svg"
             alt="Launch Badge"
-            className="mx-auto w-[150px] h-[100px] md:w-[200px] md:h-[150px]"
+            className="mx-auto mb-4"
             width={200}
-            height={200}
+            height={150}
           />
         </Link>
         <h1 className="relative text-4xl font-bold sm:text-3xl">

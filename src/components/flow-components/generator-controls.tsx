@@ -248,10 +248,10 @@ export const GeneratorControls = (props: Props) => {
             <Link
               href={`/roadmap`}
               className={buttonVariants({
-                variant: "link",
+                variant: "outline",
               })}
             >
-              ← Back to Generator
+              Back
             </Link>
           </div>
         )}

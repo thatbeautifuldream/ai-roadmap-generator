@@ -52,6 +52,10 @@
 @layer base {
   * {
     @apply border-border;
+    -ms-overflow-style: none;
+  }
+  ::-webkit-scrollbar {
+    display: none;
   }
   body {
     @apply bg-background text-foreground;
@@ -84,4 +88,3 @@
   background-color: #ff0072;
   color: white;
 }*/
-
