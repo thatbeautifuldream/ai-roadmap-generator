@@ -20,7 +20,7 @@ export default function Banner() {
           </svg>
           Help us win{" "}
           <span className="font-semibold">
-            WEEK 15 • 2024 <span aria-hidden="true">&rarr;</span>
+            WEEK 15<span aria-hidden="true">&rarr;</span>
           </span>
         </Link>
       </p>
