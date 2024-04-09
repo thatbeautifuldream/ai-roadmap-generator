@@ -11,6 +11,7 @@ model User {
   id            String         @id @unique
   name          String
   email         String
+  imageUrl      String?
   credits       Int            @default(5)
   roadmaps      Roadmap[]
   savedRoadmaps SavedRoadmap[]

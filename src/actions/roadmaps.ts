@@ -124,6 +124,13 @@ export const getPublicRoadmaps = async () => {
     where: {
       visibility: Visibility.PUBLIC,
     },
+    include: {
+      author: {
+        select: {
+          imageUrl: true,
+        },
+      },
+    },
     orderBy: {
       createdAt: "desc",
     },

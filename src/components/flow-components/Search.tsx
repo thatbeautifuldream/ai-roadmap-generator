@@ -60,8 +60,8 @@ const Search = () => {
               roadmaps?.filter((roadmap) =>
                 roadmap.title
                   .toLowerCase()
-                  .includes(e.target.value.toLowerCase())
-              )
+                  .includes(e.target.value.toLowerCase()),
+              ),
             );
           }}
         />
@@ -80,6 +80,7 @@ const Search = () => {
               timeAgo={timeFromNow(roadmap?.createdAt?.toString())}
               slug={roadmap.id}
               savedRoadmapId={roadmap.id}
+              imageUrl={roadmap.author.imageUrl!}
             />
           ))}
         </div>
