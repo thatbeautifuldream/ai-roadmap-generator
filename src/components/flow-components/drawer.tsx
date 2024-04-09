@@ -41,7 +41,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
         drawerDetails: state.drawerDetails,
         modelApiKey: state.modelApiKey,
         model: state.model,
-      }))
+      })),
     );
 
   const nodeName = `${drawerDetails?.query}_${drawerDetails?.parent}_${drawerDetails?.child}`;
@@ -53,7 +53,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
       try {
         const existingDetails = await findSavedNodeDetails(
           roadmapId!,
-          nodeName
+          nodeName,
         );
 
         if (existingDetails) {
@@ -70,13 +70,24 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           const { detailsData, videoIds, booksData } =
             await fetchDataFromAPIs();
 
-          await saveNodeDetails(
-            roadmapId!,
-            nodeName,
-            JSON.stringify(detailsData),
-            JSON.stringify(booksData),
-            videoIds
-          );
+          const shouldSaveNodeDetails =
+            roadmapId &&
+            nodeName &&
+            videoIds &&
+            videoIds.length > 0 &&
+            JSON.stringify(detailsData) !== "null" &&
+            detailsData;
+
+          if (shouldSaveNodeDetails) {
+            await saveNodeDetails(
+              roadmapId,
+              nodeName,
+              JSON.stringify(detailsData),
+              JSON.stringify(booksData),
+              videoIds,
+            );
+          }
+
           setDrawerData({
             detailsData,
             videoIds: videoIds as string[],
@@ -109,7 +120,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
   const fetchDataFromAPIs = async () => {
     const detailsData = await fetchDetailsData();
     const videoIds = await searchYoutube(
-      `${drawerDetails?.query} ${drawerDetails?.parent} ${drawerDetails?.child}`
+      `${drawerDetails?.query} ${drawerDetails?.parent} ${drawerDetails?.child}`,
     );
     const booksData = await fetchBooksData();
 
@@ -124,7 +135,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
           query: drawerDetails?.query,
           child: drawerDetails?.child,
           parent: drawerDetails?.parent,
-        }
+        },
       );
       return response.data.text;
     } catch (error) {
@@ -236,7 +247,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
                         <li key={id} className="text-sm text-slate-600">
                           {point ?? ""}
                         </li>
-                      )
+                      ),
                     )}
                   </ul>
                 </div>
@@ -275,7 +286,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
                             )}
                           </div>
                         </a>
-                      )
+                      ),
                     )}
                 </div>
               </div>

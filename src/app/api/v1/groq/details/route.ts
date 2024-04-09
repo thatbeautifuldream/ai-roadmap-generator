@@ -9,7 +9,7 @@ export const POST = async (req: NextRequest) => {
     if (!roadmapId) {
       return NextResponse.json(
         { status: false, message: "Please send required params." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -17,7 +17,6 @@ export const POST = async (req: NextRequest) => {
       apiKey: apiKey || process.env.GROQ_API_KEY,
       baseURL: "https://api.groq.com/openai/v1",
     });
-    console.log(process.env.GROQ_API_KEY);
 
     const body = await req.json();
     const query = body.query;
@@ -27,7 +26,7 @@ export const POST = async (req: NextRequest) => {
     if (!query || !child || !parent) {
       return NextResponse.json(
         { status: false, message: "Please send required params." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -58,7 +57,7 @@ export const POST = async (req: NextRequest) => {
             status: false,
             message: "Error parsing roadmap data.",
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -70,14 +69,14 @@ export const POST = async (req: NextRequest) => {
           status: false,
           message: "Error parsing roadmap data.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (e) {
     console.log(e);
     return NextResponse.json(
       { status: false, message: "Something went wrong." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 };
