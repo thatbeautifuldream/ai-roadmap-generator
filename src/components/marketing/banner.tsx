@@ -1,11 +1,12 @@
 "use client";
-
 import Link from "next/link";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useHasMounted } from "@/hooks/use-has-mounted";
 
 function PeerlistBanner() {
+  const hasMounted = useHasMounted();
   const [isHidden, setIsHidden] = useState(false);
 
   useEffect(() => {
@@ -18,7 +19,7 @@ function PeerlistBanner() {
     localStorage.setItem("banner_is_hidden", "true");
   };
 
-  if (isHidden) {
+  if (!hasMounted || isHidden) {
     return null;
   }
 
