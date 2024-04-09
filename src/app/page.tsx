@@ -15,11 +15,9 @@ import {
 import Link from "next/link";
 import RoadmapFooter from "@/components/landing/roadmap-footer";
 import Image from "next/image";
-import { toast } from "sonner";
 
 async function UserAvatars() {
   const users = await clerkClient.users.getUserList();
-  console.log({ users });
   return (
     <>
       <div className="isolate flex -space-x-2 overflow-hidden">
@@ -80,7 +78,7 @@ function RoadmapHero() {
             href="/roadmap"
             className={cn(
               buttonVariants(),
-              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50",
             )}
           >
             <span className="flex items-center gap-x-2 text-base">
@@ -92,7 +90,7 @@ function RoadmapHero() {
             href="/explore"
             className={cn(
               buttonVariants({}),
-              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50",
             )}
           >
             <span className="flex items-center gap-x-2 text-base">
@@ -134,7 +132,7 @@ function RoadmapHero() {
       <DotPattern
         className={cn(
           "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
-          "-z-10"
+          "-z-10",
         )}
       />
     </div>

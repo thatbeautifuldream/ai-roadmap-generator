@@ -3,8 +3,25 @@
 import Link from "next/link";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 function PeerlistBanner() {
+  const [isHidden, setIsHidden] = useState(false);
+
+  useEffect(() => {
+    const value = localStorage.getItem("banner_is_hidden");
+    setIsHidden(value === "true");
+  }, []);
+
+  const handleDismiss = () => {
+    setIsHidden(true);
+    localStorage.setItem("banner_is_hidden", "true");
+  };
+
+  if (isHidden) {
+    return null;
+  }
+
   return (
     <div className="flex items-center gap-x-6 bg-green-600 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
       <p className="text-sm leading-6 text-white">
@@ -29,10 +46,11 @@ function PeerlistBanner() {
       <div className="flex flex-1 justify-end">
         <button
           type="button"
+          onClick={handleDismiss}
           className="-m-3 p-3 focus-visible:outline-offset-[-4px]"
         >
           <span className="sr-only">Dismiss</span>
-          <XMarkIcon className="h-5 w-5 text-white hidden" aria-hidden="true" />
+          <XMarkIcon className="h-5 w-5 text-white" aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -41,8 +59,10 @@ function PeerlistBanner() {
 
 export default function Banner() {
   const pathname = usePathname();
+
   if (pathname !== "/") {
     return null;
   }
+
   return <PeerlistBanner />;
 }

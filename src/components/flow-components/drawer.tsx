@@ -57,8 +57,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
         );
 
         if (existingDetails) {
-          const { roadmapId, nodeName, youtubeVideoIds, details, books } =
-            existingDetails;
+          const { youtubeVideoIds, details, books } = existingDetails;
 
           setDrawerData({
             detailsData: JSON.parse(details),
