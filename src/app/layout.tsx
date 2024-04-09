@@ -1,9 +1,9 @@
 import AppBar from "@/app/appbar";
 import Providers from "@/app/providers";
+import Banner from "@/components/marketing/banner";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
-import Banner from "@/components/marketing/banner";
 
 const nunito = Nunito({ subsets: ["latin"] });
 

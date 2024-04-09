@@ -1,8 +1,10 @@
 "use client";
+
 import Link from "next/link";
 import { XMarkIcon } from "@heroicons/react/20/solid";
+import { usePathname } from "next/navigation";
 
-export default function Banner() {
+function PeerlistBanner() {
   return (
     <div className="flex items-center gap-x-6 bg-green-600 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
       <p className="text-sm leading-6 text-white">
@@ -35,4 +37,12 @@ export default function Banner() {
       </div>
     </div>
   );
+}
+
+export default function Banner() {
+  const pathname = usePathname();
+  if (pathname !== "/") {
+    return null;
+  }
+  return <PeerlistBanner />;
 }
