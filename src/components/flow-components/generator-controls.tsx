@@ -21,7 +21,6 @@ import { Visibility } from "@prisma/client";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { Save, Trash } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -67,7 +66,7 @@ export const GeneratorControls = (props: Props) => {
       modelApiKey: state.modelApiKey,
       setModelApiKey: state.setModelApiKey,
       setQuery: state.setQuery,
-    }))
+    })),
   );
 
   useEffect(() => {
@@ -96,7 +95,7 @@ export const GeneratorControls = (props: Props) => {
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
-      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>,
   ) => {
     e.preventDefault();
     try {
@@ -154,7 +153,7 @@ export const GeneratorControls = (props: Props) => {
               duration: 4000,
             });
           },
-        }
+        },
       );
     } catch (e: any) {
       console.error("api error", e);
@@ -245,14 +244,9 @@ export const GeneratorControls = (props: Props) => {
 
         {dbRoadmapId && (
           <div className="flex-1 -ml-6 md:ml-0">
-            <Link
-              href={`/roadmap`}
-              className={buttonVariants({
-                variant: "outline",
-              })}
-            >
+            <Button variant="outline" onClick={() => router.back()}>
               Back
-            </Link>
+            </Button>
           </div>
         )}
 

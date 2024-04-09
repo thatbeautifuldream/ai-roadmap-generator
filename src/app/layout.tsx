@@ -3,6 +3,7 @@ import Providers from "@/app/providers";
 import Banner from "@/components/marketing/banner";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 const nunito = Nunito({ subsets: ["latin"] });
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={nunito.className}>
         <Providers>
           <Banner />
+          <NextTopLoader showSpinner={false} color="black" />
           <AppBar />
           {children}
         </Providers>
