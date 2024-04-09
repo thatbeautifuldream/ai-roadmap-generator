@@ -49,7 +49,8 @@ export async function POST(req: Request) {
   }
 
   // Get user details.
-  const { id, first_name, last_name, email_addresses } = evt.data as UserJSON;
+  const { id, first_name, last_name, email_addresses, image_url } =
+    evt.data as UserJSON;
 
   // Create a new user in the database.
   try {
@@ -58,6 +59,7 @@ export async function POST(req: Request) {
         id,
         name: `${first_name} ${last_name}`,
         email: email_addresses[0].email_address,
+        imageUrl: image_url,
       },
     });
 
