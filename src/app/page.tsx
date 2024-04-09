@@ -1,4 +1,5 @@
 import DotPattern from "@/components/magicui/dot-pattern";
+import { clerkClient } from "@clerk/nextjs";
 import { buttonVariants } from "@/components/ui/button";
 import MarqueeDemo from "@/components/ui/marque-wrapper";
 import RoadmapPricing from "@/components/landing/roadmap-pricing";
@@ -15,6 +16,25 @@ import Link from "next/link";
 import RoadmapFooter from "@/components/landing/roadmap-footer";
 import Image from "next/image";
 import { toast } from "sonner";
+
+async function UserAvatars() {
+  const users = await clerkClient.users.getUserList();
+  console.log({ users });
+  return (
+    <>
+      <div className="isolate flex -space-x-2 overflow-hidden">
+        {users.map((user) => (
+          <img
+            key={user.id}
+            className="relative z-30 inline-block h-8 w-8 rounded-full ring-2 ring-white"
+            src={user.imageUrl}
+            alt=""
+          />
+        ))}
+      </div>
+    </>
+  );
+}
 
 function RoadmapHero() {
   const trendyRoadmaps = {
@@ -94,6 +114,7 @@ function RoadmapHero() {
             </Link>
           ))}
         </div>
+        <UserAvatars />
       </div>
       <div className="flex flex-col items-center gap-4 mb-6">
         <p className="flex items-center text-sm">
