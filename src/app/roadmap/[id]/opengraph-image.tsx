@@ -1,3 +1,4 @@
+import { Cache } from "@/lib/cache";
 import { db } from "@/lib/db";
 import { ImageResponse } from "next/og";
 
@@ -12,14 +13,19 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image({ params }: { params: { id: string } }) {
-  const roadmap = await db.roadmap.findUnique({
-    where: {
-      id: params.id,
-    },
-    select: {
-      title: true,
-    },
-  });
+  let roadmap = Cache.getInstance().get("roadmap", [params.id]);
+
+  if (!roadmap) {
+    roadmap = await db.roadmap.findUnique({
+      where: {
+        id: params.id,
+      },
+      select: {
+        title: true,
+      },
+    });
+    Cache.getInstance().set("roadmap", [params.id], roadmap);
+  }
 
   return new ImageResponse(
     (
