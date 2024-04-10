@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { QRCodeSVG } from "qrcode.react";
 import { toast } from "sonner";
 import { usePathname } from "next/navigation";
 
@@ -52,7 +53,7 @@ export function PresetShare() {
           <Button
             onClick={() => {
               navigator.clipboard.writeText(
-                (document.getElementById("link") as HTMLInputElement)?.value,
+                (document.getElementById("link") as HTMLInputElement)?.value
               );
               toast.success("Copied", {
                 description: "Link copied to clipboard successfully.",
@@ -67,6 +68,11 @@ export function PresetShare() {
             <CopyIcon className="h-4 w-4" />
           </Button>
         </div>
+        <QRCodeSVG
+          className="w-full"
+          size={300}
+          value={(document.getElementById("link") as HTMLInputElement)?.value}
+        />
       </DialogContent>
     </Dialog>
   );
