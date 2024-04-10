@@ -1,6 +1,13 @@
 import Link from "next/link";
 
-const people = [
+type People = {
+  name: string;
+  role: string;
+  imageUrl: string;
+  link: string;
+};
+
+const people: People[] = [
   {
     name: "Vishwajeet Raj",
     role: "Software Engineer",
@@ -33,11 +40,22 @@ const people = [
 
 export default function RoadmapTeam() {
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="py-24 sm:py-32">
       <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
         <div className="max-w-2xl">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Meet team RoadmapAI
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl ">
+            Meet{" "}
+            <span class="relative inline-block">
+              <span
+                class="bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent blur-md"
+                aria-hidden="true"
+              >
+                Makkhan Labs
+              </span>
+              <span class="absolute inset-0 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
+                Makkhan Labs
+              </span>
+            </span>
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             It started from Vishwajeet generating roadmap tree from the AI and
@@ -65,13 +83,13 @@ export default function RoadmapTeam() {
                     {person.role}
                   </p>
                   <div className="mt-2">
-                    <Link
-                      href={person?.link || "#"}
+                    <a
+                      href={person?.link}
                       target="_blank"
                       className="text-md font-semibold text-green-600 hover:underline"
                     >
                       Peerlist Profile &rarr;
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>

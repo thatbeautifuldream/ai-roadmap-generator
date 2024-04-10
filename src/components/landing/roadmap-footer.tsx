@@ -53,7 +53,7 @@ const navigation = [
 
 export default function RoadmapFooter() {
   return (
-    <footer className="bg-white">
+    <footer>
       <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
         <div className="flex justify-center space-x-6 md:order-2">
           {navigation.slice(0, 2).map((item) => (
