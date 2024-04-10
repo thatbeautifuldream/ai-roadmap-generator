@@ -67,6 +67,7 @@ export default function RoadmapTeam() {
                   <div className="mt-2">
                     <Link
                       href={person?.link || "#"}
+                      target="_blank"
                       className="text-md font-semibold text-green-600 hover:underline"
                     >
                       Peerlist Profile &rarr;
