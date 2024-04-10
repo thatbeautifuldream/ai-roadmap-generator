@@ -45,14 +45,14 @@ export default function RoadmapTeam() {
         <div className="max-w-2xl">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl ">
             Meet{" "}
-            <span class="relative inline-block">
+            <span className="relative inline-block">
               <span
-                class="bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent blur-md"
+                className="bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent blur-md"
                 aria-hidden="true"
               >
                 Makkhan Labs
               </span>
-              <span class="absolute inset-0 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
+              <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
                 Makkhan Labs
               </span>
             </span>
