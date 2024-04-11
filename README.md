@@ -1,6 +1,6 @@
 # Roadmap AI
 
-![roadmapai](https://github.com/vishwajeetraj11/ai-roadmap-generator/assets/28717686/0fa80335-6635-4905-8a1b-cdcea8926d94)
+![image](https://github.com/thatbeautifuldream/ai-roadmap-generator/assets/28717686/0c4309fc-b881-4cf2-9a45-e6d4d413572a)
 
 ## Introduction
 
