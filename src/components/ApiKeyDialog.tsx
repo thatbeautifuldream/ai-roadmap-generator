@@ -1,3 +1,4 @@
+"use client";
 import ModelSelect from "@/components/flow-components/model-select";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,8 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem } from "@/components/ui/select";
-import { useUIStore } from "@/lib/stores";
-import { toProperCase } from "@/lib/utils";
+import { UModel, useUIStore } from "@/lib/stores";
 import { KeyRound } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -22,12 +22,12 @@ interface Props {
 
 const ApiKeyDialog = ({ disabled }: Props) => {
   const [apiKey, setApiKey] = useState("");
-  const [apiKeyType, setApiKeyType] = useState("groq");
 
-  const { setModelApiKey, model } = useUIStore((state) => ({
+  const { setModelApiKey, model, setModel } = useUIStore((state) => ({
     setModelApiKey: state.setModelApiKey,
     modelApiKey: state.modelApiKey,
     model: state.model,
+    setModel: state.setModel,
   }));
 
   useEffect(() => {
@@ -67,16 +67,16 @@ const ApiKeyDialog = ({ disabled }: Props) => {
     } else if (model === "cohere") {
       setApiKey(cohereKey || "");
     }
-  }, [model]); // This useEffect runs when the model changes
+  }, [model]);
 
   const setApiKeys = () => {
-    if (apiKeyType === "groq") {
+    if (model === "groq") {
       localStorage.setItem("GROQ_API_KEY", apiKey);
-    } else if (apiKeyType === "openai") {
+    } else if (model === "openai") {
       localStorage.setItem("OPENAI_API_KEY", apiKey);
-    } else if (apiKeyType === "gemini") {
+    } else if (model === "gemini") {
       localStorage.setItem("GEMINI_API_KEY", apiKey);
-    } else if (apiKeyType === "cohere") {
+    } else if (model === "cohere") {
       localStorage.setItem("COHERE_API_KEY", apiKey);
     }
   };
@@ -118,8 +118,8 @@ const ApiKeyDialog = ({ disabled }: Props) => {
             <div className="flex flex-row gap-x-2">
               <ModelSelect disabled={false} />
               <Select
-                value={apiKeyType}
-                onValueChange={(value) => setApiKeyType(value)}
+                value={model}
+                onValueChange={(value) => setModel(value as UModel)}
               >
                 <SelectContent>
                   <SelectItem value="groq">Groq</SelectItem>
