@@ -8,8 +8,8 @@ export default authMiddleware({
   publicRoutes: [
     "/",
     "/api/health",
-    "/api/v1/groq/roadmap",
     "/api/webhook(.*)",
+    "/api/og/(.*)",
     "/explore",
     "/roadmap/(.*)",
   ],
