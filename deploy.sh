@@ -1,24 +1,28 @@
 #!/bin/bash
 
-# Pull latest changes from the Git repository
-echo "Pulling latest changes from the Git repository..."
+# Git pull
 git pull
 
-# Build the Docker image
-echo "Building Docker image..."
-docker compose build
+# Build and push Docker image
+docker compose build && docker compose push
 
-# Push the Docker image to the registry
-echo "Pushing Docker image to registry..."
-docker compose push
+# Check the exit status of the previous command
+if [ $? -eq 0 ]; then
+    echo "Docker build and push successful"
+else
+    echo "Docker build and push failed"
+    exit 1
+fi
 
-# Stop and remove the existing Docker container
-echo "Stopping and removing existing Docker container..."
+# Stop, remove, and start the container
 docker stop ai-roadmap-generator
 docker rm ai-roadmap-generator
+docker compose up -d
 
-# Deploy the Docker container
-echo "Deploying Docker container..."
-docker compose up -d deploy
-
-echo "Deployment completed successfully!"
+# Check the exit status of the previous command
+if [ $? -eq 0 ]; then
+    echo "Deployment successful"
+else
+    echo "Deployment failed"
+    exit 1
+fi
