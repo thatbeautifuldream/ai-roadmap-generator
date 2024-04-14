@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
+import Script from "next/script";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -32,6 +33,11 @@ export default function RootLayout({
           {children}
         </Providers>
       </body>
+      <Script
+        defer
+        src="https://umami.milind.live/script.js"
+        data-website-id="3e7a1da9-474c-42a5-ab72-c93bb09a1892"
+      />
     </html>
   );
 }
