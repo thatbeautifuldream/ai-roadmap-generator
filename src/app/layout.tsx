@@ -36,7 +36,7 @@ export default function RootLayout({
       <Script
         defer
         src="https://umami.milind.live/script.js"
-        data-website-id="3e7a1da9-474c-42a5-ab72-c93bb09a1892"
+        data-website-id="b901de55-a0bb-412b-b262-b0ed139f7f58"
       />
     </html>
   );
