@@ -60,6 +60,7 @@
     "@types/md5": "^2.3.5",
     "@vercel/og": "^0.6.2",
     "axios": "^1.6.7",
+    "canvas-confetti": "^1.9.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
@@ -97,6 +98,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.6.4",
     "@types/d3-hierarchy": "^3.1.6",
     "@types/d3-scale": "^4.0.8",
     "@types/node": "^20",

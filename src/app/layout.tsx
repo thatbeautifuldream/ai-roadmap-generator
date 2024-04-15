@@ -27,8 +27,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={nunito.className}>
         <Providers>
-          <Banner />
           <NextTopLoader showSpinner={false} color="black" />
+          <Banner />
           <AppBar />
           {children}
         </Providers>
