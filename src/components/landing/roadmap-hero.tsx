@@ -41,8 +41,8 @@ export default function RoadmapHero() {
           target="_blank"
         >
           <Image
-            src="./images/launch-badge.svg"
-            alt="Launch Badge"
+            src="./images/winner.svg"
+            alt="Winner of the Peerlist Spotlight Award"
             className="mx-auto mb-4"
             width={200}
             height={150}
