@@ -138,6 +138,40 @@ export const getPublicRoadmaps = async () => {
   return roadmaps;
 };
 
+export const getPaginatedPublicRoadmaps = async (page = 1, pageSize = 18) => {
+  const [total, roadmaps] = await Promise.all([
+    db.roadmap.count({
+      where: {
+        visibility: Visibility.PUBLIC,
+      },
+    }),
+    db.roadmap.findMany({
+      where: {
+        visibility: Visibility.PUBLIC,
+      },
+      include: {
+        author: {
+          select: {
+            imageUrl: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+  ]);
+
+  return {
+    page,
+    pageSize,
+    total,
+    roadmaps,
+  };
+};
+
 export const checkIfTitleInUsersRoadmaps = async (title: string) => {
   const normalizedTitle = title.trim().toLowerCase().replace(/\s+/g, "");
 
