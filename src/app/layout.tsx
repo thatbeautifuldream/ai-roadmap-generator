@@ -24,20 +24,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Providers>
-      <html lang="en">
-        <body className={nunito.className}>
+    <html lang="en">
+      <body className={nunito.className}>
+        <Providers>
           <NextTopLoader showSpinner={false} color="black" />
           <Banner />
           <AppBar />
           {children}
-        </body>
-        <Script
-          defer
-          src="https://umami.milind.live/script.js"
-          data-website-id="b901de55-a0bb-412b-b262-b0ed139f7f58"
-        />
-      </html>
-    </Providers>
+        </Providers>
+      </body>
+      <Script
+        defer
+        src="https://umami.milind.live/script.js"
+        data-website-id="b901de55-a0bb-412b-b262-b0ed139f7f58"
+      />
+    </html>
   );
 }

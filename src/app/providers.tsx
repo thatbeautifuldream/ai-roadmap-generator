@@ -7,9 +7,7 @@ import { Toaster } from "sonner";
 import { ClerkProvider } from "@clerk/nextjs";
 import { neobrutalism } from "@clerk/themes";
 import { ViewTransitions } from "next-view-transitions";
-import dynamic from "next/dynamic";
 
-const CrispWithNoSSR = dynamic(() => import("@/lib/crisp"));
 const queryClient = new QueryClient();
 
 function Providers({ children }: { children: React.ReactNode }) {
@@ -24,7 +22,6 @@ function Providers({ children }: { children: React.ReactNode }) {
         }}
       >
         <ViewTransitions>
-          <CrispWithNoSSR />
           <Toaster position="bottom-right" richColors duration={4000} />
           {children}
           <GoogleAnalytics gaId="G-KGPW43F35B" />
