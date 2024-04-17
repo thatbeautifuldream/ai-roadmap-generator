@@ -8,21 +8,17 @@ docker build . -t ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest && dock
 
 # Check the exit status of the previous command
 if [ $? -eq 0 ]; then
-    echo "Docker build and push successful"
-else
-    echo "Docker build and push failed"
-    exit 1
-fi
+  echo "Docker build and push successful"
 
-# Stop, remove, and start the container
-docker stop ai-roadmap-generator
-docker rm ai-roadmap-generator
-docker run -d -p 3000:3000 --name ai-roadmap-generator ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
-
-# Check the exit status of the previous command
-if [ $? -eq 0 ]; then
-    echo "Deployment successful"
+  # Call the webhook
+  webhook_response=$(curl -X POST -s https://manage.milind.live/api/stacks/webhooks/3737fba9-0cd2-47f0-83a2-37770cb910a4)
+  webhook_status=$?
+  if [ $webhook_status -eq 0 ]; then
+    echo "Webhook call successful"
+  else
+    echo "Webhook call failed: $webhook_response"
+  fi
 else
-    echo "Deployment failed"
-    exit 1
+  echo "Docker build and push failed"
+  exit 1
 fi
