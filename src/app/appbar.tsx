@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { SignInButton, UserButton, currentUser } from "@clerk/nextjs";
 import { Coins } from "lucide-react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { Icons } from "./shared/Icons";
 
 import { getUserCredits } from "@/actions/users";

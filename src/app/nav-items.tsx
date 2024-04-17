@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
 
 export default function NavItems() {
@@ -17,7 +17,7 @@ export default function NavItems() {
             "text-gray-500 hidden sm:flex",
             pathname === "/explore"
               ? "underline text-black underline-offset-4"
-              : ""
+              : "",
           )}
         >
           Explore
@@ -32,7 +32,7 @@ export default function NavItems() {
             "text-gray-500 hidden sm:flex",
             pathname === "/dashboard"
               ? "underline text-black underline-offset-4"
-              : ""
+              : "",
           )}
         >
           Dashboard
@@ -47,7 +47,7 @@ export default function NavItems() {
             "text-gray-500 hidden sm:flex",
             pathname === "/roadmap"
               ? "underline text-black underline-offset-4"
-              : ""
+              : "",
           )}
         >
           Roadmap

@@ -6,6 +6,7 @@ import { clerkClient } from "@clerk/nextjs";
 import { ArrowUpRight, Telescope, Wand } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Link as LinkWithViewTransitions } from "next-view-transitions";
 
 async function UserAvatars() {
   const users = await clerkClient.users.getUserList();
@@ -65,30 +66,30 @@ export default function RoadmapHero() {
       </div>
       <div className="my-3 mt-6 flex w-full max-w-[600px] flex-col items-center gap-3 sm:my-5">
         <div className="flex flex-row gap-x-2">
-          <Link
+          <LinkWithViewTransitions
             href="/roadmap"
             className={cn(
               buttonVariants(),
-              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50",
             )}
           >
             <span className="flex items-center gap-x-2 text-base">
               <Wand size={20} />
               Generate
             </span>
-          </Link>
-          <Link
+          </LinkWithViewTransitions>
+          <LinkWithViewTransitions
             href="/explore"
             className={cn(
               buttonVariants({}),
-              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50",
             )}
           >
             <span className="flex items-center gap-x-2 text-base">
               <Telescope size={20} />
               Explore
             </span>
-          </Link>
+          </LinkWithViewTransitions>
         </div>
         <div className="flex flex-row flex-wrap items-center justify-center gap-2">
           {Object.entries(trendyRoadmaps).map(([name, id]) => (
@@ -123,7 +124,7 @@ export default function RoadmapHero() {
       <DotPattern
         className={cn(
           "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
-          "-z-10"
+          "-z-10",
         )}
       />
     </div>
