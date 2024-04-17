@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Git pull
+# Pull latest changes from GitHub
 git pull
 
-# Build and push Docker image
-docker compose build && docker compose push
+# Build and push Docker image to container registry
+docker build . -t ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest && docker push ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 
 # Check the exit status of the previous command
 if [ $? -eq 0 ]; then
@@ -17,7 +17,7 @@ fi
 # Stop, remove, and start the container
 docker stop ai-roadmap-generator
 docker rm ai-roadmap-generator
-docker compose up -d
+docker run -d -p 3000:3000 --name ai-roadmap-generator ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 
 # Check the exit status of the previous command
 if [ $? -eq 0 ]; then

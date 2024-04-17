@@ -1,14 +1,8 @@
+version: "3"
 services:
-  app:
-    build:
-      context: .
+  ai-roadmap-generator:
     image: ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
-
-  push:
-    image: ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
-
-  deploy:
     container_name: ai-roadmap-generator
-    image: ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
     ports:
-      - "3000:3000"
+      - 3000:3000
+    restart: always
