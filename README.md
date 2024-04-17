@@ -1,6 +1,6 @@
 # Roadmap AI
 
-![image](https://github.com/thatbeautifuldream/ai-roadmap-generator/assets/28717686/0c4309fc-b881-4cf2-9a45-e6d4d413572a)
+![opengraph-image](https://github.com/thatbeautifuldream/ai-roadmap-generator/assets/28717686/3c9c981f-364e-4de0-9016-b8d9cf147b43)
 
 ## Introduction
 
