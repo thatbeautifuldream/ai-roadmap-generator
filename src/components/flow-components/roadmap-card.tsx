@@ -61,10 +61,7 @@ function RoadmapCard({
 
   return (
     <>
-      <div
-        className="flex rounded-md border transition-colors hover:bg-gray-100 group relative cursor-pointer"
-        style={{ maxHeight: "150px", overflow: "hidden" }}
-      >
+      <div className="flex rounded-md border transition-colors hover:bg-gray-100 group relative cursor-pointer hover:shadow-md">
         <Link href={`/roadmap/${slug}`} className="flex-grow">
           <div className="flex flex-col">
             <div className="flex items-center justify-between px-2.5 py-2.5">
@@ -105,7 +102,7 @@ function RoadmapCard({
           <div className="group relative m-2 rounded-sm flex justify-end items-start">
             <span className="inline-block h-4 w-4 overflow-hidden rounded-full bg-gray-100">
               {imageUrl ? (
-                <img className="h-full w-full text-gray-300" src={imageUrl} />
+                <img className="h-full w-full" src={imageUrl} />
               ) : (
                 <svg
                   className="h-full w-full text-gray-300"
