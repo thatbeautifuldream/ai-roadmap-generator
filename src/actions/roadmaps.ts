@@ -127,6 +127,7 @@ export const getPublicRoadmaps = async () => {
     include: {
       author: {
         select: {
+          name: true,
           imageUrl: true,
         },
       },

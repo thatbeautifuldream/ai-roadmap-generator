@@ -75,6 +75,7 @@ const Search = () => {
           {filteredRoadmaps?.map((roadmap) => (
             <RoadmapCard
               key={roadmap.id}
+              author={roadmap.author.name}
               title={roadmap.title}
               views={roadmap.views.toString()}
               timeAgo={timeFromNow(roadmap?.createdAt?.toString())}
