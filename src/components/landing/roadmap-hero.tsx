@@ -13,13 +13,10 @@ import { getTotalUsers } from "@/actions/users";
 
 async function RoadmapTicker() {
   const totalRoadmapCount = await getTotalRoadmapsGenerated();
-  const totalUserCount = await getTotalUsers();
   return (
     <div className="text-xl font-semibold tabular-nums tracking-tight">
       <div className="flex flex-row gap-2">
-        <TextTicker value={totalUserCount} /> users have generated{" "}
-        <TextTicker value={totalRoadmapCount} />
-        roadmaps!
+        <TextTicker value={totalRoadmapCount} /> Roadmaps Generated!
       </div>
     </div>
   );
