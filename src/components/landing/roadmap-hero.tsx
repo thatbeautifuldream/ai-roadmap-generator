@@ -1,5 +1,4 @@
 import DotPattern from "@/components/ui/dot-pattern";
-import { buttonVariants } from "@/components/ui/button";
 import MarqueeDemo from "@/components/ui/marque-wrapper";
 import { cn } from "@/lib/utils";
 import { clerkClient } from "@clerk/nextjs";
@@ -8,6 +7,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { Link as LinkWithViewTransitions } from "next-view-transitions";
 import NeubrutalismButton from "@/components/ui/neobrutalism-button";
+import TextTicker from "@/components/marketing/text-ticker";
+import { getTotalRoadmapsGenerated } from "@/actions/roadmaps";
+
+async function ToalUserTicker() {
+  const totalRoadmapCount = await getTotalRoadmapsGenerated();
+  return (
+    <div className="text-2xl font-semibold tabular-nums tracking-tight">
+      <div className="flex flex-row gap-2">
+        <TextTicker value={totalRoadmapCount} />
+        Roadmaps Generated!
+      </div>
+    </div>
+  );
+}
 
 async function UserAvatars() {
   const users = await clerkClient.users.getUserList();
@@ -98,6 +111,7 @@ export default function RoadmapHero() {
           ))}
         </div>
         <UserAvatars />
+        <ToalUserTicker />
       </div>
       <div className="flex flex-col items-center gap-4 mb-6">
         <p className="flex items-center text-sm">

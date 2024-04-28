@@ -389,3 +389,8 @@ export const findSavedNodeDetails = async (
     throw new Error("Failed to find saved node details");
   }
 };
+
+export const getTotalRoadmapsGenerated = async () => {
+  const totalRoadmaps = await db.roadmap.count();
+  return totalRoadmaps;
+};

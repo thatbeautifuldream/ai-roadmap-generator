@@ -1,4 +1,3 @@
-// import Confetti from "@/components/landing/roadmap-confetti";
 import RoadmapHero from "@/components/landing/roadmap-hero";
 import RoadmapFeatures from "@/components/landing/roadmap-features";
 import RoadmapTestimonial from "@/components/testimonials/roadmap-testimonial";
@@ -9,7 +8,6 @@ import RoadmapFooter from "@/components/landing/roadmap-footer";
 export default function Home() {
   return (
     <>
-      {/* <Confetti /> */}
       <RoadmapHero />
       <RoadmapFeatures />
       <RoadmapTestimonial />
