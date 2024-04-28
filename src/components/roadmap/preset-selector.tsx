@@ -20,7 +20,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { Preset } from "../data/presets";
+import { Preset } from "./data/presets";
 
 interface PresetSelectorProps extends PopoverProps {
   presets: Preset[];
@@ -64,7 +64,7 @@ export function PresetSelector({ presets, ...props }: PresetSelectorProps) {
                     "ml-auto h-4 w-4",
                     selectedPreset?.id === preset.id
                       ? "opacity-100"
-                      : "opacity-0"
+                      : "opacity-0",
                   )}
                 />
               </CommandItem>

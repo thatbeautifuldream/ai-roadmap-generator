@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useShallow } from "zustand/react/shallow";
-import { GeneratorControls } from "../../components/flow-components/generator-controls";
+import { GeneratorControls } from "@/components/flow-components/generator-controls";
 import { useUIStore } from "../../lib/stores/useUI";
 import Instructions from "@/components/flow-components/Instructions";
 

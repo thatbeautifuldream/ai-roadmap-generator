@@ -3,7 +3,7 @@ import { Loader2 } from "lucide-react";
 import { ReactFlowProvider } from "reactflow";
 import "reactflow/dist/base.css";
 import "reactflow/dist/style.css";
-import { Node } from "../../app/shared/types/common";
+import { Node } from "@/lib/shared/types/common";
 import { Drawer } from "./drawer";
 import ReactFlowPro from "./react-flow-pro";
 

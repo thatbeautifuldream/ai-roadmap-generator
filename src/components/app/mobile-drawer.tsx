@@ -7,7 +7,7 @@ import {
 import { Menu } from "lucide-react";
 import Link from "next/link";
 
-const MobileNavbarDrawer = () => {
+const MobileDrawer = () => {
   return (
     <Sheet>
       <SheetTrigger>
@@ -31,4 +31,4 @@ const MobileNavbarDrawer = () => {
   );
 };
 
-export default MobileNavbarDrawer;
+export default MobileDrawer;

@@ -1,5 +1,5 @@
 "use server";
-import { Node } from "@/app/shared/types/common";
+import { Node } from "@/lib/shared/types/common";
 import { db } from "@/lib/db";
 import { Visibility } from "@prisma/client";
 import { currentUser } from "@clerk/nextjs";

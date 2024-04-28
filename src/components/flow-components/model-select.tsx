@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/select";
 import { useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
-import { availableModels, modelKeys } from "../../app/shared/constants";
+import { availableModels, modelKeys } from "@/lib/shared/constants";
 import { UModel, useUIStore } from "@/lib/stores";
 
 interface ModalSelectProps {
@@ -19,7 +19,7 @@ const ModelSelect = ({ disabled }: ModalSelectProps) => {
     useShallow((state) => ({
       setModel: state.setModel,
       model: state.model,
-    }))
+    })),
   );
   const onValueChange = (val: string) => setModel(val as UModel);
 

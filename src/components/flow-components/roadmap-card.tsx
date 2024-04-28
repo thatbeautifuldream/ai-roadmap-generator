@@ -1,6 +1,6 @@
 "use client";
 import { deleteRoadmapById, deleteSavedRoadmapById } from "@/actions/roadmaps";
-import { EyeIcon } from "@/app/shared/Icons";
+import { EyeIcon } from "@/components/app/icons";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";

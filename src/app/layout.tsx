@@ -1,5 +1,5 @@
-import AppBar from "@/app/appbar";
-import Providers from "@/app/providers";
+import AppBar from "@/components/app/appbar";
+import Providers from "@/components/app/providers";
 import Banner from "@/components/marketing/banner";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   title: "AI Roadmap Generator",
   description: "Generate your roadmaps with AI.",
   openGraph: {
+    url: "https://www.airoadmapgenerator.com/",
+
     images: "/opengraph-image.png",
   },
 };

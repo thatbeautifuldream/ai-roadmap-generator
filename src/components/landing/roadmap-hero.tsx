@@ -7,6 +7,7 @@ import { ArrowUpRight, Telescope, Wand } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Link as LinkWithViewTransitions } from "next-view-transitions";
+import NeubrutalismButton from "@/components/ui/neobrutalism-button";
 
 async function UserAvatars() {
   const users = await clerkClient.users.getUserList();
@@ -66,29 +67,21 @@ export default function RoadmapHero() {
       </div>
       <div className="my-3 mt-6 flex w-full max-w-[600px] flex-col items-center gap-3 sm:my-5">
         <div className="flex flex-row gap-x-2">
-          <LinkWithViewTransitions
-            href="/roadmap"
-            className={cn(
-              buttonVariants(),
-              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50",
-            )}
-          >
-            <span className="flex items-center gap-x-2 text-base">
-              <Wand size={20} />
-              Generate
-            </span>
+          <LinkWithViewTransitions href="/roadmap">
+            <NeubrutalismButton>
+              <span className="flex items-center gap-x-2 text-base">
+                <Wand size={20} />
+                Generate
+              </span>
+            </NeubrutalismButton>
           </LinkWithViewTransitions>
-          <LinkWithViewTransitions
-            href="/explore"
-            className={cn(
-              buttonVariants({}),
-              "flex min-w-[154px] flex-shrink-0 items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50",
-            )}
-          >
-            <span className="flex items-center gap-x-2 text-base">
-              <Telescope size={20} />
-              Explore
-            </span>
+          <LinkWithViewTransitions href="/explore">
+            <NeubrutalismButton>
+              <span className="flex items-center gap-x-2 text-base">
+                <Telescope size={20} />
+                Explore
+              </span>
+            </NeubrutalismButton>
           </LinkWithViewTransitions>
         </div>
         <div className="flex flex-row flex-wrap items-center justify-center gap-2">

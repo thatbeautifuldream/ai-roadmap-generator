@@ -1,4 +1,4 @@
-import { Node } from "@/app/shared/types/common";
+import { Node } from "@/lib/shared/types/common";
 import { clsx, type ClassValue } from "clsx";
 import LZString from "lz-string";
 import { twMerge } from "tailwind-merge";
@@ -100,7 +100,7 @@ export function createTree(data: {
             name: moduleName,
             moduleDescription,
             link,
-          })
+          }),
         ),
       })),
     },

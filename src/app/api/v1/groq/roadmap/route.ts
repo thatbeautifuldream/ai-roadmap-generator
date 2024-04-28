@@ -4,7 +4,7 @@ import {
   saveRoadmap,
 } from "@/actions/roadmaps";
 import { decrementCreditsByUserId } from "@/actions/users";
-import { Node } from "@/app/shared/types/common";
+import { Node } from "@/lib/shared/types/common";
 import { db } from "@/lib/db";
 import { JSONType } from "@/lib/types";
 import { capitalize } from "@/lib/utils";

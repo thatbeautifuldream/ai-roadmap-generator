@@ -8,7 +8,7 @@ import {
 } from "@/actions/roadmaps";
 import { userHasCredits } from "@/actions/users";
 import ApiKeyDialog from "@/components/ApiKeyDialog";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -25,12 +25,16 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useShallow } from "zustand/react/shallow";
-import { PresetShare } from "../../app/roadmap/components/preset-share";
+import { PresetShare } from "@/components/roadmap/preset-share";
 import { useUIStore } from "@/lib/stores";
-import GenerateButton from "./generate-button";
-import ModelSelect from "./model-select";
-import { Tooltip } from "@radix-ui/react-tooltip";
-import { TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import GenerateButton from "@/components/flow-components/generate-button";
+import ModelSelect from "@/components/flow-components/model-select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   title?: string;

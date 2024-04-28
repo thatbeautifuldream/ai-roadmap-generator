@@ -4,7 +4,7 @@ import {
   saveRoadmap,
 } from "@/actions/roadmaps";
 import { decrementCreditsByUserId } from "@/actions/users";
-import { Node } from "@/app/shared/types/common";
+import { Node } from "@/lib/shared/types/common";
 import { db } from "@/lib/db";
 import { SanitiseJSON, capitalize } from "@/lib/utils";
 import { ChatCohere } from "@langchain/cohere";
@@ -21,7 +21,7 @@ export const POST = async (req: NextRequest) => {
     if (!query) {
       return NextResponse.json(
         { status: false, message: "Please send query." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -32,7 +32,7 @@ export const POST = async (req: NextRequest) => {
           message:
             "API key not found. Please provide your api key to generate a roadmap.",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -49,7 +49,7 @@ export const POST = async (req: NextRequest) => {
 
     const alreadyExists = roadmaps.find(
       (roadmap) =>
-        roadmap.title.replace(/\s+/g, "").toLowerCase() === normalizedQuery
+        roadmap.title.replace(/\s+/g, "").toLowerCase() === normalizedQuery,
     );
 
     if (alreadyExists) {
@@ -57,7 +57,7 @@ export const POST = async (req: NextRequest) => {
       const tree = JSON.parse(alreadyExists.content);
       return NextResponse.json(
         { status: true, tree, roadmapId: alreadyExists.id },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -94,7 +94,7 @@ export const POST = async (req: NextRequest) => {
                 status: true,
                 message: "No credits remaining ",
               },
-              { status: 400 }
+              { status: 400 },
             );
           }
         } catch (e) {
@@ -105,7 +105,7 @@ export const POST = async (req: NextRequest) => {
               status: false,
               message: "An error occurred while managing credits.",
             },
-            { status: 500 }
+            { status: 500 },
           );
         }
       }
@@ -117,7 +117,7 @@ export const POST = async (req: NextRequest) => {
             message:
               "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -129,7 +129,7 @@ export const POST = async (req: NextRequest) => {
             children: json?.chapters?.[sectionName]?.map(
               (moduleName: string) => ({
                 name: moduleName,
-              })
+              }),
             ),
           })),
         },
@@ -137,7 +137,7 @@ export const POST = async (req: NextRequest) => {
       const { data } = await saveRoadmap(query, tree);
       return NextResponse.json(
         { status: true, text: json, tree: tree, roadmapId: data?.id },
-        { status: 200 }
+        { status: 200 },
       );
     } catch (e) {
       console.log(e);
@@ -147,7 +147,7 @@ export const POST = async (req: NextRequest) => {
           message:
             "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (e) {
@@ -158,7 +158,7 @@ export const POST = async (req: NextRequest) => {
         message:
           "An unexpected error occurred while generating roadmap. Please try again or use a different keyword/query.",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 };

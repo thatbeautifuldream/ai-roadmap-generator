@@ -27,7 +27,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { Model, ModelType } from "../data/models";
+import { Model, ModelType } from "./data/models";
 
 interface ModelSelectorProps extends PopoverProps {
   types: readonly ModelType[];
@@ -155,7 +155,7 @@ function ModelItem({ model, isSelected, onSelect, onPeek }: ModelItemProps) {
       <CheckIcon
         className={cn(
           "ml-auto h-4 w-4",
-          isSelected ? "opacity-100" : "opacity-0"
+          isSelected ? "opacity-100" : "opacity-0",
         )}
       />
     </CommandItem>
