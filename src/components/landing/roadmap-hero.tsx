@@ -9,14 +9,17 @@ import { Link as LinkWithViewTransitions } from "next-view-transitions";
 import NeubrutalismButton from "@/components/ui/neobrutalism-button";
 import TextTicker from "@/components/marketing/text-ticker";
 import { getTotalRoadmapsGenerated } from "@/actions/roadmaps";
+import { getTotalUsers } from "@/actions/users";
 
-async function ToalUserTicker() {
+async function RoadmapTicker() {
   const totalRoadmapCount = await getTotalRoadmapsGenerated();
+  const totalUserCount = await getTotalUsers();
   return (
-    <div className="text-2xl font-semibold tabular-nums tracking-tight">
+    <div className="text-xl font-semibold tabular-nums tracking-tight">
       <div className="flex flex-row gap-2">
+        <TextTicker value={totalUserCount} /> users have generated{" "}
         <TextTicker value={totalRoadmapCount} />
-        Roadmaps Generated!
+        roadmaps!
       </div>
     </div>
   );
@@ -111,7 +114,7 @@ export default function RoadmapHero() {
           ))}
         </div>
         <UserAvatars />
-        <ToalUserTicker />
+        <RoadmapTicker />
       </div>
       <div className="flex flex-col items-center gap-4 mb-6">
         <p className="flex items-center text-sm">

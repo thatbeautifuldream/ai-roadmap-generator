@@ -70,3 +70,8 @@ export const getUserCredits = async () => {
 
   return user?.credits;
 };
+
+export const getTotalUsers = async () => {
+  const totalUsers = await db.user.count();
+  return totalUsers;
+};
