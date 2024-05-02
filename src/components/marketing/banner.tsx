@@ -31,7 +31,7 @@ function PeerlistBanner() {
           target="_blank"
         >
           <strong className="font-bold">
-            WE WON THE PEERLIST SPOTLIGHT AWARD 🏆 THANK YOU!
+            WE ARE THE PRODUCT OF THE MONTH 🏆 THANK YOU!
           </strong>
         </Link>
       </p>

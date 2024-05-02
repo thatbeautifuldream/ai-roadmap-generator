@@ -54,12 +54,20 @@ export default function RoadmapHero() {
         <Link
           href="https://peerlist.io/milind/project/ai-roadmap-generator"
           target="_blank"
+          className="flex"
         >
           <Image
-            src="./images/winner.svg"
-            alt="Winner of the Peerlist Spotlight Award"
+            src="./images/badge-week.svg"
+            alt="Project of the Week"
             className="mx-auto mb-4"
-            width={200}
+            width={150}
+            height={150}
+          />
+          <Image
+            src="./images/badge-month.svg"
+            alt="Project of the Month"
+            className="mx-auto mb-4"
+            width={150}
             height={150}
           />
         </Link>
