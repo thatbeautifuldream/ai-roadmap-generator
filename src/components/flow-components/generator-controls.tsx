@@ -156,7 +156,22 @@ export const GeneratorControls = (props: Props) => {
           "offensive" ||
           "inappropriate" ||
           "obscene" ||
-          "explicit",
+          "explicit" ||
+          "unethical" ||
+          "unlawful" ||
+          "corruption" ||
+          "bribery" ||
+          "discrimination" ||
+          "harassment" ||
+          "bullying" ||
+          "intimidation" ||
+          "stalking" ||
+          "privacy" ||
+          "confidentiality" ||
+          "security" ||
+          "fraudulent" ||
+          "deceptive" ||
+          "misleading",
         )
       ) {
         return toast.error("Error", {
