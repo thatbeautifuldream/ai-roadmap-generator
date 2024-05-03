@@ -5,16 +5,18 @@ import RoadmapPricing from "@/components/landing/roadmap-pricing";
 import RoadmapTeam from "@/components/landing/roadmap-team";
 import RoadmapFooter from "@/components/landing/roadmap-footer";
 import RoadmapStats from "@/components/landing/roadmap-stats";
-import Confetti from "@/components/landing/roadmap-confetti";
+// import Confetti from "@/components/landing/roadmap-confetti";
+import CTA from "@/components/marketing/cta";
 
 export default function Home() {
   return (
     <>
-      <Confetti />
+      {/* <Confetti /> */}
       <RoadmapHero />
       <RoadmapFeatures />
       <RoadmapStats />
       <RoadmapTestimonial />
+      <CTA />
       <RoadmapPricing />
       <RoadmapTeam />
       <RoadmapFooter />

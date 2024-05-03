@@ -9,7 +9,6 @@ import { Link as LinkWithViewTransitions } from "next-view-transitions";
 import NeubrutalismButton from "@/components/ui/neobrutalism-button";
 import TextTicker from "@/components/marketing/text-ticker";
 import { getTotalRoadmapsGenerated } from "@/actions/roadmaps";
-import { getTotalUsers } from "@/actions/users";
 
 async function RoadmapTicker() {
   const totalRoadmapCount = await getTotalRoadmapsGenerated();
