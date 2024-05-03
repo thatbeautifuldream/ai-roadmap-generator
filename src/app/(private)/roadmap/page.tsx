@@ -1,5 +1,5 @@
 "use client";
-import Roadmap from "@/app/roadmap";
+import Roadmap from "@/components/roadmap/roadmap";
 import { Suspense } from "react";
 import { ReactFlowProvider } from "reactflow";
 
