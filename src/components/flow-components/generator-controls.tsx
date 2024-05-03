@@ -120,8 +120,6 @@ export const GeneratorControls = (props: Props) => {
         },
       );
 
-      console.log("res from profanity api", data.isProfanity);
-
       if (
         data.isProfanity === true ||
         query.includes(
@@ -144,8 +142,6 @@ export const GeneratorControls = (props: Props) => {
           "illegal" ||
           "porn" ||
           "pornography" ||
-          "hack" ||
-          "hacking" ||
           "virus" ||
           "malware" ||
           "spam" ||
@@ -166,9 +162,6 @@ export const GeneratorControls = (props: Props) => {
           "bullying" ||
           "intimidation" ||
           "stalking" ||
-          "privacy" ||
-          "confidentiality" ||
-          "security" ||
           "fraudulent" ||
           "deceptive" ||
           "misleading",
