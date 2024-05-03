@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Visibility } from "@prisma/client";
 import { UseMutateFunction } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { Save, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -107,6 +107,61 @@ export const GeneratorControls = (props: Props) => {
       if (!query) {
         return toast.error("Please enter a query", {
           description: "We need a query to generate a roadmap.",
+          duration: 4000,
+        });
+      }
+
+      const profanityQuery = `Checking for profanity in ${query}`;
+
+      const { data, status } = await axios.post(
+        "https://vector.profanity.dev",
+        {
+          message: profanityQuery,
+        },
+      );
+
+      console.log("res from profanity api", data.isProfanity);
+
+      if (
+        data.isProfanity === true ||
+        query.includes(
+          "bomb" ||
+          "bombing" ||
+          "explosive" ||
+          "terrorist" ||
+          "terrorism" ||
+          "assassin" ||
+          "assassination" ||
+          "hate" ||
+          "hatecrime" ||
+          "murder" ||
+          "killing" ||
+          "violence" ||
+          "weapon" ||
+          "gun" ||
+          "firearm" ||
+          "drug" ||
+          "illegal" ||
+          "porn" ||
+          "pornography" ||
+          "hack" ||
+          "hacking" ||
+          "virus" ||
+          "malware" ||
+          "spam" ||
+          "scam" ||
+          "fraud" ||
+          "cheat" ||
+          "threat" ||
+          "offensive" ||
+          "inappropriate" ||
+          "obscene" ||
+          "explicit",
+        )
+      ) {
+        return toast.error("Error", {
+          description:
+            "Cannot generate a roadmap for this query. Please try again with a different query.",
           duration: 4000,
         });
       }
