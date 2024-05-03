@@ -18,16 +18,29 @@ export default function CTA() {
                 We use GitHub to manage our project. You can browse the code and
                 report issues there.
               </p>
-              <Link
-                href="https://github.com/thatbeautifuldream/ai-roadmap-generator"
-                target="_blank"
-              >
-                <NeubrutalismButton>
-                  <span className="flex items-center gap-x-2 text-base">
-                    Repository
-                  </span>
-                </NeubrutalismButton>
-              </Link>
+              <div className="flex gap-x-3">
+                <Link href="/github">
+                  <NeubrutalismButton>
+                    <span className="flex items-center gap-x-2 text-base">
+                      Repository
+                    </span>
+                  </NeubrutalismButton>
+                </Link>
+                <Link href="/discord" target="_blank">
+                  <NeubrutalismButton>
+                    <span className="flex items-center gap-x-2 text-base">
+                      Community
+                    </span>
+                  </NeubrutalismButton>
+                </Link>
+                <Link href="/twitter" target="_blank">
+                  <NeubrutalismButton>
+                    <span className="flex items-center gap-x-2 text-base">
+                      Updates
+                    </span>
+                  </NeubrutalismButton>
+                </Link>
+              </div>
             </div>
           </div>
           <div className="aspect-h-3 aspect-w-5 -mt-6 md:aspect-h-1 md:aspect-w-2">
