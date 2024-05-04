@@ -16,5 +16,3 @@ export async function knowledgeGraph(searchQuery: string) {
   }
   return data.items[0].id.videoId;
 }
-
-// https://kgsearch.googleapis.com/v1/entities:search?query=typescript&key=AIzaSyBtmiANpppD-zvae7byyoIxMPMnDr-zr8Y&limit=1&indent=True
