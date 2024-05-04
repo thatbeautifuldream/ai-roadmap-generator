@@ -34,3 +34,7 @@ docker push ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 docker pull ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 docker run -d -p 3000:3000 --name ai-roadmap-generator ghcr.io/thatbeautifuldream/ai-roadmap-generator:latest
 ```
+
+<a href="https://github.com/thatbeautifuldream/ai-roadmap-generator/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=thatbeautifuldream/ai-roadmap-generator" />
+</a>
