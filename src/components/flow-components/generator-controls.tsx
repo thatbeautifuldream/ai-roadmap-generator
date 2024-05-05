@@ -120,53 +120,55 @@ export const GeneratorControls = (props: Props) => {
         },
       );
 
-      if (
-        data.isProfanity === true ||
-        query.includes(
-          "bomb" ||
-          "bombing" ||
-          "explosive" ||
-          "terrorist" ||
-          "terrorism" ||
-          "assassin" ||
-          "assassination" ||
-          "hate" ||
-          "hatecrime" ||
-          "murder" ||
-          "killing" ||
-          "violence" ||
-          "weapon" ||
-          "gun" ||
-          "firearm" ||
-          "drug" ||
-          "illegal" ||
-          "porn" ||
-          "pornography" ||
-          "virus" ||
-          "malware" ||
-          "spam" ||
-          "scam" ||
-          "fraud" ||
-          "cheat" ||
-          "threat" ||
-          "offensive" ||
-          "inappropriate" ||
-          "obscene" ||
-          "explicit" ||
-          "unethical" ||
-          "unlawful" ||
-          "corruption" ||
-          "bribery" ||
-          "discrimination" ||
-          "harassment" ||
-          "bullying" ||
-          "intimidation" ||
-          "stalking" ||
-          "fraudulent" ||
-          "deceptive" ||
-          "misleading",
-        )
-      ) {
+      const bannedWords: string[] = [
+        "misleadin",
+        "deceptive",
+        "fraudulent",
+        "stalking",
+        "intimidation",
+        "bullying",
+        "harassment",
+        "discrimination",
+        "bribery",
+        "corruption",
+        "unethical",
+        "explicit",
+        "obscene",
+        "inappropriate",
+        "offensive",
+        "threat",
+        "cheat",
+        "fraud",
+        "scam",
+        "spam",
+        "malware",
+        "virus",
+        "pornography",
+        "porn",
+        "illegal",
+        "drug",
+        "firearm",
+        "gun",
+        "weapon",
+        "violence",
+        "killing",
+        "murder",
+        "hatecrime",
+        "hate",
+        "assassination",
+        "assassin",
+        "terrorism",
+        "terrorist",
+        "explosive",
+        "bombing",
+        "bomb",
+      ];
+
+      const containsBannedWord = bannedWords.some((word) =>
+        query.trim().toLowerCase().includes(word),
+      );
+
+      if (data.isProfanity === true || containsBannedWord) {
         return toast.error("Error", {
           description:
             "Cannot generate a roadmap for this query. Please try again with a different query.",
