@@ -13,6 +13,7 @@
     "db:push": "pnpx prisma db push",
     "db:pull": "pnpx prisma db pull",
     "db:seed": "node ./prisma/seed.js",
+    "ngrok": "ngrok http 3000",
     "postinstall": "pnpx prisma generate"
   },
   "dependencies": {

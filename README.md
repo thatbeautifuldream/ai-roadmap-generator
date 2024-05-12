@@ -14,6 +14,15 @@ This project generates learning roadmaps for given search queries. For example, 
 - To build the project, run `pnpm build`.
 - To start the production server, run `pnpm start`.
 
+## Trigger new user creation locally
+
+- To trigger a new user creation locally, we'll need to trigger our webhook server. To do this, we can use the `ngrok` tool. You can install `ngrok` by following the instructions [here](https://ngrok.com/download).
+- You'll need to first create an account on ngrok and add your auth token by running `ngrok config add-authtoken <your_auth_token>`. Now you'll be able to start the `ngrok` server.
+- We'll forward our `:3000` to a public URL. To do this, run `ngrok http 3000`.
+- We have made it easier for you to forward this webhook publicly by running `pnpm ngrok`.
+- After starting the `ngrok` server, make sure to add it in the clerk developement instance un webhook and check it to trigger on new user creation labelled as `User Created`.
+  > Make sure to append `/api/webhook` to the ngrok URL while adding it to the clerk development dashboard.
+
 ## Features
 
 - Multimodel Support .
