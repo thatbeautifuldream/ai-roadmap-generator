@@ -23,6 +23,9 @@ This project generates learning roadmaps for given search queries. For example, 
 - After starting the `ngrok` server, make sure to add it in the clerk developement instance un webhook and check it to trigger on new user creation labelled as `User Created`.
   > Make sure to append `/api/webhook` to the ngrok URL while adding it to the clerk development dashboard.
 
+![chrome_PbajT9kpmW](https://github.com/thatbeautifuldream/ai-roadmap-generator/assets/28717686/ff8d3136-17bb-47db-a850-a1171677aa43)
+
+
 ## Features
 
 - Multimodel Support .
