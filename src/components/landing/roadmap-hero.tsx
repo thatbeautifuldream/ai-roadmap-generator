@@ -22,7 +22,7 @@ async function RoadmapTicker() {
 }
 
 async function UserAvatars() {
-  const users = await clerkClient.users.getUserList();
+  const { data: users, totalCount } = await clerkClient.users.getUserList();
   return (
     <>
       <div className="isolate flex -space-x-2 overflow-hidden">
@@ -138,7 +138,7 @@ export default function RoadmapHero() {
       <DotPattern
         className={cn(
           "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
-          "-z-10",
+          "-z-10"
         )}
       />
     </div>

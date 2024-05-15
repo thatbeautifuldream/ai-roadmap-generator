@@ -2,7 +2,7 @@
 import { Node } from "@/lib/shared/types/common";
 import { db } from "@/lib/db";
 import { Visibility } from "@prisma/client";
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 
 export const getUserId = async () => {
   const userId = (await currentUser())?.id;
@@ -82,7 +82,7 @@ export const incrementRoadmapSearchCount = async (roadmapId: string) => {
 
 export const changeRoadmapVisibility = async (
   roadmapId: string,
-  visibility: Visibility,
+  visibility: Visibility
 ) => {
   await db.roadmap.update({
     where: {
@@ -207,7 +207,7 @@ export const incrementUserCredits = async () => {
 };
 
 export const deleteRoadmapById = async (
-  id: string,
+  id: string
 ): Promise<{ status: string; message?: string }> => {
   const userId = await getUserId();
   const roadmap = await db.roadmap.findUnique({
@@ -237,7 +237,7 @@ export const deleteRoadmapById = async (
 };
 
 export const deleteSavedRoadmapById = async (
-  id: string,
+  id: string
 ): Promise<{ status: string; message?: string }> => {
   const userId = await getUserId();
   const roadmap = await db.savedRoadmap.findUnique({
@@ -341,7 +341,7 @@ export const saveNodeDetails = async (
   nodeName: string,
   content: string,
   books: string,
-  youtubeVideoIds: string[],
+  youtubeVideoIds: string[]
 ) => {
   try {
     const savedDetails = await db.roadmap.update({
@@ -366,7 +366,7 @@ export const saveNodeDetails = async (
 
 export const findSavedNodeDetails = async (
   roadmapId: string,
-  nodeName: string,
+  nodeName: string
 ) => {
   if (!roadmapId || !nodeName) {
     throw new Error("Missing required parameters");

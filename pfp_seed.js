@@ -4,7 +4,7 @@ const { clerkClient } = require("@clerk/nextjs");
 const prisma = new PrismaClient();
 
 async function updateImageUrls() {
-  const dbUsers = await clerkClient.users.getUserList({
+  const { data: dbUsers, totalCount } = await clerkClient.users.getUserList({
     limit: 250,
   });
 
@@ -19,7 +19,9 @@ async function updateImageUrls() {
             imageUrl: dbUser.imageUrl,
           },
         });
-        console.log(`Updated image URL for user ${dbUser.firstName} ${dbUser.lastName}.`);
+        console.log(
+          `Updated image URL for user ${dbUser.firstName} ${dbUser.lastName}.`
+        );
       }
     }
 
