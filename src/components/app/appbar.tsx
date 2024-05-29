@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/tooltip";
 import MobileDrawer from "@/components/app/mobile-drawer";
 import NeobrutalismButton from "@/components/ui/neobrutalism-button";
+import ThreeDButton from "../ui/three-d-button";
 
 async function AppBar() {
   const user = await currentUser();
@@ -25,13 +26,13 @@ async function AppBar() {
         <div className="p-2 flex gap-2 items-center">
           <Link href="/">
             <NeobrutalismButton>
-              <span className="font-semibold text-lg">RoadmapAI</span>
+              <span className="font-bold text-lg">RoadmapAI</span>
             </NeobrutalismButton>
           </Link>
           <div className="ml-auto items-center">
-            <div className={buttonVariants({})}>
+            <NeobrutalismButton>
               <SignInButton />
-            </div>
+            </NeobrutalismButton>
           </div>
         </div>
       </div>
