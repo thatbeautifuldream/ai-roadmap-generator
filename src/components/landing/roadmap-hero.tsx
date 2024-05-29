@@ -9,6 +9,7 @@ import { Link as LinkWithViewTransitions } from "next-view-transitions";
 import NeubrutalismButton from "@/components/ui/neobrutalism-button";
 import TextTicker from "@/components/marketing/text-ticker";
 import { getTotalRoadmapsGenerated } from "@/actions/roadmaps";
+import { RoadmapIconCloud } from "./roadmap-icon-cloud";
 
 async function RoadmapTicker() {
   const totalRoadmapCount = await getTotalRoadmapsGenerated();
@@ -49,27 +50,8 @@ export default function RoadmapHero() {
 
   return (
     <div className="flex flex-grow flex-col items-center px-8 py-3 sm:px-5 overflow-hidden">
-      <div className="flex flex-col gap-0 text-center sm:gap-1 sm:mt-6 md:mt-8 lg:mt-12">
-        <Link
-          href="https://peerlist.io/milind/project/ai-roadmap-generator"
-          target="_blank"
-          className="flex"
-        >
-          <Image
-            src="./images/badge-week.svg"
-            alt="Project of the Week"
-            className="mx-auto mb-4"
-            width={150}
-            height={150}
-          />
-          <Image
-            src="./images/badge-month.svg"
-            alt="Project of the Month"
-            className="mx-auto mb-4"
-            width={150}
-            height={150}
-          />
-        </Link>
+      <div className="flex flex-col gap-0 text-center sm:gap-1 sm:mt-3 md:mt-4 lg:mt-6">
+        <RoadmapIconCloud />
         <h1 className="relative text-4xl font-bold sm:text-3xl">
           <span className="hidden sm:inline">
             Curate Learning Roadmaps with AI
@@ -134,13 +116,6 @@ export default function RoadmapHero() {
           <MarqueeDemo />
         </div>
       </div>
-
-      <DotPattern
-        className={cn(
-          "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
-          "-z-10",
-        )}
-      />
     </div>
   );
 }

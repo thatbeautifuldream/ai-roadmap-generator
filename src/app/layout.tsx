@@ -1,6 +1,5 @@
 import AppBar from "@/components/app/appbar";
 import Providers from "@/components/app/providers";
-import Banner from "@/components/marketing/banner";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
@@ -30,7 +29,6 @@ export default function RootLayout({
       <body className={nunito.className}>
         <Providers>
           <NextTopLoader showSpinner={false} color="black" />
-          <Banner />
           <AppBar />
           {children}
         </Providers>

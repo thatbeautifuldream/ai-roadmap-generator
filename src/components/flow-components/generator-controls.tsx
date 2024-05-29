@@ -6,6 +6,7 @@ import {
   isRoadmapGeneratedByUser,
   saveToUserDashboard,
 } from "@/actions/roadmaps";
+import { bannedWords } from "@/lib/shared/constants";
 import { userHasCredits } from "@/actions/users";
 import ApiKeyDialog from "@/components/ApiKeyDialog";
 import { Button } from "@/components/ui/button";
@@ -119,50 +120,6 @@ export const GeneratorControls = (props: Props) => {
           message: profanityQuery,
         },
       );
-
-      const bannedWords: string[] = [
-        "misleadin",
-        "deceptive",
-        "fraudulent",
-        "stalking",
-        "intimidation",
-        "bullying",
-        "harassment",
-        "discrimination",
-        "bribery",
-        "corruption",
-        "unethical",
-        "explicit",
-        "obscene",
-        "inappropriate",
-        "offensive",
-        "threat",
-        "cheat",
-        "fraud",
-        "scam",
-        "spam",
-        "malware",
-        "virus",
-        "pornography",
-        "porn",
-        "illegal",
-        "drug",
-        "firearm",
-        "gun",
-        "weapon",
-        "violence",
-        "killing",
-        "murder",
-        "hatecrime",
-        "hate",
-        "assassination",
-        "assassin",
-        "terrorism",
-        "terrorist",
-        "explosive",
-        "bombing",
-        "bomb",
-      ];
 
       const containsBannedWord = bannedWords.some((word) =>
         query.trim().toLowerCase().includes(word),
