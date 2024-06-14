@@ -3,12 +3,6 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: "/github",
-        destination:
-          "https://github.com/thatbeautifuldream/ai-roadmap-generator",
-        permanent: true,
-      },
-      {
         source: "/twitter",
         destination: "https://twitter.com/airoadmapgen",
         permanent: true,
