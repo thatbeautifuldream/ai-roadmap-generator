@@ -82,7 +82,7 @@ export const incrementRoadmapSearchCount = async (roadmapId: string) => {
 
 export const changeRoadmapVisibility = async (
   roadmapId: string,
-  visibility: Visibility,
+  visibility: Visibility
 ) => {
   await db.roadmap.update({
     where: {
@@ -139,38 +139,34 @@ export const getPublicRoadmaps = async () => {
   return roadmaps;
 };
 
-export const getPaginatedPublicRoadmaps = async (page = 1, pageSize = 18) => {
-  const [total, roadmaps] = await Promise.all([
-    db.roadmap.count({
-      where: {
-        visibility: Visibility.PUBLIC,
-      },
-    }),
-    db.roadmap.findMany({
-      where: {
-        visibility: Visibility.PUBLIC,
-      },
-      include: {
-        author: {
-          select: {
-            imageUrl: true,
-          },
+type PaginatedPublicRoadmap = {
+  page: number;
+  pageSize: number;
+};
+
+export const getPaginatedPublicRoadmaps = async ({
+  page,
+  pageSize,
+}: PaginatedPublicRoadmap) => {
+  const roadmaps = await db.roadmap.findMany({
+    where: {
+      visibility: Visibility.PUBLIC,
+    },
+    include: {
+      author: {
+        select: {
+          name: true,
+          imageUrl: true,
         },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-    }),
-  ]);
-
-  return {
-    page,
-    pageSize,
-    total,
-    roadmaps,
-  };
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+  });
+  return roadmaps;
 };
 
 export const checkIfTitleInUsersRoadmaps = async (title: string) => {
@@ -207,7 +203,7 @@ export const incrementUserCredits = async () => {
 };
 
 export const deleteRoadmapById = async (
-  id: string,
+  id: string
 ): Promise<{ status: string; message?: string }> => {
   const userId = await getUserId();
   const roadmap = await db.roadmap.findUnique({
@@ -237,7 +233,7 @@ export const deleteRoadmapById = async (
 };
 
 export const deleteSavedRoadmapById = async (
-  id: string,
+  id: string
 ): Promise<{ status: string; message?: string }> => {
   const userId = await getUserId();
   const roadmap = await db.savedRoadmap.findUnique({
@@ -341,7 +337,7 @@ export const saveNodeDetails = async (
   nodeName: string,
   content: string,
   books: string,
-  youtubeVideoIds: string[],
+  youtubeVideoIds: string[]
 ) => {
   try {
     const savedDetails = await db.roadmap.update({
@@ -366,7 +362,7 @@ export const saveNodeDetails = async (
 
 export const findSavedNodeDetails = async (
   roadmapId: string,
-  nodeName: string,
+  nodeName: string
 ) => {
   if (!roadmapId || !nodeName) {
     throw new Error("Missing required parameters");

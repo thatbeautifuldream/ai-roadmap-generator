@@ -1,5 +1,5 @@
 "use client";
-import { getPublicRoadmaps } from "@/actions/roadmaps";
+import { getPaginatedPublicRoadmaps } from "@/actions/roadmaps";
 import { timeFromNow } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
@@ -11,6 +11,7 @@ import { EmptyAlert } from "../alerts/EmptyAlert";
 import { SearchAlert } from "../alerts/SearchAlert";
 import { Input } from "../ui/input";
 import RoadmapCard from "./roadmap-card";
+import { useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
   query: z.string().min(1, { message: "Please enter a query to search" }),
@@ -24,10 +25,17 @@ const Search = () => {
     },
   });
 
+  const searchParams = useSearchParams();
+
+  const page = searchParams.get("page") || "1";
+
   const { data: roadmaps, isLoading } = useQuery({
     queryKey: ["public-roadmaps"],
     queryFn: async () => {
-      const roadmaps = await getPublicRoadmaps();
+      const roadmaps = await getPaginatedPublicRoadmaps({
+        page: parseInt(page),
+        pageSize: 21,
+      });
       return roadmaps;
     },
   });
@@ -60,8 +68,8 @@ const Search = () => {
               roadmaps?.filter((roadmap) =>
                 roadmap.title
                   .toLowerCase()
-                  .includes(e.target.value.toLowerCase()),
-              ),
+                  .includes(e.target.value.toLowerCase())
+              )
             );
           }}
         />
