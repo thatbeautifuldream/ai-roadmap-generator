@@ -166,7 +166,11 @@ export const getPaginatedPublicRoadmaps = async ({
     skip: (page - 1) * pageSize,
     take: pageSize,
   });
-  return roadmaps;
+  const pageCount = Math.ceil(
+    (await db.roadmap.count({ where: { visibility: Visibility.PUBLIC } })) /
+      pageSize
+  );
+  return { roadmaps, pageCount };
 };
 
 export const checkIfTitleInUsersRoadmaps = async (title: string) => {

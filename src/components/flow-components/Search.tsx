@@ -12,6 +12,8 @@ import { SearchAlert } from "../alerts/SearchAlert";
 import { Input } from "../ui/input";
 import RoadmapCard from "./roadmap-card";
 import { useSearchParams } from "next/navigation";
+import { Pagination } from "../ui/pagination";
+import ExplorePagination from "./explore-pagination";
 
 const formSchema = z.object({
   query: z.string().min(1, { message: "Please enter a query to search" }),
@@ -32,7 +34,8 @@ const Search = () => {
   const { data: roadmaps, isLoading } = useQuery({
     queryKey: ["public-roadmaps"],
     queryFn: async () => {
-      const roadmaps = await getPaginatedPublicRoadmaps({
+      // TODO : page count and exceed page count logic
+      const { roadmaps, pageCount } = await getPaginatedPublicRoadmaps({
         page: parseInt(page),
         pageSize: 21,
       });
@@ -79,20 +82,23 @@ const Search = () => {
           <Loader2 className="animate-spin w-8 h-8" />
         </div>
       ) : filteredRoadmaps && filteredRoadmaps?.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 mb-10">
-          {filteredRoadmaps?.map((roadmap) => (
-            <RoadmapCard
-              key={roadmap.id}
-              author={roadmap.author.name}
-              title={roadmap.title}
-              views={roadmap.views.toString()}
-              timeAgo={timeFromNow(roadmap?.createdAt?.toString())}
-              slug={roadmap.id}
-              savedRoadmapId={roadmap.id}
-              imageUrl={roadmap.author.imageUrl!}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 mb-10">
+            {filteredRoadmaps?.map((roadmap) => (
+              <RoadmapCard
+                key={roadmap.id}
+                author={roadmap.author.name}
+                title={roadmap.title}
+                views={roadmap.views.toString()}
+                timeAgo={timeFromNow(roadmap?.createdAt?.toString())}
+                slug={roadmap.id}
+                savedRoadmapId={roadmap.id}
+                imageUrl={roadmap.author.imageUrl!}
+              />
+            ))}
+          </div>
+          <ExplorePagination />
+        </>
       ) : (
         <div className="mt-6">
           <SearchAlert />
