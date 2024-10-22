@@ -16,7 +16,10 @@ export default function TextTicker({
     damping: 100,
     stiffness: 100,
   });
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    margin: "-100px",
+  });
 
   useEffect(() => {
     if (isInView) {
@@ -29,11 +32,11 @@ export default function TextTicker({
       springValue.on("change", (latest) => {
         if (ref.current) {
           ref.current.textContent = Intl.NumberFormat("en-US").format(
-            latest.toFixed(0),
+            latest.toFixed(0)
           );
         }
       }),
-    [springValue],
+    [springValue]
   );
 
   return <span ref={ref} />;

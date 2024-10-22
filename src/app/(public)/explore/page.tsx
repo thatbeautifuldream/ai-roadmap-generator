@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Search from "@/components/flow-components/Search";
 
 export default function Explore() {
@@ -8,7 +9,9 @@ export default function Explore() {
           <h2 className="text-center text-lg font-semibold leading-8 text-gray-900">
             Explore Roadmaps
           </h2>
-          <Search />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Search />
+          </Suspense>
         </div>
       </div>
     </div>

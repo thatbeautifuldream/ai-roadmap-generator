@@ -11,7 +11,7 @@ import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest, res: Response) => {
+export const POST = async (req: NextRequest) => {
   try {
     const apiKey = req.nextUrl.searchParams.get("apiKey");
 

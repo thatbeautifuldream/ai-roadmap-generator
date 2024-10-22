@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import { type NextConfig } from "next";
+
+const config: NextConfig = {
   async redirects() {
     return [
       {
@@ -14,10 +15,6 @@ const nextConfig = {
       },
     ];
   },
-  experimental: {
-    typedRoutes: true,
-  },
-  output: "standalone",
 };
 
-export default nextConfig;
+export default config;

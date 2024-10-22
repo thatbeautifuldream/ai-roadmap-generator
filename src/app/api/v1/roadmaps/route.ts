@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
+export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
     const searchString = body.query;
@@ -16,13 +16,13 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
     return NextResponse.json(
       { status: true, data: searchResults },
-      { status: 200 },
+      { status: 200 }
     );
   } catch (e) {
     console.log(e);
     return NextResponse.json(
       { status: false, message: "bad reqe" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 };
