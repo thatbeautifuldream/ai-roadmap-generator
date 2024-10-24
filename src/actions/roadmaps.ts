@@ -1,8 +1,9 @@
 "use server";
+
 import { Node } from "@/lib/shared/types/common";
 import { db } from "@/lib/db";
 import { Visibility } from "@prisma/client";
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 
 export const getUserId = async () => {
   const userId = (await currentUser())?.id;

@@ -1,15 +1,13 @@
-import DotPattern from "@/components/ui/dot-pattern";
+/* eslint-disable @next/next/no-img-element */
+import { getTotalRoadmapsGenerated } from "@/actions/roadmaps";
+import TextTicker from "@/components/marketing/text-ticker";
 import MarqueeDemo from "@/components/ui/marque-wrapper";
-import { cn } from "@/lib/utils";
-import { clerkClient } from "@clerk/nextjs";
+import NeubrutalismButton from "@/components/ui/neobrutalism-button";
+import { clerkClient } from "@clerk/nextjs/server";
 import { ArrowUpRight, Telescope, Wand } from "lucide-react";
+import { Link as LinkWithViewTransitions } from "next-view-transitions";
 import Image from "next/image";
 import Link from "next/link";
-import { Link as LinkWithViewTransitions } from "next-view-transitions";
-import NeubrutalismButton from "@/components/ui/neobrutalism-button";
-import TextTicker from "@/components/marketing/text-ticker";
-import { getTotalRoadmapsGenerated } from "@/actions/roadmaps";
-import { RoadmapIconCloud } from "./roadmap-icon-cloud";
 
 async function RoadmapTicker() {
   const totalRoadmapCount = await getTotalRoadmapsGenerated();
@@ -23,11 +21,11 @@ async function RoadmapTicker() {
 }
 
 async function UserAvatars() {
-  const users = await clerkClient.users.getUserList();
+  const users = await (await clerkClient()).users.getUserList();
   return (
     <>
       <div className="isolate flex -space-x-2 overflow-hidden">
-        {users.map((user) => (
+        {users.data.map((user) => (
           <img
             key={user.id}
             className="relative z-30 inline-block h-8 w-8 rounded-full ring-2 ring-white"
