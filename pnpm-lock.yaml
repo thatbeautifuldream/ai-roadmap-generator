@@ -19,8 +19,8 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2(next@15.0.0(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020))(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020)
       '@clerk/themes':
-        specifier: ^1.7.10
-        version: 1.7.10(react@19.0.0-rc-65a56d0e-20241020)
+        specifier: ^2.1.39
+        version: 2.1.39
       '@google/generative-ai':
         specifier: ^0.3.0
         version: 0.3.0
@@ -369,15 +369,9 @@ packages:
       react-dom:
         optional: true
 
-  '@clerk/themes@1.7.10':
-    resolution: {integrity: sha512-XJS/mA9tcClzYmbVhVUrsyikI6VnxEq180r2dTiHtQNb0UwsvJ0xdW9rMmcrKfmGe28c/CMIuu+jOt28iGOq8g==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      react: '>=16'
-
-  '@clerk/types@3.62.1':
-    resolution: {integrity: sha512-RmQhWB7EMZw2nE24viQG79VyEUULZYWndYew5oXiZx06DyvysMNCorDyEGRmgBbprv7bnbYhHdOtKmx8Wj0jug==}
-    engines: {node: '>=14'}
+  '@clerk/themes@2.1.39':
+    resolution: {integrity: sha512-sa5uO3/77ESsQ/2JrhZsspEKHBhtTgMohtNxsdN/gzJtH+gxs9gVN7ecbnVPAKsSrTjUYdwvWnfOTT+A26Et/g==}
+    engines: {node: '>=18.17.0'}
 
   '@clerk/types@4.28.0':
     resolution: {integrity: sha512-RPdrUs8HYfhXaZ0MOVBkzy7lilsU9lDVSC88a5o/cEMmTML+BTDfLHMlLG81kgvagSLCKKbl28iocb8y7stm1Q==}
@@ -3871,15 +3865,10 @@ snapshots:
       react: 19.0.0-rc-65a56d0e-20241020
       react-dom: 19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020)
 
-  '@clerk/themes@1.7.10(react@19.0.0-rc-65a56d0e-20241020)':
+  '@clerk/themes@2.1.39':
     dependencies:
-      '@clerk/types': 3.62.1
-      react: 19.0.0-rc-65a56d0e-20241020
+      '@clerk/types': 4.28.0
       tslib: 2.4.1
-
-  '@clerk/types@3.62.1':
-    dependencies:
-      csstype: 3.1.1
 
   '@clerk/types@4.28.0':
     dependencies:

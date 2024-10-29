@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
@@ -18,7 +18,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^1.5.0",
     "@clerk/nextjs": "^6.0.2",
-    "@clerk/themes": "^1.7.10",
+    "@clerk/themes": "^2.1.39",
     "@google/generative-ai": "^0.3.0",
     "@heroicons/react": "^2.1.1",
     "@hookform/resolvers": "^3.3.4",
