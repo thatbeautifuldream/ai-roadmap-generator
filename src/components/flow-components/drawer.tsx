@@ -129,7 +129,7 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
   const fetchDetailsData = async () => {
     try {
       const response = await axios.post(
-        `/api/v1/${model}/details?apiKey=${modelApiKey}&roadmapId=${roadmapId}`,
+        `/api/v1/details?provider=${model}&apiKey=${modelApiKey}&roadmapId=${roadmapId}`,
         {
           query: drawerDetails?.query,
           child: drawerDetails?.child,

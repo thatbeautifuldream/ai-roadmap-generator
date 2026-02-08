@@ -28,7 +28,7 @@ export const useGenerateRoadmap = (
 ) => {
   return MutationFactory(
     ["Generate Roadmap", query],
-    `/api/v1/${model}/roadmap?apiKey=${modelApiKey}`,
+    `/api/v1/roadmap?provider=${model}&apiKey=${modelApiKey}`,
     "POST",
     options,
   );

@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Visibility } from "@prisma/client";
+import { Visibility } from "@/db/schema";
 import { UseMutateFunction } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { Save, Trash } from "lucide-react";

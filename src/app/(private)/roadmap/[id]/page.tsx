@@ -3,14 +3,12 @@ import { ErrorAlert } from "@/components/alerts/ErrorAlert";
 import { Flow } from "@/components/flow-components/Flow";
 
 type PageProps = {
-  params: { id: string };
-  searchParams: {};
+  params: Promise<{ id: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 const generatorById = async (props: PageProps) => {
-  const {
-    params: { id: roadmapId },
-  } = props;
+  const { id: roadmapId } = await props.params;
   const roadmap = await getRoadmapById(roadmapId);
   await increaseViewsByRoadmapId(roadmapId);
 

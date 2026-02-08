@@ -1,7 +1,8 @@
 import NavItems from "@/components/app/nav-items";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { SignInButton, UserButton, currentUser } from "@clerk/nextjs";
+import { SignInButton, UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import { Coins } from "lucide-react";
 import { Link } from "next-view-transitions";
 

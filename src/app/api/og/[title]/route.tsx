@@ -29,9 +29,10 @@ const paramsSchema = z.object({
 
 export async function GET(
   request: Request,
-  { params }: { params: unknown }
+  { params }: { params: Promise<{ title: string }> }
 ): Promise<ImageResponse> {
-  const { title: titleParam } = paramsSchema.parse(params);
+  const resolvedParams = await params;
+  const { title: titleParam } = paramsSchema.parse(resolvedParams);
   const title = decodeURIComponent(titleParam);
   // turn the first letter of the title capitalized
   const text = title.charAt(0).toUpperCase() + title.slice(1);

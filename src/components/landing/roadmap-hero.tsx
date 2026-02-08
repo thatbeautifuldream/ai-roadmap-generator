@@ -1,7 +1,7 @@
 import DotPattern from "@/components/ui/dot-pattern";
 import MarqueeDemo from "@/components/ui/marque-wrapper";
 import { cn } from "@/lib/utils";
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs/server";
 import { ArrowUpRight, Telescope, Wand } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,11 +23,11 @@ async function RoadmapTicker() {
 }
 
 async function UserAvatars() {
-  const users = await clerkClient.users.getUserList();
+  const users = await (clerkClient as any).users.getUserList();
   return (
     <>
       <div className="isolate flex -space-x-2 overflow-hidden">
-        {users.map((user) => (
+        {users.data.map((user: { id: string; imageUrl: string }) => (
           <img
             key={user.id}
             className="relative z-30 inline-block h-8 w-8 rounded-full ring-2 ring-white"

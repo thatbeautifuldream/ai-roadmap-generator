@@ -1,29 +1,27 @@
 "use server";
 import { db } from "@/lib/db";
+import { users } from "@/db/schema";
+import { eq, count, sql } from "drizzle-orm";
 import { getUserId } from "./roadmaps";
 
 export const decrementCreditsByUserId = async () => {
   const userId = await getUserId();
+  if (!userId) return false;
+
   try {
     // Retrieve the current user's credits
-    const user = await db.user.findUnique({
-      where: {
-        id: userId,
-      },
+    const user = await db.query.users.findFirst({
+      where: eq(users.id, userId),
     });
 
     // Check if user exists and has more than 0 credits
     if (user && user.credits > 0) {
-      await db.user.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          credits: {
-            decrement: 1, // use a positive number to indicate decrement
-          },
-        },
-      });
+      await db
+        .update(users)
+        .set({
+          credits: sql`${users.credits} - 1`,
+        })
+        .where(eq(users.id, userId));
       return true;
     }
     // Either user does not exist or does not have enough credits to decrement
@@ -37,16 +35,16 @@ export const decrementCreditsByUserId = async () => {
 
 export const userHasCredits = async () => {
   const userId = await getUserId();
-  const user = await db.user.findUnique({
-    where: {
-      id: userId,
-    },
-    select: {
+  if (!userId) return false;
+
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, userId),
+    columns: {
       credits: true,
     },
   });
 
-  if (user && user?.credits > 0) {
+  if (user && user.credits > 0) {
     return true;
   }
   return false;
@@ -59,11 +57,9 @@ export const getUserCredits = async () => {
     return;
   }
 
-  const user = await db.user.findUnique({
-    where: {
-      id: userId,
-    },
-    select: {
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, userId),
+    columns: {
       credits: true,
     },
   });
@@ -72,6 +68,8 @@ export const getUserCredits = async () => {
 };
 
 export const getTotalUsers = async () => {
-  const totalUsers = await db.user.count();
+  const [{ value: totalUsers }] = await db
+    .select({ value: count() })
+    .from(users);
   return totalUsers;
 };
