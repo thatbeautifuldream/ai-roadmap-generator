@@ -76,7 +76,7 @@ async function AppBar() {
           </div>
         </div>
         <span>
-          <UserButton afterSignOutUrl="/" />
+          <UserButton />
         </span>
       </div>
     </div>
