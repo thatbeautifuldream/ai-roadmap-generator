@@ -23,7 +23,8 @@ async function RoadmapTicker() {
 }
 
 async function UserAvatars() {
-  const users = await (clerkClient as any).users.getUserList();
+  const client = await clerkClient();
+  const users = await client.users.getUserList();
   return (
     <>
       <div className="isolate flex -space-x-2 overflow-hidden">

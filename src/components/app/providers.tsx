@@ -14,6 +14,7 @@ function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ClerkProvider
+        afterSignOutUrl="/"
         appearance={{
           baseTheme: neobrutalism,
           variables: {
