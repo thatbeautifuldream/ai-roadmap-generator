@@ -19,7 +19,7 @@ const people: People[] = [
     name: "Milind Mishra",
     role: "Software Engineer",
     imageUrl:
-      "https://dqy38fnwh4fqs.cloudfront.net/UHDNGKG7BMJ8PKPFNLPRDDRNOAG7/9922bb83-bd73-429b-bb25-4cb381f51a4a.png",
+      "https://dqy38fnwh4fqs.cloudfront.net/UHDNGKG7BMJ8PKPFNLPRDDRNOAG7/hdngkg7bmj8pkpfnlprddrnoag7-8871-profile.webp",
     link: "https://peerlist.io/milind",
   },
   {
