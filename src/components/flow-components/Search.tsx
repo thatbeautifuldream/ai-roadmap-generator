@@ -1,5 +1,4 @@
 "use client";
-import { getPaginatedPublicRoadmaps } from "@/actions/roadmaps";
 import { timeFromNow } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
@@ -14,6 +13,7 @@ import RoadmapCard from "./roadmap-card";
 import { useSearchParams } from "next/navigation";
 import { Pagination } from "../ui/pagination";
 import ExplorePagination from "./explore-pagination";
+import { useTRPC } from "@/trpc/client";
 
 const formSchema = z.object({
   query: z.string().min(1, { message: "Please enter a query to search" }),
@@ -31,17 +31,16 @@ const Search = () => {
 
   const page = searchParams.get("page") || "1";
 
-  const { data: roadmaps, isLoading } = useQuery({
-    queryKey: ["public-roadmaps"],
-    queryFn: async () => {
-      // TODO : page count and exceed page count logic
-      const { roadmaps, pageCount } = await getPaginatedPublicRoadmaps({
-        page: parseInt(page),
-        pageSize: 21,
-      });
-      return roadmaps;
-    },
-  });
+  const trpc = useTRPC();
+
+  const { data: publicRoadmaps, isLoading } = useQuery(
+    trpc.roadmap.getPublic.queryOptions({
+      page: parseInt(page),
+      pageSize: 21,
+    })
+  );
+
+  const roadmaps = publicRoadmaps?.roadmaps || [];
 
   const [filteredRoadmaps, setFilteredRoadmaps] = useState<typeof roadmaps>([]);
 

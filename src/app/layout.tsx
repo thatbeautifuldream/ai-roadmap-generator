@@ -3,6 +3,7 @@ import Providers from "@/components/app/providers";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
+import { TRPCReactProvider } from "@/trpc/client";
 import "./globals.css";
 
 const nunito = Nunito({ subsets: ["latin"] });
@@ -26,11 +27,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
-        <Providers>
-          <NextTopLoader showSpinner={false} color="black" />
-          <AppBar />
-          {children}
-        </Providers>
+        <TRPCReactProvider>
+          <Providers>
+            <NextTopLoader showSpinner={false} color="black" />
+            <AppBar />
+            {children}
+          </Providers>
+        </TRPCReactProvider>
       </body>
     </html>
   );

@@ -1,6 +1,5 @@
 "use client";
 
-import { getRoadmapById } from "@/actions/roadmaps";
 import ExpandCollapse from "@/components/flow-components/expand-collapse";
 import { Separator } from "@/components/ui/separator";
 import { useGenerateRoadmap } from "@/lib/queries";
@@ -12,6 +11,7 @@ import { useShallow } from "zustand/react/shallow";
 import { GeneratorControls } from "@/components/flow-components/generator-controls";
 import { useUIStore } from "../../lib/stores/useUI";
 import Instructions from "@/components/flow-components/Instructions";
+import { useTRPC } from "@/trpc/client";
 
 interface Props {
   roadmapId?: string;
@@ -26,19 +26,16 @@ export default function Roadmap({ roadmapId }: Props) {
     })),
   );
 
-  const { data: roadmap, isPending: isRoadmapPending } = useQuery({
-    queryFn: async () => {
-      let roadmap = await getRoadmapById(roadmapId || "");
-      if (roadmap) {
-        let json = JSON.parse(roadmap.content);
-        roadmap.content = json;
-        return roadmap;
-      }
-      throw Error("error");
-    },
-    queryKey: ["Roadmap", roadmapId],
-    enabled: Boolean(roadmapId),
-  });
+  const trpc = useTRPC();
+
+  const { data: roadmapData, isPending: isRoadmapPending } = useQuery(
+    trpc.roadmap.getById.queryOptions({ id: roadmapId || "" })
+  );
+
+  const roadmap = roadmapData ? {
+    ...roadmapData,
+    content: JSON.parse(roadmapData.content),
+  } : null;
 
   const { data, mutate, isPending } = useGenerateRoadmap(
     query,

@@ -1,14 +1,12 @@
-import {
-  getRoadmapsByUserId,
-  getSavedRoadmapsByUserId,
-} from "@/actions/roadmaps";
 import { EmptyAlert } from "@/components/alerts/EmptyAlert";
 import RoadmapCard from "@/components/flow-components/roadmap-card";
 import { timeFromNow } from "@/lib/utils";
+import { getCaller } from "@/trpc/server";
 
 export default async function Dashboard() {
-  const roadmaps = await getRoadmapsByUserId();
-  const savedRoadmaps = await getSavedRoadmapsByUserId();
+  const caller = await getCaller();
+  const roadmaps = await caller.roadmap.getByUserId();
+  const savedRoadmaps = await caller.roadmap.getSavedByUserId();
 
   return (
     <div className="flex flex-col gap-8">

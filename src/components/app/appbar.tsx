@@ -5,8 +5,6 @@ import { SignInButton, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import { Coins } from "lucide-react";
 import { Link } from "next-view-transitions";
-
-import { getUserCredits } from "@/actions/users";
 import {
   Tooltip,
   TooltipContent,
@@ -16,10 +14,16 @@ import {
 import MobileDrawer from "@/components/app/mobile-drawer";
 import NeobrutalismButton from "@/components/ui/neobrutalism-button";
 import ThreeDButton from "../ui/three-d-button";
+import { getCaller } from "@/trpc/server";
 
 async function AppBar() {
   const user = await currentUser();
-  const userCredits = await getUserCredits();
+  let userCredits: number | undefined = 0;
+  
+  if (user) {
+    const caller = await getCaller();
+    userCredits = await caller.user.getCredits();
+  }
 
   if (!user) {
     return (

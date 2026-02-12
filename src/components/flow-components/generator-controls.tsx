@@ -1,13 +1,5 @@
 "use client";
-import {
-  changeRoadmapVisibility,
-  checkIfTitleInUsersRoadmaps,
-  deleteRoadmapById,
-  isRoadmapGeneratedByUser,
-  saveToUserDashboard,
-} from "@/actions/roadmaps";
 import { bannedWords } from "@/lib/shared/constants";
-import { userHasCredits } from "@/actions/users";
 import ApiKeyDialog from "@/components/ApiKeyDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,6 +28,19 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { createTRPCClient } from "@trpc/client";
+import { httpBatchLink } from "@trpc/client";
+import superjson from "superjson";
+import type { AppRouter } from "@/trpc/routers/_app";
+
+const trpcClient = createTRPCClient<AppRouter>({
+  links: [
+    httpBatchLink({
+      url: `${typeof window !== "undefined" ? "" : "http://localhost:3000"}/api/trpc`,
+      transformer: superjson,
+    }),
+  ],
+});
 
 interface Props {
   title?: string;
@@ -82,7 +87,7 @@ export const GeneratorControls = (props: Props) => {
     const checkRoadmapStatus = async () => {
       if (dbRoadmapId) {
         const { isGeneratedByUser, isSavedByUser, isAuthor } =
-          await isRoadmapGeneratedByUser(dbRoadmapId);
+          await trpcClient.roadmap.isOwnerOrSaved.query({ roadmapId: dbRoadmapId });
         setCanSaveToDashboard(!isGeneratedByUser && !isSavedByUser);
         setShowVisibilityDropdown(isGeneratedByUser);
         setIsAuthor(isAuthor);
@@ -133,14 +138,14 @@ export const GeneratorControls = (props: Props) => {
         });
       }
 
-      const userCredits = await userHasCredits();
+      const userCredits = await trpcClient.user.hasCredits.query();
       if (!userCredits && modelApiKey === "") {
         return toast.error("You don't have enough credits", {
           description: "To continue please enter your own api key.",
           duration: 4000,
         });
       }
-      const titleExists = await checkIfTitleInUsersRoadmaps(title as string);
+      const titleExists = await trpcClient.roadmap.checkTitleInUsersRoadmaps.query({ title: title as string });
 
       if (titleExists.state) {
         return toast.info("Roadmap already exists", {
@@ -189,7 +194,7 @@ export const GeneratorControls = (props: Props) => {
   };
 
   const onValueChange = async (value: Visibility) => {
-    await changeRoadmapVisibility(dbRoadmapId, value);
+    await trpcClient.roadmap.changeVisibility.mutate({ roadmapId: dbRoadmapId, visibility: value });
     setVisibility(value); // Update visibility state
   };
 
@@ -207,18 +212,17 @@ export const GeneratorControls = (props: Props) => {
 
   const handleDelete = async () => {
     if (isAuthor) {
-      const response = await deleteRoadmapById(dbRoadmapId);
-
-      if (response.status === "success") {
+      try {
+        await trpcClient.roadmap.delete.mutate({ id: dbRoadmapId });
         toast.success("Deleted", {
           description: "Roadmap deleted successfully ",
           duration: 4000,
         });
         router.push("/dashboard");
         router.refresh();
-      } else {
+      } catch (error: any) {
         toast.error("Error", {
-          description: response.message,
+          description: error.message || "Failed to delete roadmap",
           duration: 4000,
         });
       }
@@ -232,16 +236,16 @@ export const GeneratorControls = (props: Props) => {
 
   const handleSaveToDashboard = async () => {
     if (canSaveToDashboard) {
-      const response = await saveToUserDashboard(dbRoadmapId);
-      if (response?.status === "success") {
+      try {
+        await trpcClient.roadmap.saveToDashboard.mutate({ roadmapId: dbRoadmapId });
         toast.success("Saved", {
           description: "Roadmap has been saved to your dashboard",
           duration: 4000,
         });
         setCanSaveToDashboard(false);
-      } else {
+      } catch (error: any) {
         toast.error("Error", {
-          description: response?.message,
+          description: error.message || "Failed to save roadmap",
           duration: 4000,
         });
       }

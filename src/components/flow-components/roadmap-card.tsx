@@ -1,10 +1,22 @@
 "use client";
-import { deleteRoadmapById, deleteSavedRoadmapById } from "@/actions/roadmaps";
 import { EyeIcon } from "@/components/app/icons";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { createTRPCClient } from "@trpc/client";
+import { httpBatchLink } from "@trpc/client";
+import superjson from "superjson";
+import type { AppRouter } from "@/trpc/routers/_app";
+
+const trpcClient = createTRPCClient<AppRouter>({
+  links: [
+    httpBatchLink({
+      url: `${typeof window !== "undefined" ? "" : "http://localhost:3000"}/api/trpc`,
+      transformer: superjson,
+    }),
+  ],
+});
 
 function RoadmapCard({
   author,
@@ -29,32 +41,29 @@ function RoadmapCard({
   const router = useRouter();
 
   const handleDelete = async () => {
-    // Prevents the link navigation
+    // Prevents of link navigation
     if (!slug) return;
 
-    if (savedRoadmapCard) {
-      const res = await deleteSavedRoadmapById(savedRoadmapId);
-      if (res.status === "success") {
+    try {
+      if (savedRoadmapCard) {
+        await trpcClient.roadmap.deleteSaved.mutate({ id: savedRoadmapId });
         toast.success("Deleted", {
           description: "Roadmap deleted successfully ",
           duration: 4000,
         });
         router.refresh();
-        return; // Exit the function after deleting saved roadmap
+        return; // Exit function after deleting saved roadmap
       }
-    }
 
-    const response = await deleteRoadmapById(slug);
-    if (response.status === "success") {
+      await trpcClient.roadmap.delete.mutate({ id: slug });
       toast.success("Deleted", {
         description: "Roadmap deleted successfully ",
         duration: 4000,
       });
       router.refresh();
-    } else {
+    } catch (error: any) {
       toast.error("Error", {
-        // @ts-ignore
-        description: response.message,
+        description: error.message || "Failed to delete roadmap",
         duration: 4000,
       });
     }

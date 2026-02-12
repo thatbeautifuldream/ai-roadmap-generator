@@ -6,13 +6,14 @@ import { ArrowUpRight, Telescope, Wand } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Link as LinkWithViewTransitions } from "next-view-transitions";
-import NeubrutalismButton from "@/components/ui/neobrutalism-button";
+import NeobrutalismButton from "@/components/ui/neobrutalism-button";
 import TextTicker from "@/components/marketing/text-ticker";
-import { getTotalRoadmapsGenerated } from "@/actions/roadmaps";
 import { RoadmapIconCloud } from "./roadmap-icon-cloud";
+import { getCaller } from "@/trpc/server";
 
 async function RoadmapTicker() {
-  const totalRoadmapCount = await getTotalRoadmapsGenerated();
+  const caller = await getCaller();
+  const totalRoadmapCount = await caller.roadmap.getTotalGenerated();
   return (
     <div className="text-xl font-semibold tabular-nums tracking-tight">
       <div className="flex flex-row gap-2">
@@ -90,20 +91,20 @@ export default function RoadmapHero() {
       <div className="my-3 mt-6 flex w-full max-w-[600px] flex-col items-center gap-3 sm:my-5">
         <div className="flex flex-row gap-x-2">
           <LinkWithViewTransitions href="/roadmap">
-            <NeubrutalismButton>
+            <NeobrutalismButton>
               <span className="flex items-center gap-x-2 text-base">
                 <Wand size={20} />
                 Generate
               </span>
-            </NeubrutalismButton>
+            </NeobrutalismButton>
           </LinkWithViewTransitions>
           <LinkWithViewTransitions href="/explore">
-            <NeubrutalismButton>
+            <NeobrutalismButton>
               <span className="flex items-center gap-x-2 text-base">
                 <Telescope size={20} />
                 Explore
               </span>
-            </NeubrutalismButton>
+            </NeobrutalismButton>
           </LinkWithViewTransitions>
         </div>
         <div className="flex flex-row flex-wrap items-center justify-center gap-2">

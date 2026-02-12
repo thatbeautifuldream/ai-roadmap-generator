@@ -10,7 +10,6 @@ import { IOrilley } from "@/lib/types";
 import { formatDuration } from "@/lib/utils";
 import { searchYoutube } from "@/lib/youtube";
 import { YouTubeEmbed } from "@next/third-parties/google";
-import axios from "axios";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -23,7 +22,19 @@ import {
 } from "@/components/ui/carousel";
 import { useUIStore } from "@/lib/stores";
 import { useShallow } from "zustand/react/shallow";
-import { saveNodeDetails, findSavedNodeDetails } from "@/actions/roadmaps";
+import { createTRPCClient } from "@trpc/client";
+import { httpBatchLink } from "@trpc/client";
+import superjson from "superjson";
+import type { AppRouter } from "@/trpc/routers/_app";
+
+const trpcClient = createTRPCClient<AppRouter>({
+  links: [
+    httpBatchLink({
+      url: `${typeof window !== "undefined" ? "" : "http://localhost:3000"}/api/trpc`,
+      transformer: superjson,
+    }),
+  ],
+});
 
 interface DrawerProps {
   roadmapId?: string;
@@ -51,48 +62,50 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
       setIsLoading(true);
 
       try {
-        const existingDetails = await findSavedNodeDetails(
-          roadmapId!,
-          nodeName,
-        );
-
-        if (existingDetails) {
-          const { youtubeVideoIds, details, books } = existingDetails;
-
-          setDrawerData({
-            detailsData: JSON.parse(details),
-            videoIds: youtubeVideoIds as string[],
-            booksData: JSON.parse(books),
-            isSuccess: true,
+        if (roadmapId && nodeName) {
+          const existingDetails = await trpcClient.roadmap.findNodeDetails.query({
+            roadmapId,
+            nodeName,
           });
-        } else {
-          const { detailsData, videoIds, booksData } =
-            await fetchDataFromAPIs();
 
-          const shouldSaveNodeDetails =
-            roadmapId &&
-            nodeName &&
-            videoIds &&
-            videoIds.length > 0 &&
-            JSON.stringify(detailsData) !== "null" &&
-            detailsData;
+          if (existingDetails) {
+            const { youtubeVideoIds, details, books } = existingDetails;
 
-          if (shouldSaveNodeDetails) {
-            await saveNodeDetails(
-              roadmapId,
-              nodeName,
-              JSON.stringify(detailsData),
-              JSON.stringify(booksData),
-              videoIds,
-            );
+            setDrawerData({
+              detailsData: JSON.parse(details),
+              videoIds: youtubeVideoIds as string[],
+              booksData: JSON.parse(books),
+              isSuccess: true,
+            });
+          } else {
+            const { detailsData, videoIds, booksData } =
+              await fetchDataFromAPIs();
+
+            const shouldSaveNodeDetails =
+              roadmapId &&
+              nodeName &&
+              videoIds &&
+              videoIds.length > 0 &&
+              JSON.stringify(detailsData) !== "null" &&
+              detailsData;
+
+            if (shouldSaveNodeDetails) {
+              await trpcClient.roadmap.saveNodeDetails.mutate({
+                roadmapId,
+                nodeName,
+                content: JSON.stringify(detailsData),
+                books: JSON.stringify(booksData),
+                youtubeVideoIds: videoIds,
+              });
+            }
+
+            setDrawerData({
+              detailsData,
+              videoIds: videoIds as string[],
+              booksData: booksData,
+              isSuccess: true,
+            });
           }
-
-          setDrawerData({
-            detailsData,
-            videoIds: videoIds as string[],
-            booksData: booksData,
-            isSuccess: true,
-          });
         }
       } catch (error) {
         console.error("Error fetching or saving data:", error);
@@ -128,15 +141,14 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
 
   const fetchDetailsData = async () => {
     try {
-      const response = await axios.post(
-        `/api/v1/details?provider=${model}&apiKey=${modelApiKey}&roadmapId=${roadmapId}`,
-        {
-          query: drawerDetails?.query,
-          child: drawerDetails?.child,
-          parent: drawerDetails?.parent,
-        },
-      );
-      return response.data.text;
+      const response = await trpcClient.roadmap.getDetails.query({
+        query: drawerDetails?.query || "",
+        child: drawerDetails?.child || "",
+        parent: drawerDetails?.parent || "",
+        provider: model as any,
+        apiKey: modelApiKey || undefined,
+      });
+      return response;
     } catch (error) {
       console.error("Error fetching details data:", error);
       return null;
@@ -145,10 +157,10 @@ export const Drawer = ({ roadmapId }: DrawerProps) => {
 
   const fetchBooksData = async () => {
     try {
-      const response = await axios.post(`/api/v1/orilley`, {
-        data: { query: drawerDetails?.child },
+      const response = await trpcClient.orilley.search.query({
+        query: drawerDetails?.child || "",
       });
-      return response.data.data.results;
+      return response.results;
     } catch (error) {
       console.error("Error fetching books data:", error);
       return null;
